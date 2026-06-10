@@ -1,0 +1,10 @@
+.git/
+.pytest_cache/
+artifacts/
+configs/
+data/
+outputs/
+scripts/
+src/
+tests/
+pyproject.toml

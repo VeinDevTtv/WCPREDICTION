@@ -59,9 +59,10 @@ The current dashboard data uses a 25,000-run 2026 simulation and the default 75/
 
 ## Deployment
 
-The root `vercel.json` builds the static React app and serves `web/dist`.
+Deploy from the Vite app directory.
 
 ```bash
+cd web
 vercel --prod
 ```
 
