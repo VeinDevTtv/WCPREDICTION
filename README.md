@@ -71,3 +71,21 @@ vercel --prod
 - Tournament configuration lives in `configs/tournaments/2026.yaml`.
 - Current 2026 groups and format are encoded as public configuration, not hidden code.
 - Core functionality does not require API keys.
+
+## Data Coverage
+
+Current model inputs:
+
+- Public international match results from `martj42/international_results`
+- Match date, teams, scores, tournament, host country, and neutral-site flag
+- Derived dynamic Elo ratings, margin adjustment, home/neutral adjustment, and tournament importance
+- 2026 group configuration and 48-team tournament format
+
+Not yet included:
+
+- Official FIFA ranking snapshots as an external prior
+- Exact fixture date, kickoff time, stadium, altitude, and travel-distance features
+- Matchday weather or historical climate-normal features by venue
+- Squad strength, injuries, suspensions, player minutes, rest days, and club-form signals
+
+Those features can improve accuracy, but they should be added only with chronological backtests that prevent future-data leakage.

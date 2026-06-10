@@ -20,19 +20,19 @@ function MetricTile({ label, improved, baseline, lowerIsBetter = true }) {
 }
 
 function ChampionBoard() {
-  const leaders = report.champions.slice(0, 10);
-  const max = leaders[0]?.probability ?? 1;
+  const teams = report.champions;
+  const max = teams[0]?.probability ?? 1;
   return (
     <section className="panel leaderboard" aria-labelledby="champion-title">
       <div className="section-heading">
         <Trophy size={18} />
         <div>
-          <h2 id="champion-title">Champion Forecast</h2>
-          <p>{report.simulation.runs.toLocaleString()} deterministic-seed simulations</p>
+          <h2 id="champion-title">All Country Champion Probabilities</h2>
+          <p>{teams.length} teams · {report.simulation.runs.toLocaleString()} deterministic-seed simulations</p>
         </div>
       </div>
       <div className="leader-list">
-        {leaders.map((team, index) => (
+        {teams.map((team, index) => (
           <div className="leader-row" key={team.team}>
             <div className="rank">{String(index + 1).padStart(2, "0")}</div>
             <div className="team-name">{team.team}</div>
@@ -154,6 +154,47 @@ function MethodStrip() {
   );
 }
 
+function ModelInputs() {
+  const used = [
+    "49,400 public international match results",
+    "Match date, teams, scoreline, tournament, host country, neutral flag",
+    "Derived dynamic Elo, margin, venue-neutrality, and competition-weight features",
+    "2026 groups and 48-team tournament format",
+  ];
+  const next = [
+    "Official FIFA rankings as an external prior",
+    "Exact 2026 fixture dates, kickoff times, stadiums, and travel distance",
+    "Weather forecast or historical venue-climate features",
+    "Squads, injuries, suspensions, rest days, and recent player minutes",
+  ];
+  return (
+    <section className="input-panel" aria-labelledby="input-title">
+      <div>
+        <h2 id="input-title">Model inputs</h2>
+        <p>
+          This version is intentionally reproducible from open match data. It does not yet claim to use every
+          possible signal; the next accuracy layer should add rankings, venues, weather, travel, and squad data
+          only with leakage-safe backtests.
+        </p>
+      </div>
+      <div className="input-columns">
+        <div>
+          <h3>Used now</h3>
+          <ul>
+            {used.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h3>Not yet included</h3>
+          <ul>
+            {next.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   return (
     <main>
@@ -198,6 +239,7 @@ function App() {
       </section>
 
       <MethodStrip />
+      <ModelInputs />
     </main>
   );
 }

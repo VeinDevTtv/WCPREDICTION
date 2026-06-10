@@ -396,6 +396,89 @@ main {
   line-height: 1.45;
 }
 
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.leaderboard .leader-list {
+  max-height: 456px;
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-color: var(--green) #e8eee9;
+  scrollbar-width: thin;
+}
+
+.leaderboard .leader-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.leaderboard .leader-list::-webkit-scrollbar-track {
+  background: #e8eee9;
+  border-radius: 99px;
+}
+
+.leaderboard .leader-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--green), var(--blue));
+  border-radius: 99px;
+}
+
+.input-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(420px, 1.18fr);
+  gap: 18px;
+  margin: 0 0 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: #ffffff;
+}
+
+.input-panel h2,
+.input-panel h3 {
+  margin: 0;
+}
+
+.input-panel h2 {
+  font-size: 18px;
+}
+
+.input-panel h3 {
+  font-size: 14px;
+}
+
+.input-panel p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.input-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.input-columns div {
+  border: 1px solid #e1e9e3;
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--panel);
+}
+
+.input-columns ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.input-columns li + li {
+  margin-top: 7px;
+}
+
 @media (max-width: 1120px) {
   .dashboard-grid {
     grid-template-columns: 1fr 1fr;
@@ -408,6 +491,10 @@ main {
 
   .method-strip {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .input-panel {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -432,12 +519,19 @@ main {
   }
 
   .dashboard-grid,
-  .method-strip {
+  .method-strip,
+  .input-columns {
     grid-template-columns: 1fr;
   }
 
   .panel {
     min-height: auto;
+  }
+
+  .leaderboard .leader-list {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
   }
 
   .stage-grid {
