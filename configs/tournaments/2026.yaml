@@ -6,6 +6,10 @@ hosts:
   - United States
 source_notes:
   - "Groups checked against FIFA/search-visible standings and fixtures on 2026-06-10."
+  - "Group-stage fixture dates, kick-off times, venues, and cities are from FIFA's updated 2026 match schedule PDF and cross-checked against an accessible schedule table."
+  - "FIFA ranking prior uses FIFA FDCP men's ranking endpoint rows available on 2026-06-10; FIFA's page lists 2026-04-01 as the last official update and 2026-06-11 as the next official update."
+  - "Venue weather inputs are historical June climate-normal style features, not matchday forecasts; use live forecasts when matches enter a reliable forecast window."
+  - "Squad, injury, suspension, and recent-player-minutes fields are modeled as rating adjustments and currently default to zero until populated from a current availability feed."
   - "Top two teams in each of 12 groups plus the eight best third-place teams advance to a 32-team knockout stage."
   - "The simulation uses a deterministic bracket approximation for third-place placement unless a future config adds FIFA's full dynamic third-place matchup table."
 groups:
@@ -69,3 +73,922 @@ groups:
     - Croatia
     - Ghana
     - Panama
+venues:
+  - name: Estadio Azteca
+    city: Mexico City
+    country: Mexico
+    latitude: 19.3029
+    longitude: -99.1505
+    altitude_m: 2240
+    roof: open
+    avg_temp_c: 18.0
+    avg_humidity_pct: 62
+  - name: Estadio Akron
+    city: Guadalajara
+    country: Mexico
+    latitude: 20.6818
+    longitude: -103.4623
+    altitude_m: 1566
+    roof: open
+    avg_temp_c: 23.0
+    avg_humidity_pct: 65
+  - name: Estadio BBVA
+    city: Monterrey
+    country: Mexico
+    latitude: 25.6689
+    longitude: -100.2443
+    altitude_m: 540
+    roof: open
+    avg_temp_c: 30.0
+    avg_humidity_pct: 62
+  - name: BMO Field
+    city: Toronto
+    country: Canada
+    latitude: 43.6332
+    longitude: -79.4186
+    altitude_m: 76
+    roof: open
+    avg_temp_c: 20.0
+    avg_humidity_pct: 69
+  - name: BC Place
+    city: Vancouver
+    country: Canada
+    latitude: 49.2767
+    longitude: -123.1119
+    altitude_m: 8
+    roof: retractable
+    avg_temp_c: 17.0
+    avg_humidity_pct: 70
+  - name: SoFi Stadium
+    city: Los Angeles
+    country: United States
+    latitude: 33.9535
+    longitude: -118.3392
+    altitude_m: 38
+    roof: fixed
+    avg_temp_c: 21.0
+    avg_humidity_pct: 65
+  - name: Levi's Stadium
+    city: San Francisco Bay Area
+    country: United States
+    latitude: 37.4030
+    longitude: -121.9700
+    altitude_m: 3
+    roof: open
+    avg_temp_c: 22.0
+    avg_humidity_pct: 61
+  - name: Lumen Field
+    city: Seattle
+    country: United States
+    latitude: 47.5952
+    longitude: -122.3316
+    altitude_m: 6
+    roof: partial
+    avg_temp_c: 18.0
+    avg_humidity_pct: 68
+  - name: MetLife Stadium
+    city: New York/New Jersey
+    country: United States
+    latitude: 40.8135
+    longitude: -74.0745
+    altitude_m: 2
+    roof: open
+    avg_temp_c: 24.0
+    avg_humidity_pct: 67
+  - name: Gillette Stadium
+    city: Boston
+    country: United States
+    latitude: 42.0909
+    longitude: -71.2643
+    altitude_m: 88
+    roof: open
+    avg_temp_c: 22.0
+    avg_humidity_pct: 68
+  - name: Lincoln Financial Field
+    city: Philadelphia
+    country: United States
+    latitude: 39.9008
+    longitude: -75.1675
+    altitude_m: 3
+    roof: open
+    avg_temp_c: 25.0
+    avg_humidity_pct: 68
+  - name: Mercedes-Benz Stadium
+    city: Atlanta
+    country: United States
+    latitude: 33.7554
+    longitude: -84.4008
+    altitude_m: 320
+    roof: retractable_climate_controlled
+    avg_temp_c: 27.0
+    avg_humidity_pct: 69
+  - name: Hard Rock Stadium
+    city: Miami
+    country: United States
+    latitude: 25.9580
+    longitude: -80.2389
+    altitude_m: 2
+    roof: partial
+    avg_temp_c: 29.0
+    avg_humidity_pct: 75
+  - name: NRG Stadium
+    city: Houston
+    country: United States
+    latitude: 29.6847
+    longitude: -95.4107
+    altitude_m: 15
+    roof: retractable_climate_controlled
+    avg_temp_c: 29.0
+    avg_humidity_pct: 74
+  - name: AT&T Stadium
+    city: Dallas
+    country: United States
+    latitude: 32.7473
+    longitude: -97.0945
+    altitude_m: 171
+    roof: retractable_climate_controlled
+    avg_temp_c: 29.0
+    avg_humidity_pct: 63
+  - name: Arrowhead Stadium
+    city: Kansas City
+    country: United States
+    latitude: 39.0490
+    longitude: -94.4839
+    altitude_m: 264
+    roof: open
+    avg_temp_c: 26.0
+    avg_humidity_pct: 67
+fifa_rankings:
+  source: "FIFA FDCP men's ranking endpoint"
+  pulled_at: "2026-06-10"
+  teams:
+    - team: Mexico
+      rank: 15
+      points: 1681.03
+    - team: South Africa
+      rank: 60
+      points: 1429.73
+    - team: South Korea
+      rank: 25
+      points: 1588.66
+    - team: Czechia
+      rank: 41
+      points: 1501.38
+    - team: Canada
+      rank: 30
+      points: 1556.48
+    - team: Bosnia and Herzegovina
+      rank: 65
+      points: 1385.84
+    - team: Qatar
+      rank: 55
+      points: 1454.96
+    - team: Switzerland
+      rank: 19
+      points: 1649.40
+    - team: Brazil
+      rank: 6
+      points: 1761.16
+    - team: Morocco
+      rank: 8
+      points: 1755.87
+    - team: Haiti
+      rank: 83
+      points: 1291.71
+    - team: Scotland
+      rank: 43
+      points: 1498.35
+    - team: United States
+      rank: 16
+      points: 1673.13
+    - team: Paraguay
+      rank: 40
+      points: 1503.50
+    - team: Australia
+      rank: 27
+      points: 1580.67
+    - team: Türkiye
+      rank: 22
+      points: 1599.04
+    - team: Germany
+      rank: 10
+      points: 1730.37
+    - team: Curaçao
+      rank: 82
+      points: 1294.65
+    - team: Ivory Coast
+      rank: 34
+      points: 1532.98
+    - team: Ecuador
+      rank: 23
+      points: 1594.78
+    - team: Netherlands
+      rank: 7
+      points: 1757.87
+    - team: Japan
+      rank: 18
+      points: 1660.43
+    - team: Sweden
+      rank: 38
+      points: 1514.77
+    - team: Tunisia
+      rank: 44
+      points: 1483.05
+    - team: Belgium
+      rank: 9
+      points: 1734.71
+    - team: Egypt
+      rank: 29
+      points: 1563.24
+    - team: Iran
+      rank: 21
+      points: 1615.30
+    - team: New Zealand
+      rank: 85
+      points: 1281.57
+    - team: Spain
+      rank: 2
+      points: 1876.40
+    - team: Cabo Verde
+      rank: 69
+      points: 1366.13
+    - team: Saudi Arabia
+      rank: 61
+      points: 1421.43
+    - team: Uruguay
+      rank: 17
+      points: 1673.07
+    - team: France
+      rank: 1
+      points: 1877.32
+    - team: Senegal
+      rank: 14
+      points: 1688.99
+    - team: Iraq
+      rank: 57
+      points: 1447.14
+    - team: Norway
+      rank: 31
+      points: 1550.94
+    - team: Argentina
+      rank: 3
+      points: 1874.81
+    - team: Algeria
+      rank: 28
+      points: 1564.26
+    - team: Austria
+      rank: 24
+      points: 1593.45
+    - team: Jordan
+      rank: 63
+      points: 1391.45
+    - team: Portugal
+      rank: 5
+      points: 1763.83
+    - team: DR Congo
+      rank: 46
+      points: 1478.35
+    - team: Uzbekistan
+      rank: 50
+      points: 1465.34
+    - team: Colombia
+      rank: 13
+      points: 1693.09
+    - team: England
+      rank: 4
+      points: 1825.97
+    - team: Croatia
+      rank: 11
+      points: 1717.07
+    - team: Ghana
+      rank: 74
+      points: 1346.31
+    - team: Panama
+      rank: 33
+      points: 1540.64
+team_adjustments:
+  - team: Mexico
+  - team: South Africa
+  - team: South Korea
+  - team: Czechia
+  - team: Canada
+  - team: Bosnia and Herzegovina
+  - team: Qatar
+  - team: Switzerland
+  - team: Brazil
+  - team: Morocco
+  - team: Haiti
+  - team: Scotland
+  - team: United States
+  - team: Paraguay
+  - team: Australia
+  - team: Türkiye
+  - team: Germany
+  - team: Curaçao
+  - team: Ivory Coast
+  - team: Ecuador
+  - team: Netherlands
+  - team: Japan
+  - team: Sweden
+  - team: Tunisia
+  - team: Belgium
+  - team: Egypt
+  - team: Iran
+  - team: New Zealand
+  - team: Spain
+  - team: Cabo Verde
+  - team: Saudi Arabia
+  - team: Uruguay
+  - team: France
+  - team: Senegal
+  - team: Iraq
+  - team: Norway
+  - team: Argentina
+  - team: Algeria
+  - team: Austria
+  - team: Jordan
+  - team: Portugal
+  - team: DR Congo
+  - team: Uzbekistan
+  - team: Colombia
+  - team: England
+  - team: Croatia
+  - team: Ghana
+  - team: Panama
+fixtures:
+  - match_number: 1
+    date: 2026-06-11
+    kickoff_et: "15:00"
+    kickoff_local: "13:00"
+    home: Mexico
+    away: South Africa
+    group: A
+    venue: Estadio Azteca
+  - match_number: 2
+    date: 2026-06-11
+    kickoff_et: "22:00"
+    kickoff_local: "20:00"
+    home: South Korea
+    away: Czechia
+    group: A
+    venue: Estadio Akron
+  - match_number: 3
+    date: 2026-06-12
+    kickoff_et: "15:00"
+    kickoff_local: "15:00"
+    home: Canada
+    away: Bosnia and Herzegovina
+    group: B
+    venue: BMO Field
+  - match_number: 4
+    date: 2026-06-12
+    kickoff_et: "21:00"
+    kickoff_local: "18:00"
+    home: United States
+    away: Paraguay
+    group: D
+    venue: SoFi Stadium
+  - match_number: 5
+    date: 2026-06-13
+    kickoff_et: "21:00"
+    kickoff_local: "21:00"
+    home: Haiti
+    away: Scotland
+    group: C
+    venue: Gillette Stadium
+  - match_number: 6
+    date: 2026-06-13
+    kickoff_et: "00:00"
+    kickoff_local: "21:00"
+    home: Australia
+    away: Türkiye
+    group: D
+    venue: BC Place
+  - match_number: 7
+    date: 2026-06-13
+    kickoff_et: "18:00"
+    kickoff_local: "18:00"
+    home: Brazil
+    away: Morocco
+    group: C
+    venue: MetLife Stadium
+  - match_number: 8
+    date: 2026-06-13
+    kickoff_et: "15:00"
+    kickoff_local: "12:00"
+    home: Qatar
+    away: Switzerland
+    group: B
+    venue: Levi's Stadium
+  - match_number: 9
+    date: 2026-06-14
+    kickoff_et: "19:00"
+    kickoff_local: "19:00"
+    home: Ivory Coast
+    away: Ecuador
+    group: E
+    venue: Lincoln Financial Field
+  - match_number: 10
+    date: 2026-06-14
+    kickoff_et: "13:00"
+    kickoff_local: "12:00"
+    home: Germany
+    away: Curaçao
+    group: E
+    venue: NRG Stadium
+  - match_number: 11
+    date: 2026-06-14
+    kickoff_et: "16:00"
+    kickoff_local: "15:00"
+    home: Netherlands
+    away: Japan
+    group: F
+    venue: AT&T Stadium
+  - match_number: 12
+    date: 2026-06-14
+    kickoff_et: "22:00"
+    kickoff_local: "20:00"
+    home: Sweden
+    away: Tunisia
+    group: F
+    venue: Estadio BBVA
+  - match_number: 13
+    date: 2026-06-15
+    kickoff_et: "18:00"
+    kickoff_local: "18:00"
+    home: Saudi Arabia
+    away: Uruguay
+    group: H
+    venue: Hard Rock Stadium
+  - match_number: 14
+    date: 2026-06-15
+    kickoff_et: "12:00"
+    kickoff_local: "12:00"
+    home: Spain
+    away: Cabo Verde
+    group: H
+    venue: Mercedes-Benz Stadium
+  - match_number: 15
+    date: 2026-06-15
+    kickoff_et: "21:00"
+    kickoff_local: "18:00"
+    home: Iran
+    away: New Zealand
+    group: G
+    venue: SoFi Stadium
+  - match_number: 16
+    date: 2026-06-15
+    kickoff_et: "15:00"
+    kickoff_local: "12:00"
+    home: Belgium
+    away: Egypt
+    group: G
+    venue: Lumen Field
+  - match_number: 17
+    date: 2026-06-16
+    kickoff_et: "15:00"
+    kickoff_local: "15:00"
+    home: France
+    away: Senegal
+    group: I
+    venue: MetLife Stadium
+  - match_number: 18
+    date: 2026-06-16
+    kickoff_et: "18:00"
+    kickoff_local: "18:00"
+    home: Iraq
+    away: Norway
+    group: I
+    venue: Gillette Stadium
+  - match_number: 19
+    date: 2026-06-16
+    kickoff_et: "21:00"
+    kickoff_local: "20:00"
+    home: Argentina
+    away: Algeria
+    group: J
+    venue: Arrowhead Stadium
+  - match_number: 20
+    date: 2026-06-16
+    kickoff_et: "00:00"
+    kickoff_local: "21:00"
+    home: Austria
+    away: Jordan
+    group: J
+    venue: Levi's Stadium
+  - match_number: 21
+    date: 2026-06-17
+    kickoff_et: "19:00"
+    kickoff_local: "19:00"
+    home: Ghana
+    away: Panama
+    group: L
+    venue: BMO Field
+  - match_number: 22
+    date: 2026-06-17
+    kickoff_et: "16:00"
+    kickoff_local: "15:00"
+    home: England
+    away: Croatia
+    group: L
+    venue: AT&T Stadium
+  - match_number: 23
+    date: 2026-06-17
+    kickoff_et: "13:00"
+    kickoff_local: "12:00"
+    home: Portugal
+    away: DR Congo
+    group: K
+    venue: NRG Stadium
+  - match_number: 24
+    date: 2026-06-17
+    kickoff_et: "22:00"
+    kickoff_local: "20:00"
+    home: Uzbekistan
+    away: Colombia
+    group: K
+    venue: Estadio Azteca
+  - match_number: 25
+    date: 2026-06-18
+    kickoff_et: "12:00"
+    kickoff_local: "12:00"
+    home: Czechia
+    away: South Africa
+    group: A
+    venue: Mercedes-Benz Stadium
+  - match_number: 26
+    date: 2026-06-18
+    kickoff_et: "15:00"
+    kickoff_local: "12:00"
+    home: Switzerland
+    away: Bosnia and Herzegovina
+    group: B
+    venue: SoFi Stadium
+  - match_number: 27
+    date: 2026-06-18
+    kickoff_et: "18:00"
+    kickoff_local: "15:00"
+    home: Canada
+    away: Qatar
+    group: B
+    venue: BC Place
+  - match_number: 28
+    date: 2026-06-18
+    kickoff_et: "21:00"
+    kickoff_local: "19:00"
+    home: Mexico
+    away: South Korea
+    group: A
+    venue: Estadio Akron
+  - match_number: 29
+    date: 2026-06-19
+    kickoff_et: "21:00"
+    kickoff_local: "21:00"
+    home: Brazil
+    away: Haiti
+    group: C
+    venue: Lincoln Financial Field
+  - match_number: 30
+    date: 2026-06-19
+    kickoff_et: "18:00"
+    kickoff_local: "18:00"
+    home: Scotland
+    away: Morocco
+    group: C
+    venue: Gillette Stadium
+  - match_number: 31
+    date: 2026-06-19
+    kickoff_et: "23:00"
+    kickoff_local: "20:00"
+    home: Türkiye
+    away: Paraguay
+    group: D
+    venue: Levi's Stadium
+  - match_number: 32
+    date: 2026-06-19
+    kickoff_et: "15:00"
+    kickoff_local: "12:00"
+    home: United States
+    away: Australia
+    group: D
+    venue: Lumen Field
+  - match_number: 33
+    date: 2026-06-20
+    kickoff_et: "16:00"
+    kickoff_local: "16:00"
+    home: Germany
+    away: Ivory Coast
+    group: E
+    venue: BMO Field
+  - match_number: 34
+    date: 2026-06-20
+    kickoff_et: "20:00"
+    kickoff_local: "19:00"
+    home: Ecuador
+    away: Curaçao
+    group: E
+    venue: Arrowhead Stadium
+  - match_number: 35
+    date: 2026-06-20
+    kickoff_et: "13:00"
+    kickoff_local: "12:00"
+    home: Netherlands
+    away: Sweden
+    group: F
+    venue: NRG Stadium
+  - match_number: 36
+    date: 2026-06-20
+    kickoff_et: "00:00"
+    kickoff_local: "22:00"
+    home: Tunisia
+    away: Japan
+    group: F
+    venue: Estadio BBVA
+  - match_number: 37
+    date: 2026-06-21
+    kickoff_et: "18:00"
+    kickoff_local: "18:00"
+    home: Uruguay
+    away: Cabo Verde
+    group: H
+    venue: Hard Rock Stadium
+  - match_number: 38
+    date: 2026-06-21
+    kickoff_et: "12:00"
+    kickoff_local: "12:00"
+    home: Spain
+    away: Saudi Arabia
+    group: H
+    venue: Mercedes-Benz Stadium
+  - match_number: 39
+    date: 2026-06-21
+    kickoff_et: "15:00"
+    kickoff_local: "12:00"
+    home: Belgium
+    away: Iran
+    group: G
+    venue: SoFi Stadium
+  - match_number: 40
+    date: 2026-06-21
+    kickoff_et: "21:00"
+    kickoff_local: "18:00"
+    home: New Zealand
+    away: Egypt
+    group: G
+    venue: BC Place
+  - match_number: 41
+    date: 2026-06-22
+    kickoff_et: "20:00"
+    kickoff_local: "20:00"
+    home: Norway
+    away: Senegal
+    group: I
+    venue: MetLife Stadium
+  - match_number: 42
+    date: 2026-06-22
+    kickoff_et: "17:00"
+    kickoff_local: "17:00"
+    home: France
+    away: Iraq
+    group: I
+    venue: Lincoln Financial Field
+  - match_number: 43
+    date: 2026-06-22
+    kickoff_et: "13:00"
+    kickoff_local: "12:00"
+    home: Argentina
+    away: Austria
+    group: J
+    venue: AT&T Stadium
+  - match_number: 44
+    date: 2026-06-22
+    kickoff_et: "23:00"
+    kickoff_local: "20:00"
+    home: Jordan
+    away: Algeria
+    group: J
+    venue: Levi's Stadium
+  - match_number: 45
+    date: 2026-06-23
+    kickoff_et: "16:00"
+    kickoff_local: "16:00"
+    home: England
+    away: Ghana
+    group: L
+    venue: Gillette Stadium
+  - match_number: 46
+    date: 2026-06-23
+    kickoff_et: "19:00"
+    kickoff_local: "19:00"
+    home: Panama
+    away: Croatia
+    group: L
+    venue: BMO Field
+  - match_number: 47
+    date: 2026-06-23
+    kickoff_et: "13:00"
+    kickoff_local: "12:00"
+    home: Portugal
+    away: Uzbekistan
+    group: K
+    venue: NRG Stadium
+  - match_number: 48
+    date: 2026-06-23
+    kickoff_et: "22:00"
+    kickoff_local: "20:00"
+    home: Colombia
+    away: DR Congo
+    group: K
+    venue: Estadio Akron
+  - match_number: 49
+    date: 2026-06-24
+    kickoff_et: "18:00"
+    kickoff_local: "18:00"
+    home: Scotland
+    away: Brazil
+    group: C
+    venue: Hard Rock Stadium
+  - match_number: 50
+    date: 2026-06-24
+    kickoff_et: "18:00"
+    kickoff_local: "18:00"
+    home: Morocco
+    away: Haiti
+    group: C
+    venue: Mercedes-Benz Stadium
+  - match_number: 51
+    date: 2026-06-24
+    kickoff_et: "15:00"
+    kickoff_local: "12:00"
+    home: Switzerland
+    away: Canada
+    group: B
+    venue: BC Place
+  - match_number: 52
+    date: 2026-06-24
+    kickoff_et: "15:00"
+    kickoff_local: "12:00"
+    home: Bosnia and Herzegovina
+    away: Qatar
+    group: B
+    venue: Lumen Field
+  - match_number: 53
+    date: 2026-06-24
+    kickoff_et: "21:00"
+    kickoff_local: "19:00"
+    home: Czechia
+    away: Mexico
+    group: A
+    venue: Estadio Azteca
+  - match_number: 54
+    date: 2026-06-24
+    kickoff_et: "21:00"
+    kickoff_local: "19:00"
+    home: South Africa
+    away: South Korea
+    group: A
+    venue: Estadio BBVA
+  - match_number: 55
+    date: 2026-06-25
+    kickoff_et: "16:00"
+    kickoff_local: "16:00"
+    home: Curaçao
+    away: Ivory Coast
+    group: E
+    venue: Lincoln Financial Field
+  - match_number: 56
+    date: 2026-06-25
+    kickoff_et: "16:00"
+    kickoff_local: "16:00"
+    home: Ecuador
+    away: Germany
+    group: E
+    venue: MetLife Stadium
+  - match_number: 57
+    date: 2026-06-25
+    kickoff_et: "19:00"
+    kickoff_local: "18:00"
+    home: Japan
+    away: Sweden
+    group: F
+    venue: AT&T Stadium
+  - match_number: 58
+    date: 2026-06-25
+    kickoff_et: "19:00"
+    kickoff_local: "18:00"
+    home: Tunisia
+    away: Netherlands
+    group: F
+    venue: Arrowhead Stadium
+  - match_number: 59
+    date: 2026-06-25
+    kickoff_et: "22:00"
+    kickoff_local: "19:00"
+    home: Türkiye
+    away: United States
+    group: D
+    venue: SoFi Stadium
+  - match_number: 60
+    date: 2026-06-25
+    kickoff_et: "22:00"
+    kickoff_local: "19:00"
+    home: Paraguay
+    away: Australia
+    group: D
+    venue: Levi's Stadium
+  - match_number: 61
+    date: 2026-06-26
+    kickoff_et: "15:00"
+    kickoff_local: "15:00"
+    home: Norway
+    away: France
+    group: I
+    venue: Gillette Stadium
+  - match_number: 62
+    date: 2026-06-26
+    kickoff_et: "15:00"
+    kickoff_local: "15:00"
+    home: Senegal
+    away: Iraq
+    group: I
+    venue: BMO Field
+  - match_number: 63
+    date: 2026-06-26
+    kickoff_et: "23:00"
+    kickoff_local: "20:00"
+    home: Egypt
+    away: Iran
+    group: G
+    venue: Lumen Field
+  - match_number: 64
+    date: 2026-06-26
+    kickoff_et: "23:00"
+    kickoff_local: "20:00"
+    home: New Zealand
+    away: Belgium
+    group: G
+    venue: BC Place
+  - match_number: 65
+    date: 2026-06-26
+    kickoff_et: "20:00"
+    kickoff_local: "19:00"
+    home: Cabo Verde
+    away: Saudi Arabia
+    group: H
+    venue: NRG Stadium
+  - match_number: 66
+    date: 2026-06-26
+    kickoff_et: "20:00"
+    kickoff_local: "18:00"
+    home: Uruguay
+    away: Spain
+    group: H
+    venue: Estadio Akron
+  - match_number: 67
+    date: 2026-06-27
+    kickoff_et: "17:00"
+    kickoff_local: "17:00"
+    home: Panama
+    away: England
+    group: L
+    venue: MetLife Stadium
+  - match_number: 68
+    date: 2026-06-27
+    kickoff_et: "17:00"
+    kickoff_local: "17:00"
+    home: Croatia
+    away: Ghana
+    group: L
+    venue: Lincoln Financial Field
+  - match_number: 69
+    date: 2026-06-27
+    kickoff_et: "22:00"
+    kickoff_local: "21:00"
+    home: Algeria
+    away: Austria
+    group: J
+    venue: Arrowhead Stadium
+  - match_number: 70
+    date: 2026-06-27
+    kickoff_et: "22:00"
+    kickoff_local: "21:00"
+    home: Jordan
+    away: Argentina
+    group: J
+    venue: AT&T Stadium
+  - match_number: 71
+    date: 2026-06-27
+    kickoff_et: "19:30"
+    kickoff_local: "19:30"
+    home: Colombia
+    away: Portugal
+    group: K
+    venue: Hard Rock Stadium
+  - match_number: 72
+    date: 2026-06-27
+    kickoff_et: "19:30"
+    kickoff_local: "19:30"
+    home: DR Congo
+    away: Uzbekistan
+    group: K
+    venue: Mercedes-Benz Stadium

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import date
 from itertools import combinations
 from pathlib import Path
 from typing import Any
@@ -11,16 +12,126 @@ from .teams import canonical_team
 
 
 @dataclass(frozen=True)
+class Venue:
+    name: str
+    city: str
+    country: str
+    latitude: float
+    longitude: float
+    altitude_m: float = 0.0
+    roof: str = "open"
+    avg_temp_c: float | None = None
+    avg_humidity_pct: float | None = None
+
+
+@dataclass(frozen=True)
+class Fixture:
+    match_number: int
+    group: str
+    date: date
+    kickoff_et: str
+    kickoff_local: str
+    home: str
+    away: str
+    venue: str
+
+
+@dataclass(frozen=True)
+class TeamPrior:
+    rank: int
+    points: float | None = None
+
+
+@dataclass(frozen=True)
+class TeamAdjustment:
+    squad_strength_delta: float = 0.0
+    injury_penalty: float = 0.0
+    suspension_penalty: float = 0.0
+    recent_minutes_penalty: float = 0.0
+
+
+@dataclass(frozen=True)
 class TournamentConfig:
     year: int
     name: str
     hosts: list[str]
     groups: dict[str, list[str]]
     source_notes: list[str]
+    venues: dict[str, Venue]
+    fixtures: list[Fixture]
+    team_priors: dict[str, TeamPrior]
+    team_adjustments: dict[str, TeamAdjustment]
 
     @property
     def teams(self) -> list[str]:
         return [team for group in self.groups.values() for team in group]
+
+    def fixtures_for_group(self, group_name: str) -> list[Fixture]:
+        return sorted(
+            [fixture for fixture in self.fixtures if fixture.group == group_name],
+            key=lambda fixture: fixture.match_number,
+        )
+
+
+def _load_venues(raw: dict[str, Any]) -> dict[str, Venue]:
+    venues: dict[str, Venue] = {}
+    for venue in raw.get("venues", []):
+        name = str(venue["name"])
+        venues[name] = Venue(
+            name=name,
+            city=str(venue["city"]),
+            country=str(venue["country"]),
+            latitude=float(venue["latitude"]),
+            longitude=float(venue["longitude"]),
+            altitude_m=float(venue.get("altitude_m", 0.0)),
+            roof=str(venue.get("roof", "open")),
+            avg_temp_c=float(venue["avg_temp_c"]) if venue.get("avg_temp_c") is not None else None,
+            avg_humidity_pct=(
+                float(venue["avg_humidity_pct"]) if venue.get("avg_humidity_pct") is not None else None
+            ),
+        )
+    return venues
+
+
+def _load_fixtures(raw: dict[str, Any]) -> list[Fixture]:
+    fixtures: list[Fixture] = []
+    for fixture in raw.get("fixtures", []):
+        fixtures.append(
+            Fixture(
+                match_number=int(fixture["match_number"]),
+                group=str(fixture["group"]),
+                date=date.fromisoformat(str(fixture["date"])),
+                kickoff_et=str(fixture["kickoff_et"]),
+                kickoff_local=str(fixture["kickoff_local"]),
+                home=canonical_team(str(fixture["home"])),
+                away=canonical_team(str(fixture["away"])),
+                venue=str(fixture["venue"]),
+            )
+        )
+    return sorted(fixtures, key=lambda fixture: fixture.match_number)
+
+
+def _load_team_priors(raw: dict[str, Any]) -> dict[str, TeamPrior]:
+    priors: dict[str, TeamPrior] = {}
+    for row in raw.get("fifa_rankings", {}).get("teams", []):
+        points = row.get("points")
+        priors[canonical_team(str(row["team"]))] = TeamPrior(
+            rank=int(row["rank"]),
+            points=float(points) if points is not None else None,
+        )
+    return priors
+
+
+def _load_team_adjustments(raw: dict[str, Any]) -> dict[str, TeamAdjustment]:
+    adjustments: dict[str, TeamAdjustment] = {}
+    for row in raw.get("team_adjustments", []):
+        adjustments[canonical_team(str(row["team"]))] = TeamAdjustment(
+            squad_strength_delta=float(row.get("squad_strength_delta", 0.0)),
+            injury_penalty=float(row.get("injury_penalty", 0.0)),
+            suspension_penalty=float(row.get("suspension_penalty", 0.0)),
+            recent_minutes_penalty=float(row.get("recent_minutes_penalty", 0.0)),
+        )
+    return adjustments
 
 
 def load_tournament_config(path: Path | str) -> TournamentConfig:
@@ -36,6 +147,10 @@ def load_tournament_config(path: Path | str) -> TournamentConfig:
         hosts=[canonical_team(host) for host in raw.get("hosts", [])],
         groups=groups,
         source_notes=list(raw.get("source_notes", [])),
+        venues=_load_venues(raw),
+        fixtures=_load_fixtures(raw),
+        team_priors=_load_team_priors(raw),
+        team_adjustments=_load_team_adjustments(raw),
     )
 
 

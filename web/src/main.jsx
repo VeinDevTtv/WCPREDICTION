@@ -5,6 +5,7 @@ import report from "./data/dashboard.json";
 import "./styles.css";
 
 const percent = (value) => `${(value * 100).toFixed(value >= 0.1 ? 1 : 2)}%`;
+const context = report.simulation.contextFeatures ?? {};
 
 function MetricTile({ label, improved, baseline, lowerIsBetter = true }) {
   const delta = lowerIsBetter ? baseline - improved : improved - baseline;
@@ -136,8 +137,8 @@ function MethodStrip() {
   const items = [
     ["Open data", "49k+ international matches through public CSVs", Database],
     ["Dynamic Elo", "Margin, venue, and tournament-importance adjusted ratings", Activity],
-    ["Calibrated blend", "75% feature model plus 25% baseline for stronger probability quality", BarChart3],
-    ["Poisson scores", "Realistic goals drive group tables and knockout paths", Trophy],
+    ["FIFA prior", `${context.fifa_prior_teams ?? 0} team ranking rows blended into tournament strength`, BarChart3],
+    ["Context scores", "Fixture, travel, rest, climate, and squad availability modifiers", Trophy],
   ];
   return (
     <section className="method-strip" aria-label="Model methodology">
@@ -159,22 +160,19 @@ function ModelInputs() {
     "49,400 public international match results",
     "Match date, teams, scoreline, tournament, host country, neutral flag",
     "Derived dynamic Elo, margin, venue-neutrality, and competition-weight features",
-    "2026 groups and 48-team tournament format",
+    `${context.fifa_prior_teams ?? 0} official FIFA ranking priors`,
+    `${context.fixture_count ?? 0} exact group fixtures with kickoff times and stadiums`,
+    `${context.venue_count ?? 0} venues with coordinates, altitude, roof, and historical June climate`,
+    "Travel distance, rest-day, and configurable squad availability adjustments",
   ];
-  const next = [
-    "Official FIFA rankings as an external prior",
-    "Exact 2026 fixture dates, kickoff times, stadiums, and travel distance",
-    "Weather forecast or historical venue-climate features",
-    "Squads, injuries, suspensions, rest days, and recent player minutes",
-  ];
+  const next = ["Live matchday weather forecasts", "Confirmed injuries, suspensions, lineups, and recent player minutes feeds"];
   return (
     <section className="input-panel" aria-labelledby="input-title">
       <div>
         <h2 id="input-title">Model inputs</h2>
         <p>
-          This version is intentionally reproducible from open match data. It does not yet claim to use every
-          possible signal; the next accuracy layer should add rankings, venues, weather, travel, and squad data
-          only with leakage-safe backtests.
+          This version keeps the open historical model, then applies tournament-context modifiers from the
+          2026 schedule, venues, rankings, travel, rest, climate, and availability fields.
         </p>
       </div>
       <div className="input-columns">
@@ -185,7 +183,7 @@ function ModelInputs() {
           </ul>
         </div>
         <div>
-          <h3>Not yet included</h3>
+          <h3>Live feeds next</h3>
           <ul>
             {next.map((item) => <li key={item}>{item}</li>)}
           </ul>

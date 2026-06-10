@@ -1,27 +1,54 @@
-# Improved World Cup Prediction Model
+# WCP Forecast Lab
 
-This repository contains a reproducible Python package and CLI for men's World Cup prediction. It improves on a simple one-script Elo simulator by using a broad public international results dataset, no API keys, chronological backtesting, richer Elo features, probabilistic match modeling, and Poisson scoreline simulation for tournament tiebreakers.
+Reproducible men's World Cup prediction model and dashboard for the 2026 tournament.
+
+The project combines public international match results, dynamic Elo ratings, calibrated match probabilities, official FIFA ranking priors, and tournament-context simulation inputs such as fixtures, venues, travel, rest, and climate.
+
+## What It Includes
+
+- Python package and CLI for fetching data, training, backtesting, and simulating tournaments
+- Chronological backtesting with log loss, Brier score, accuracy, and calibration bins
+- 2026 tournament config with groups, 72 group-stage fixtures, stadiums, kickoff times, venue coordinates, altitude, and historical June climate features
+- Official FIFA ranking rows as an external prior for all 48 teams
+- Configurable squad-strength, injury, suspension, and recent-player-minutes adjustments
+- Vite/React dashboard generated from committed simulation JSON
+
+## Repository Layout
+
+```text
+configs/tournaments/2026.yaml   2026 teams, fixtures, venues, priors, adjustments
+data/raw/                       downloaded public match data
+outputs/                        backtest and simulation reports
+scripts/export_dashboard_data.py dashboard JSON exporter
+src/wcprediction/               Python package and CLI implementation
+tests/                          pytest test suite
+web/                            Vite dashboard
+```
+
+## Requirements
+
+- Python 3.10+
+- Node.js 20+ for the dashboard
+- Git
+
+The core Python model does not require API keys.
 
 ## Install
 
 ```bash
 python -m pip install -e ".[dev]"
+npm --prefix web ci
 ```
 
-## Data
+## Fetch Data
 
-The core model uses open CSV data from `martj42/international_results`.
+The training data comes from the public `martj42/international_results` CSV dataset.
 
 ```bash
 wcp data fetch
 ```
 
-This downloads:
-
-- `results.csv`
-- `shootouts.csv`
-
-into `data/raw/`.
+This downloads `results.csv` and `shootouts.csv` into `data/raw/`.
 
 ## Train
 
@@ -35,42 +62,60 @@ wcp train --output artifacts/model.joblib
 wcp backtest --cutoff 2018-01-01 --output outputs/backtest.json
 ```
 
-The report includes log loss, Brier score, accuracy, and calibration bins for both the improved model and a simple Elo baseline.
+The backtest report compares the calibrated feature model against a simple Elo baseline.
 
 ## Simulate 2026
 
 ```bash
-wcp simulate --tournament 2026 --runs 100000 --seed 42 --model artifacts/model.joblib --output outputs/2026_simulation.json
+wcp simulate \
+  --tournament 2026 \
+  --runs 25000 \
+  --seed 42 \
+  --model artifacts/model.joblib \
+  --output outputs/sim_2026.json \
+  --csv-dir outputs/sim_csv
 ```
 
-The simulation reports champion, final, semifinal, quarterfinal, round-of-32, and group advancement probabilities. It also writes optional CSV summaries when `--csv-dir` is provided.
+The simulation reports champion, final, semifinal, quarterfinal, round-of-32, and group advancement probabilities.
 
-## Web Dashboard
+## Dashboard
 
-The Vercel-ready dashboard lives in `web/` and is built from committed JSON data exported from the Python model.
+Export the model output into the static dashboard data file:
 
 ```bash
-python scripts/export_dashboard_data.py --backtest outputs/backtest.json --simulation outputs/sim_2026.json
-npm run build
+python scripts/export_dashboard_data.py \
+  --backtest outputs/backtest.json \
+  --simulation outputs/sim_2026.json \
+  --output web/src/data/dashboard.json
+```
+
+Run the dashboard locally:
+
+```bash
 npm run dev
 ```
 
-The current dashboard data uses a 25,000-run 2026 simulation and the default 75/25 calibrated ensemble.
+Build it:
 
-## Deployment
+```bash
+npm run build
+```
 
-Deploy from the Vite app directory.
+## Test
+
+```bash
+python -m pytest
+npm run build
+```
+
+## Deploy
+
+The dashboard is Vercel-ready. This repo is linked to a Vercel project with the app in `web/`.
 
 ```bash
 cd web
 vercel --prod
 ```
-
-## Notes
-
-- Tournament configuration lives in `configs/tournaments/2026.yaml`.
-- Current 2026 groups and format are encoded as public configuration, not hidden code.
-- Core functionality does not require API keys.
 
 ## Data Coverage
 
@@ -78,14 +123,26 @@ Current model inputs:
 
 - Public international match results from `martj42/international_results`
 - Match date, teams, scores, tournament, host country, and neutral-site flag
-- Derived dynamic Elo ratings, margin adjustment, home/neutral adjustment, and tournament importance
-- 2026 group configuration and 48-team tournament format
+- Dynamic Elo, margin adjustment, home/neutral adjustment, and tournament importance
+- Official FIFA ranking rows as an external prior
+- Exact 2026 group-stage fixture dates, ET/local kickoff times, stadiums, and host cities
+- Venue coordinates, altitude, roof status, travel distance, rest days, and historical June climate features
+- Squad-strength, injury, suspension, and recent-player-minutes adjustment fields
 
-Not yet included:
+Live feeds still needed for maximum accuracy:
 
-- Official FIFA ranking snapshots as an external prior
-- Exact fixture date, kickoff time, stadium, altitude, and travel-distance features
-- Matchday weather or historical climate-normal features by venue
-- Squad strength, injuries, suspensions, player minutes, rest days, and club-form signals
+- Matchday weather forecasts once fixtures enter a reliable forecast window
+- Confirmed injuries, suspensions, lineups, and recent player minutes
+- Updated FIFA ranking snapshots after new official releases
 
-Those features can improve accuracy, but they should be added only with chronological backtests that prevent future-data leakage.
+## Important Modeling Notes
+
+- Tournament probabilities are not predictions of certainty. They are Monte Carlo estimates under the current inputs.
+- The knockout bracket is a deterministic approximation for 32-team progression until the full FIFA third-place matchup table is encoded.
+- Weather fields are historical venue-climate features, not matchday forecasts.
+- Squad and injury fields currently default to neutral values unless populated in `configs/tournaments/2026.yaml`.
+- Any new feature should be validated with chronological backtests to avoid future-data leakage.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, test, and pull request guidelines.

@@ -37,6 +37,7 @@ def main() -> None:
             "runs": simulation["runs"],
             "seed": simulation["seed"],
             "year": simulation["year"],
+            "contextFeatures": simulation.get("context_features", {}),
         },
         "champions": simulation["champion_probabilities"],
         "stageProbabilities": simulation["stage_probabilities"],
