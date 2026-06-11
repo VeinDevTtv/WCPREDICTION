@@ -619,5 +619,247 @@
       "Uruguay": 0.14144,
       "Uzbekistan": 0.01476
     }
+  },
+  "teamMetadata": {
+    "Algeria": {
+      "fifaPoints": 1564.26,
+      "fifaRank": 28,
+      "group": "J"
+    },
+    "Argentina": {
+      "fifaPoints": 1874.81,
+      "fifaRank": 3,
+      "group": "J"
+    },
+    "Australia": {
+      "fifaPoints": 1580.67,
+      "fifaRank": 27,
+      "group": "D"
+    },
+    "Austria": {
+      "fifaPoints": 1593.45,
+      "fifaRank": 24,
+      "group": "J"
+    },
+    "Belgium": {
+      "fifaPoints": 1734.71,
+      "fifaRank": 9,
+      "group": "G"
+    },
+    "Bosnia and Herzegovina": {
+      "fifaPoints": 1385.84,
+      "fifaRank": 65,
+      "group": "B"
+    },
+    "Brazil": {
+      "fifaPoints": 1761.16,
+      "fifaRank": 6,
+      "group": "C"
+    },
+    "Canada": {
+      "fifaPoints": 1556.48,
+      "fifaRank": 30,
+      "group": "B"
+    },
+    "Cape Verde": {
+      "fifaPoints": 1366.13,
+      "fifaRank": 69,
+      "group": "H"
+    },
+    "Colombia": {
+      "fifaPoints": 1693.09,
+      "fifaRank": 13,
+      "group": "K"
+    },
+    "Croatia": {
+      "fifaPoints": 1717.07,
+      "fifaRank": 11,
+      "group": "L"
+    },
+    "Curacao": {
+      "fifaPoints": 1294.65,
+      "fifaRank": 82,
+      "group": "E"
+    },
+    "Czech Republic": {
+      "fifaPoints": 1501.38,
+      "fifaRank": 41,
+      "group": "A"
+    },
+    "DR Congo": {
+      "fifaPoints": 1478.35,
+      "fifaRank": 46,
+      "group": "K"
+    },
+    "Ecuador": {
+      "fifaPoints": 1594.78,
+      "fifaRank": 23,
+      "group": "E"
+    },
+    "Egypt": {
+      "fifaPoints": 1563.24,
+      "fifaRank": 29,
+      "group": "G"
+    },
+    "England": {
+      "fifaPoints": 1825.97,
+      "fifaRank": 4,
+      "group": "L"
+    },
+    "France": {
+      "fifaPoints": 1877.32,
+      "fifaRank": 1,
+      "group": "I"
+    },
+    "Germany": {
+      "fifaPoints": 1730.37,
+      "fifaRank": 10,
+      "group": "E"
+    },
+    "Ghana": {
+      "fifaPoints": 1346.31,
+      "fifaRank": 74,
+      "group": "L"
+    },
+    "Haiti": {
+      "fifaPoints": 1291.71,
+      "fifaRank": 83,
+      "group": "C"
+    },
+    "Iran": {
+      "fifaPoints": 1615.3,
+      "fifaRank": 21,
+      "group": "G"
+    },
+    "Iraq": {
+      "fifaPoints": 1447.14,
+      "fifaRank": 57,
+      "group": "I"
+    },
+    "Ivory Coast": {
+      "fifaPoints": 1532.98,
+      "fifaRank": 34,
+      "group": "E"
+    },
+    "Japan": {
+      "fifaPoints": 1660.43,
+      "fifaRank": 18,
+      "group": "F"
+    },
+    "Jordan": {
+      "fifaPoints": 1391.45,
+      "fifaRank": 63,
+      "group": "J"
+    },
+    "Mexico": {
+      "fifaPoints": 1681.03,
+      "fifaRank": 15,
+      "group": "A"
+    },
+    "Morocco": {
+      "fifaPoints": 1755.87,
+      "fifaRank": 8,
+      "group": "C"
+    },
+    "Netherlands": {
+      "fifaPoints": 1757.87,
+      "fifaRank": 7,
+      "group": "F"
+    },
+    "New Zealand": {
+      "fifaPoints": 1281.57,
+      "fifaRank": 85,
+      "group": "G"
+    },
+    "Norway": {
+      "fifaPoints": 1550.94,
+      "fifaRank": 31,
+      "group": "I"
+    },
+    "Panama": {
+      "fifaPoints": 1540.64,
+      "fifaRank": 33,
+      "group": "L"
+    },
+    "Paraguay": {
+      "fifaPoints": 1503.5,
+      "fifaRank": 40,
+      "group": "D"
+    },
+    "Portugal": {
+      "fifaPoints": 1763.83,
+      "fifaRank": 5,
+      "group": "K"
+    },
+    "Qatar": {
+      "fifaPoints": 1454.96,
+      "fifaRank": 55,
+      "group": "B"
+    },
+    "Saudi Arabia": {
+      "fifaPoints": 1421.43,
+      "fifaRank": 61,
+      "group": "H"
+    },
+    "Scotland": {
+      "fifaPoints": 1498.35,
+      "fifaRank": 43,
+      "group": "C"
+    },
+    "Senegal": {
+      "fifaPoints": 1688.99,
+      "fifaRank": 14,
+      "group": "I"
+    },
+    "South Africa": {
+      "fifaPoints": 1429.73,
+      "fifaRank": 60,
+      "group": "A"
+    },
+    "South Korea": {
+      "fifaPoints": 1588.66,
+      "fifaRank": 25,
+      "group": "A"
+    },
+    "Spain": {
+      "fifaPoints": 1876.4,
+      "fifaRank": 2,
+      "group": "H"
+    },
+    "Sweden": {
+      "fifaPoints": 1514.77,
+      "fifaRank": 38,
+      "group": "F"
+    },
+    "Switzerland": {
+      "fifaPoints": 1649.4,
+      "fifaRank": 19,
+      "group": "B"
+    },
+    "Tunisia": {
+      "fifaPoints": 1483.05,
+      "fifaRank": 44,
+      "group": "F"
+    },
+    "Turkey": {
+      "fifaPoints": 1599.04,
+      "fifaRank": 22,
+      "group": "D"
+    },
+    "United States": {
+      "fifaPoints": 1673.13,
+      "fifaRank": 16,
+      "group": "D"
+    },
+    "Uruguay": {
+      "fifaPoints": 1673.07,
+      "fifaRank": 17,
+      "group": "H"
+    },
+    "Uzbekistan": {
+      "fifaPoints": 1465.34,
+      "fifaRank": 50,
+      "group": "K"
+    }
   }
 }

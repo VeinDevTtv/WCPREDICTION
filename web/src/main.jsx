@@ -1,624 +1,495 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { 
-  Activity, 
-  BarChart3, 
-  Brackets, 
-  Database, 
-  Github, 
-  ShieldCheck, 
-  Trophy, 
-  Calendar, 
-  Play, 
-  Info, 
-  Sliders, 
-  TrendingUp 
+import {
+  Activity,
+  ArrowDown,
+  BarChart3,
+  Brackets,
+  Calendar,
+  CheckCircle2,
+  ChevronDown,
+  Database,
+  Download,
+  Goal,
+  Info,
+  LineChart,
+  Play,
+  Search,
+  ShieldCheck,
+  SlidersHorizontal,
+  Sparkles,
+  Trophy,
+  UsersRound,
 } from "lucide-react";
 import report from "./data/dashboard.json";
+import forecastStadium from "./assets/forecast-stadium.png";
+import simulationCallout from "./assets/simulation-callout.png";
 import "./styles.css";
 
-// Helper for formatting percentages
-const percent = (value) => `${(value * 100).toFixed(value >= 0.1 ? 1 : 2)}%`;
+const STAGES = [
+  { key: "round_of_32", label: "Round of 32", short: "R32", sub: "Advance" },
+  { key: "quarterfinal", label: "Quarterfinal", short: "QF", sub: "Reach" },
+  { key: "semifinal", label: "Semifinal", short: "SF", sub: "Reach" },
+  { key: "final", label: "Final", short: "Final", sub: "Reach" },
+  { key: "champion", label: "Champion", short: "Win", sub: "Win" },
+];
 
-// Country-to-flag code dictionary (FlagCDN mappings)
 const TEAM_FLAGS = {
-  "Spain": "es",
-  "Argentina": "ar",
-  "France": "fr",
-  "Brazil": "br",
-  "England": "gb-eng",
-  "Germany": "de",
-  "Netherlands": "nl",
-  "Portugal": "pt",
-  "Morocco": "ma",
-  "Belgium": "be",
-  "Colombia": "co",
-  "Japan": "jp",
-  "Uruguay": "uy",
-  "Mexico": "mx",
-  "Ecuador": "ec",
-  "Switzerland": "ch",
-  "Croatia": "hr",
-  "Turkey": "tr",
-  "Iran": "ir",
-  "South Korea": "kr",
-  "Senegal": "sn",
-  "Australia": "au",
-  "Canada": "ca",
-  "United States": "us",
-  "Norway": "no",
-  "Paraguay": "py",
-  "Austria": "at",
-  "Algeria": "dz",
-  "Ivory Coast": "ci",
-  "Egypt": "eg",
-  "Panama": "pa",
-  "Scotland": "gb-sct",
-  "Czech Republic": "cz",
-  "Sweden": "se",
-  "Uzbekistan": "uz",
-  "Tunisia": "tn",
-  "DR Congo": "cd",
-  "New Zealand": "nz",
-  "Jordan": "jo",
-  "Iraq": "iq",
-  "Saudi Arabia": "sa",
-  "South Africa": "za",
+  Algeria: "dz",
+  Argentina: "ar",
+  Australia: "au",
+  Austria: "at",
+  Belgium: "be",
   "Bosnia and Herzegovina": "ba",
+  Brazil: "br",
+  Canada: "ca",
   "Cape Verde": "cv",
-  "Haiti": "ht",
-  "Qatar": "qa",
-  "Ghana": "gh",
-  "Curacao": "cw"
+  Colombia: "co",
+  Croatia: "hr",
+  Curacao: "cw",
+  "Czech Republic": "cz",
+  "DR Congo": "cd",
+  Ecuador: "ec",
+  Egypt: "eg",
+  England: "gb-eng",
+  France: "fr",
+  Germany: "de",
+  Ghana: "gh",
+  Haiti: "ht",
+  Iran: "ir",
+  Iraq: "iq",
+  "Ivory Coast": "ci",
+  Japan: "jp",
+  Jordan: "jo",
+  Mexico: "mx",
+  Morocco: "ma",
+  Netherlands: "nl",
+  "New Zealand": "nz",
+  Norway: "no",
+  Panama: "pa",
+  Paraguay: "py",
+  Portugal: "pt",
+  Qatar: "qa",
+  "Saudi Arabia": "sa",
+  Scotland: "gb-sct",
+  Senegal: "sn",
+  "South Africa": "za",
+  "South Korea": "kr",
+  Spain: "es",
+  Sweden: "se",
+  Switzerland: "ch",
+  Tunisia: "tn",
+  Turkey: "tr",
+  "United States": "us",
+  Uruguay: "uy",
+  Uzbekistan: "uz",
 };
 
-// Returns FlagCDN URL for a given team name
-const getFlagUrl = (teamName, size = 40) => {
-  const code = TEAM_FLAGS[teamName];
-  if (!code) return "https://flagcdn.com/w40/un.png"; // Fallback generic flag
-  return `https://flagcdn.com/w${size}/${code}.png`;
+const percent = (value, digits = value >= 0.1 ? 1 : 2) => `${(value * 100).toFixed(digits)}%`;
+
+const getFlagUrl = (team, size = 40) => {
+  const code = TEAM_FLAGS[team];
+  return code ? `https://flagcdn.com/w${size}/${code}.png` : `https://flagcdn.com/w${size}/un.png`;
 };
 
-// Custom Soccer Goal SVG Icon for Poisson Scorelines
-function GoalIcon({ size = 20, ...props }) {
+const getStageValue = (team, stageKey, mode = "absolute") => {
+  const raw = report.stageProbabilities?.[stageKey]?.[team] ?? 0;
+  if (mode === "absolute" || stageKey === "round_of_32") {
+    return raw;
+  }
+
+  const stageIndex = STAGES.findIndex((stage) => stage.key === stageKey);
+  const previousKey = STAGES[stageIndex - 1]?.key;
+  const previous = report.stageProbabilities?.[previousKey]?.[team] ?? 0;
+  return previous > 0 ? raw / previous : 0;
+};
+
+const buildTeamRows = () =>
+  report.champions.map((team, index) => {
+    const meta = report.teamMetadata?.[team.team] ?? {};
+
+    return {
+      rank: index + 1,
+      team: team.team,
+      group: meta.group ?? "-",
+      fifaRank: meta.fifaRank ?? null,
+      fifaPoints: meta.fifaPoints ?? null,
+      groupAdvance: report.groupAdvancementProbabilities?.[team.team] ?? 0,
+      champion: team.probability,
+      round_of_32: getStageValue(team.team, "round_of_32"),
+      quarterfinal: getStageValue(team.team, "quarterfinal"),
+      semifinal: getStageValue(team.team, "semifinal"),
+      final: getStageValue(team.team, "final"),
+    };
+  });
+
+function useRevealOnScroll() {
+  useEffect(() => {
+    const elements = Array.from(document.querySelectorAll("[data-reveal]"));
+    if (!elements.length) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+}
+
+function scrollToId(id) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function BrandMark() {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      {/* Goal frame */}
-      <path d="M3 21V6h18v15" />
-      {/* Netting (subtle grid mesh) */}
-      <path d="M3 6l4 4M7 10l5-5M12 5l5 5M17 10l4-4M3 11l4 4M7 15l5-5M12 10l5 5M17 15l4-4M3 16l4 4M7 20l5-5M12 15l5 5" strokeWidth="1" strokeOpacity="0.3" />
-      {/* Soccer Ball entering the goal */}
-      <circle cx="12" cy="15" r="3.5" fill="currentColor" fillOpacity="0.1" />
-      <path d="M12 11.5v7M8.5 15h7M9.5 12.5l5 5M14.5 12.5l-5 5" strokeWidth="1" />
-    </svg>
+    <div className="brand-mark" aria-hidden="true">
+      <span />
+      <span />
+      <span />
+      <Goal size={18} />
+    </div>
   );
 }
 
-// 1. Header component matching reference UI
 function Header() {
   return (
     <header className="topbar">
-      <div className="brand">
-        <div className="logo-container">
-          <GoalIcon size={24} />
-        </div>
-        <div className="brand-info">
-          <div className="brand-title-row">
-            <h1 className="brand-title">WCP Forecast Lab</h1>
-            <span className="model-badge">
-              <span className="dot"></span>
-              Open-data model
-            </span>
+      <a className="brand" href="#top" aria-label="WCP Forecast Lab home">
+        <BrandMark />
+        <div>
+          <div className="brand-name">WCP Forecast Lab</div>
+          <div className="brand-caption">
+            <span className="status-dot" />
+            Open-data model
           </div>
         </div>
-      </div>
+      </a>
+
+      <nav className="nav-links" aria-label="Primary navigation">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#atlas">Teams</a>
+        <a href="#methodology">Methodology</a>
+      </nav>
+
       <div className="topbar-actions">
-        <a href="#backtest" className="btn btn-secondary">
+        <button className="btn btn-secondary" type="button" onClick={() => scrollToId("backtest")}>
           <Calendar size={16} />
           Backtest
-        </a>
-        <button className="btn btn-primary" onClick={() => window.scrollTo({ top: document.getElementById("simulation").offsetTop - 20, behavior: "smooth" })}>
+        </button>
+        <button className="btn btn-primary" type="button" onClick={() => scrollToId("dashboard")}>
           <Play size={16} fill="currentColor" />
           Simulation
+          <ChevronDown size={14} />
         </button>
       </div>
     </header>
   );
 }
 
-// 2. Leaderboard: win probabilities for top 5 teams and "All other teams"
-function ChampionBoard() {
-  const topTeams = report.champions.slice(0, 5);
-  const maxVal = topTeams[0]?.probability ?? 1;
-  const otherTeamsProb = report.champions.slice(5).reduce((acc, t) => acc + t.probability, 0);
+function HeroIntro() {
+  const startDate = "Jun 11";
+  const endDate = "Jul 19";
 
   return (
-    <section className="panel leaderboard" aria-labelledby="champion-title">
-      <div className="panel-header">
-        <div className="panel-title-area">
-          <div className="panel-title-row">
-            <Trophy size={16} />
-            <h2 className="panel-title" id="champion-title">Champion Probability</h2>
-          </div>
-          <p className="panel-subtitle">% probability to win World Cup 2026</p>
+    <section className="hero-copy" data-reveal>
+      <p className="hero-label">World Cup 2026</p>
+      <h1>Predict. Simulate. Understand.</h1>
+      <p className="hero-description">
+        {report.simulation.runs.toLocaleString()} Monte Carlo simulations using dynamic Elo, calibrated match
+        probabilities, and tournament-context features.
+      </p>
+
+      <div className="hero-stats" aria-label="Simulation summary">
+        <div>
+          <Trophy size={18} />
+          <strong>{report.champions.length}</strong>
+          <span>Teams</span>
         </div>
-        <button className="info-icon-btn" title="Win probability based on 25,000 tournament simulations">
-          <Info size={16} />
-        </button>
+        <div>
+          <Activity size={18} />
+          <strong>{report.simulation.contextFeatures.fixture_count ?? 72}</strong>
+          <span>Matches</span>
+        </div>
+        <div>
+          <Calendar size={18} />
+          <strong>
+            {startDate} - {endDate}
+          </strong>
+          <span>Tournament window</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PanelHeader({ icon: Icon, title, subtitle, id }) {
+  return (
+    <div className="panel-header">
+      <div>
+        <div className="panel-title-row">
+          <Icon size={16} />
+          <h2 id={id}>{title}</h2>
+        </div>
+        {subtitle ? <p>{subtitle}</p> : null}
+      </div>
+      <button className="icon-button" type="button" title={`${title} details`} aria-label={`${title} details`}>
+        <Info size={15} />
+      </button>
+    </div>
+  );
+}
+
+function ProbabilityBar({ value, max = 1, tone = "green", label, compact = false }) {
+  const width = Math.max(0, Math.min(100, max > 0 ? (value / max) * 100 : 0));
+
+  return (
+    <div className={`probability-bar ${compact ? "compact" : ""}`} aria-label={label ?? percent(value)}>
+      <span className="probability-track" aria-hidden="true">
+        <span className={`probability-fill ${tone}`} style={{ "--bar-width": `${width}%` }} />
+      </span>
+    </div>
+  );
+}
+
+function TeamIdentity({ team, rank, showRank = false }) {
+  return (
+    <div className="team-identity">
+      {showRank ? <span className="team-rank">{rank}</span> : null}
+      <img src={getFlagUrl(team, 40)} alt="" className="flag-badge" loading="lazy" />
+      <span>{team}</span>
+    </div>
+  );
+}
+
+function ChampionCard({ setHighlightedTeam }) {
+  const leaders = report.champions.slice(0, 5);
+  const top = leaders[0];
+  const max = top?.probability ?? 1;
+
+  return (
+    <section className="panel champion-card hero-card" aria-labelledby="champion-title" data-reveal>
+      <PanelHeader
+        icon={Trophy}
+        id="champion-title"
+        title="Champion Probability"
+        subtitle="% probability to win World Cup 2026"
+      />
+
+      <div className="champion-feature">
+        <div>
+          <TeamIdentity team={top.team} />
+          <strong>{percent(top.probability)}</strong>
+        </div>
+        <div className="trophy-orbit" aria-hidden="true">
+          <Trophy size={58} />
+        </div>
       </div>
 
       <div className="leader-list">
-        {topTeams.map((team, index) => (
-          <div className="leader-row" key={team.team}>
-            <div className="rank">{index + 1}</div>
-            <img 
-              src={getFlagUrl(team.team, 40)} 
-              alt={`${team.team} flag`} 
-              className="flag-badge"
-            />
-            <div className="team-name">{team.team}</div>
-            <div className="bar-track" aria-hidden="true">
-              <div className="bar-fill" style={{ width: `${(team.probability / maxVal) * 100}%` }} />
-            </div>
-            <div className="probability-val">{percent(team.probability)}</div>
-          </div>
+        {leaders.slice(1).map((team, index) => (
+          <button
+            className="leader-row"
+            key={team.team}
+            type="button"
+            onClick={() => setHighlightedTeam(team.team)}
+            style={{ "--reveal-delay": `${index * 60}ms` }}
+          >
+            <TeamIdentity team={team.team} rank={index + 2} showRank />
+            <span className="leader-prob">{percent(team.probability)}</span>
+            <ProbabilityBar value={team.probability} max={max} compact />
+          </button>
         ))}
-
-        <div className="leader-row others">
-          <div className="rank"></div>
-          <div className="flag-badge" style={{ backgroundColor: "#e2e8f0", border: "none" }}></div>
-          <div className="team-name">All other teams</div>
-          <div className="bar-track" aria-hidden="true">
-            <div className="bar-fill" style={{ width: `${(otherTeamsProb / maxVal) * 100}%` }} />
-          </div>
-          <div className="probability-val">{percent(otherTeamsProb)}</div>
-        </div>
       </div>
 
-      <div className="leaderboard-footer">
-        <span>Probabilities sum to 100%</span>
-        <span>Updated: {report.model.lastMatch}</span>
-      </div>
+      <button className="wide-link" type="button" onClick={() => scrollToId("atlas")}>
+        View all 48 teams
+        <ArrowDown size={14} />
+      </button>
     </section>
   );
 }
 
-// 3. Probability path panel with conditional toggling and active connector overlay
 function StagePath({ highlightedTeam, setHighlightedTeam }) {
-  const [viewMode, setViewMode] = useState("probability"); // "probability" or "qualify"
-  const [svgPath, setSvgPath] = useState("");
-  
-  const containerRef = useRef(null);
-  const cellRefs = useRef({});
-
+  const [viewMode, setViewMode] = useState("absolute");
   const teams = report.champions.slice(0, 5);
-  const otherTeamsProb = report.champions.slice(5).reduce((acc, t) => acc + t.probability, 0);
-
-  const stages = [
-    { label: "R32", sub: "48 teams", key: "round_of_32" },
-    { label: "QF", sub: "8 teams", key: "quarterfinal" },
-    { label: "SF", sub: "4 teams", key: "semifinal" },
-    { label: "FINAL", sub: "2 teams", key: "final" }
-  ];
-
-  // Logic to calculate values based on toggles
-  const getCellValue = (team, stageKey) => {
-    const rawVal = report.stageProbabilities[stageKey][team] ?? 0;
-    if (viewMode === "probability") {
-      return rawVal;
-    }
-    
-    // Qualify (%) mode (conditional probability)
-    const stagesKeys = ["round_of_32", "quarterfinal", "semifinal", "final", "champion"];
-    const stageIndex = stagesKeys.indexOf(stageKey);
-    if (stageIndex === 0) return rawVal;
-
-    const prevKey = stagesKeys[stageIndex - 1];
-    const prevVal = report.stageProbabilities[prevKey][team] ?? 0;
-    return prevVal > 0 ? rawVal / prevVal : 0;
-  };
-
-  const getChampionValue = (team) => {
-    const rawVal = report.stageProbabilities["champion"][team] ?? 0;
-    if (viewMode === "probability") {
-      return rawVal;
-    }
-    // Qualify (%) in final = P(Champion) / P(Final)
-    const finalVal = report.stageProbabilities["final"][team] ?? 0;
-    return finalVal > 0 ? rawVal / finalVal : 0;
-  };
-
-  const updatePath = () => {
-    if (!containerRef.current) return;
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const points = [];
-
-    // 1. Gather stage cell centers
-    stages.forEach((stage) => {
-      const el = cellRefs.current[`${highlightedTeam}-${stage.key}`];
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        points.push({
-          x: rect.left - containerRect.left + rect.width / 2,
-          y: rect.top - containerRect.top + rect.height / 2
-        });
-      }
-    });
-
-    // 2. Gather champion badge center
-    const badgeEl = cellRefs.current[`champion-badge`];
-    if (badgeEl) {
-      const rect = badgeEl.getBoundingClientRect();
-      points.push({
-        x: rect.left - containerRect.left + rect.width / 2,
-        y: rect.top - containerRect.top + rect.height / 2
-      });
-    }
-
-    if (points.length < 2) return;
-
-    // Connect cell centers with straight lines, then curve into the champion badge at the end
-    let pathD = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-      if (i === points.length - 1) {
-        const prev = points[i - 1];
-        const curr = points[i];
-        const cpX1 = prev.x + (curr.x - prev.x) * 0.5;
-        const cpY1 = prev.y;
-        const cpX2 = prev.x + (curr.x - prev.x) * 0.5;
-        const cpY2 = curr.y;
-        pathD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${curr.x} ${curr.y}`;
-      } else {
-        pathD += ` L ${points[i].x} ${points[i].y}`;
-      }
-    }
-    setSvgPath(pathD);
-  };
-
-  useEffect(() => {
-    updatePath();
-
-    window.addEventListener("resize", updatePath);
-    let resizeObserver;
-    if (containerRef.current) {
-      resizeObserver = new ResizeObserver(updatePath);
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
-      window.removeEventListener("resize", updatePath);
-      if (resizeObserver) resizeObserver.disconnect();
-    };
-  }, [highlightedTeam, viewMode]);
+  const highlighted = teams.some((team) => team.team === highlightedTeam) ? highlightedTeam : teams[0].team;
 
   return (
-    <section className="panel path-panel" aria-labelledby="path-title">
-      <div className="panel-header">
-        <div className="panel-title-area">
-          <div className="panel-title-row">
-            <Brackets size={16} />
-            <h2 className="panel-title" id="path-title">Probability Path to Champion</h2>
-          </div>
-          <p className="panel-subtitle">Path analysis for the top tournament contenders</p>
+    <section className="panel path-card hero-card" id="dashboard" aria-labelledby="path-title" data-reveal>
+      <PanelHeader
+        icon={Brackets}
+        id="path-title"
+        title="Probability Path"
+        subtitle={`${highlighted}'s chance to reach each stage`}
+      />
+
+      <div className="path-toolbar">
+        <div className="segmented-control" aria-label="Path probability mode">
+          <button
+            type="button"
+            className={viewMode === "absolute" ? "active" : ""}
+            onClick={() => setViewMode("absolute")}
+          >
+            Probability
+          </button>
+          <button
+            type="button"
+            className={viewMode === "conditional" ? "active" : ""}
+            onClick={() => setViewMode("conditional")}
+          >
+            Percent
+          </button>
         </div>
-        <button className="info-icon-btn" title="View predicted win probabilities at each stage. Hover/highlight to isolate.">
-          <Info size={16} />
-        </button>
+        <label className="mini-select">
+          <img src={getFlagUrl(highlighted, 40)} alt="" className="flag-badge" />
+          <select value={highlighted} onChange={(event) => setHighlightedTeam(event.target.value)}>
+            {teams.map((team) => (
+              <option key={team.team} value={team.team}>
+                {team.team}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
-      <div className="stage-grid-wrapper" ref={containerRef}>
-        {/* SVG Drawing Layer */}
-        {svgPath && (
-          <svg className="path-svg-overlay">
-            <path key={`${highlightedTeam}-${viewMode}`} d={svgPath} className="path-line" />
-          </svg>
-        )}
-
-        <div className="stage-grid">
-          {/* Header row */}
-          <div className="stage-header-cell team-col"></div>
-          {stages.map((st) => (
-            <div className="stage-header-cell" key={st.label}>
-              <span className="stage-header-title">{st.label}</span>
-              <span className="stage-header-sub">{st.sub}</span>
-            </div>
+      <div className="path-visual" aria-label={`${highlighted} probability path`}>
+        <svg className="path-grid-lines" viewBox="0 0 100 48" preserveAspectRatio="none" aria-hidden="true">
+          {[12, 31, 50, 69, 88].map((x) => (
+            <line key={x} x1={x} y1="4" x2={x} y2="44" />
           ))}
-          <div className="stage-header-cell">
-            <span className="stage-header-title">CHAMPION</span>
-          </div>
+          <polyline points="12,11 31,16 50,27 69,33 88,37" />
+        </svg>
 
-          {/* Teams Rows */}
-          {teams.map((t) => {
-            const isHighlighted = t.team === highlightedTeam;
+        <div className="path-stages">
+          {STAGES.map((stage, index) => {
+            const value = getStageValue(highlighted, stage.key, viewMode);
             return (
-              <React.Fragment key={t.team}>
-                <div className="grid-team-cell">
-                  <img src={getFlagUrl(t.team, 40)} alt="" className="flag-badge" />
-                  <span>{t.team}</span>
-                </div>
-                
-                {stages.map((stage) => {
-                  const val = getCellValue(t.team, stage.key);
-                  return (
-                    <div 
-                      className={`grid-cell ${isHighlighted ? "highlighted" : ""}`}
-                      key={`${t.team}-${stage.key}`}
-                      ref={(el) => {
-                        cellRefs.current[`${t.team}-${stage.key}`] = el;
-                      }}
-                    >
-                      <div className="grid-cell-bg-bar" style={{ height: `${val * 100}%` }} />
-                      <span className="grid-cell-value">{percent(val)}</span>
-                    </div>
-                  );
-                })}
-
-                {/* Champion Column Node */}
-                <div className="champion-badge-container">
-                  {isHighlighted ? (
-                    <div 
-                      className="champion-badge-outer"
-                      ref={(el) => {
-                        cellRefs.current[`champion-badge`] = el;
-                      }}
-                    >
-                      <div className="champion-badge">
-                        <span className="champion-badge-glow"></span>
-                        <img src={getFlagUrl(t.team, 80)} alt="" />
-                      </div>
-                      <span className="champion-badge-name">{t.team}</span>
-                      <span className="champion-badge-percent">{percent(getChampionValue(t.team))}</span>
-                    </div>
-                  ) : (
-                    <div style={{ fontSize: "11px", fontWeight: "700", color: "var(--text-light)" }}>
-                      {percent(getChampionValue(t.team))}
-                    </div>
-                  )}
-                </div>
-              </React.Fragment>
+              <div className="path-stage" key={stage.key} style={{ "--stage-index": index }}>
+                <span>{stage.short}</span>
+                <strong>{percent(value)}</strong>
+                <small>{stage.sub}</small>
+              </div>
             );
           })}
-
-          {/* Other Teams Row */}
-          <div className="grid-team-cell" style={{ color: "var(--text-muted)", fontWeight: "500" }}>
-            <span>Other Teams</span>
-          </div>
-          {stages.map((stage) => (
-            <div className="grid-cell" style={{ border: "1px dashed var(--border-color)", background: "transparent" }} key={`others-${stage.key}`}>
-              <span className="grid-cell-value" style={{ color: "var(--text-light)" }}>-</span>
-            </div>
-          ))}
-          <div className="champion-badge-container">
-            <span style={{ fontSize: "11px", fontWeight: "700", color: "var(--text-primary)" }}>
-              {percent(viewMode === "probability" ? otherTeamsProb : 0)}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="path-controls">
-        <div className="view-toggle">
-          <span>View:</span>
-          <div className="toggle-group">
-            <button 
-              className={`toggle-btn ${viewMode === "probability" ? "active" : ""}`}
-              onClick={() => setViewMode("probability")}
-            >
-              Probability
-            </button>
-            <button 
-              className={`toggle-btn ${viewMode === "qualify" ? "active" : ""}`}
-              onClick={() => setViewMode("qualify")}
-            >
-              Qualify (%)
-            </button>
-          </div>
         </div>
 
-        <div className="highlight-selector">
-          <span>Highlight team:</span>
-          <div className="select-wrapper">
-            <img src={getFlagUrl(highlightedTeam, 40)} className="flag-badge" style={{ position: "absolute", left: "10px", zIndex: 1 }} />
-            <select
-              value={highlightedTeam}
-              onChange={(e) => setHighlightedTeam(e.target.value)}
-              className="custom-select"
-            >
-              {teams.map((t) => (
-                <option key={t.team} value={t.team}>
-                  {t.team}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="path-champion">
+          <img src={getFlagUrl(highlighted, 80)} alt="" />
+          <span>{highlighted}</span>
+          <strong>{percent(getStageValue(highlighted, "champion", viewMode))}</strong>
         </div>
       </div>
     </section>
   );
 }
 
-// 4. Custom SVG calibration line chart with tooltips
 function CalibrationChart() {
-  const improvedBins = report.backtest.improved.calibration;
-  const baselineBins = report.backtest.baseline.calibration;
-  
+  const improved = report.backtest.improved.calibration;
+  const baseline = report.backtest.baseline.calibration;
   const [hoveredPoint, setHoveredPoint] = useState(null);
-  const chartContainerRef = useRef(null);
 
-  // SVG coordinate mapping math (viewBox 300x200)
-  const xScale = (val) => 35 + val * 250;
-  const yScale = (val) => 175 - val * 165;
-
-  const handlePointHover = (event, point, modelName) => {
-    if (!chartContainerRef.current) return;
-    const rect = event.target.getBoundingClientRect();
-    const containerRect = chartContainerRef.current.getBoundingClientRect();
-    
-    setHoveredPoint({
-      x: rect.left - containerRect.left + rect.width / 2,
-      y: rect.top - containerRect.top,
-      model: modelName,
-      conf: point.mean_confidence,
-      acc: point.empirical_accuracy,
-      count: point.count
-    });
-  };
-
-  // Generate path lines
-  const buildPathData = (bins) => {
-    if (!bins || bins.length === 0) return "";
-    return bins
-      .map((bin, i) => `${i === 0 ? "M" : "L"} ${xScale(bin.mean_confidence)} ${yScale(bin.empirical_accuracy)}`)
+  const xScale = (value) => 35 + value * 250;
+  const yScale = (value) => 175 - value * 165;
+  const buildPath = (bins) =>
+    bins
+      .map((bin, index) => `${index === 0 ? "M" : "L"} ${xScale(bin.mean_confidence)} ${yScale(bin.empirical_accuracy)}`)
       .join(" ");
-  };
 
   return (
-    <div className="calibration-chart-container" ref={chartContainerRef} style={{ position: "relative" }}>
-      <svg className="calibration-graph" viewBox="0 0 300 200">
-        {/* Horizontal grid lines */}
-        {[0, 0.2, 0.4, 0.6, 0.8, 1.0].map((val) => (
-          <line
-            key={`grid-y-${val}`}
-            x1={35}
-            y1={yScale(val)}
-            x2={285}
-            y2={yScale(val)}
-            className="chart-grid-line"
-          />
+    <div className="calibration-chart">
+      <svg viewBox="0 0 300 200" role="img" aria-label="Reliability diagram">
+        {[0, 0.25, 0.5, 0.75, 1].map((value) => (
+          <React.Fragment key={value}>
+            <line x1={35} x2={285} y1={yScale(value)} y2={yScale(value)} className="chart-grid" />
+            <line x1={xScale(value)} x2={xScale(value)} y1={10} y2={175} className="chart-grid" />
+            <text x={xScale(value)} y={190} textAnchor="middle" className="chart-label">
+              {value.toFixed(value === 0 || value === 1 ? 0 : 2)}
+            </text>
+            <text x={28} y={yScale(value) + 3} textAnchor="end" className="chart-label">
+              {value.toFixed(value === 0 || value === 1 ? 0 : 2)}
+            </text>
+          </React.Fragment>
         ))}
-        {/* Vertical grid lines */}
-        {[0, 0.2, 0.4, 0.6, 0.8, 1.0].map((val) => (
-          <line
-            key={`grid-x-${val}`}
-            x1={xScale(val)}
-            y1={10}
-            x2={xScale(val)}
-            y2={175}
-            className="chart-grid-line"
-          />
-        ))}
-
-        {/* Diagonal perfect calibration line */}
-        <line x1={xScale(0)} y1={yScale(0)} x2={xScale(1)} y2={yScale(1)} className="chart-diagonal-line" />
-
-        {/* X Axis tick labels */}
-        {[0.0, 0.2, 0.4, 0.6, 0.8, 1.0].map((val) => (
-          <text key={`label-x-${val}`} x={xScale(val)} y={188} textAnchor="middle" className="chart-axis-text">
-            {val.toFixed(1)}
-          </text>
-        ))}
-
-        {/* Y Axis tick labels */}
-        {[0.0, 0.2, 0.4, 0.6, 0.8, 1.0].map((val) => (
-          <text key={`label-y-${val}`} x={28} y={yScale(val) + 3} textAnchor="end" className="chart-axis-text">
-            {val.toFixed(1)}
-          </text>
-        ))}
-
-        {/* Baseline line */}
-        <path d={buildPathData(baselineBins)} className="chart-line-baseline" />
-
-        {/* Improved line */}
-        <path d={buildPathData(improvedBins)} className="chart-line-improved" />
-
-        {/* Baseline square points */}
-        {baselineBins.map((bin, idx) => (
+        <line x1={35} x2={285} y1={175} y2={10} className="chart-perfect" />
+        <path d={buildPath(baseline)} className="chart-line baseline" />
+        <path d={buildPath(improved)} className="chart-line improved" />
+        {baseline.map((bin) => (
           <rect
-            key={`base-pt-${idx}`}
-            x={xScale(bin.mean_confidence) - 3.5}
-            y={yScale(bin.empirical_accuracy) - 3.5}
-            width={7}
-            height={7}
-            className="chart-dot-baseline"
-            onMouseEnter={(e) => handlePointHover(e, bin, "Baseline Model")}
+            key={`baseline-${bin.mean_confidence}`}
+            x={xScale(bin.mean_confidence) - 3}
+            y={yScale(bin.empirical_accuracy) - 3}
+            width="6"
+            height="6"
+            className="chart-dot baseline"
+            onMouseEnter={() => setHoveredPoint({ model: "Baseline", ...bin })}
             onMouseLeave={() => setHoveredPoint(null)}
           />
         ))}
-
-        {/* Improved circular points */}
-        {improvedBins.map((bin, idx) => (
+        {improved.map((bin) => (
           <circle
-            key={`imp-pt-${idx}`}
+            key={`improved-${bin.mean_confidence}`}
             cx={xScale(bin.mean_confidence)}
             cy={yScale(bin.empirical_accuracy)}
-            r={4}
-            className="chart-dot-improved"
-            onMouseEnter={(e) => handlePointHover(e, bin, "Improved Model")}
+            r="4"
+            className="chart-dot improved"
+            onMouseEnter={() => setHoveredPoint({ model: "Improved model", ...bin })}
             onMouseLeave={() => setHoveredPoint(null)}
           />
         ))}
       </svg>
-
-      {/* Tooltip Overlay */}
-      {hoveredPoint && (
-        <div 
-          className="chart-tooltip"
-          style={{
-            position: "absolute",
-            left: `${hoveredPoint.x}px`,
-            top: `${hoveredPoint.y - 10}px`,
-            transform: "translate(-50%, -100%)",
-            pointerEvents: "none"
-          }}
-        >
-          <div style={{ fontWeight: 700, fontSize: "11px", marginBottom: "2px" }}>{hoveredPoint.model}</div>
-          <div>Confidence: {(hoveredPoint.conf * 100).toFixed(1)}%</div>
-          <div>Accuracy: {(hoveredPoint.acc * 100).toFixed(1)}%</div>
-          <div style={{ opacity: 0.8, fontSize: "9px" }}>({hoveredPoint.count.toLocaleString()} matches)</div>
+      {hoveredPoint ? (
+        <div className="chart-tooltip">
+          <strong>{hoveredPoint.model}</strong>
+          <span>Confidence {percent(hoveredPoint.mean_confidence)}</span>
+          <span>Observed {percent(hoveredPoint.empirical_accuracy)}</span>
         </div>
-      )}
-
-      {/* Legend */}
+      ) : null}
       <div className="chart-legend">
-        <div className="legend-item">
-          <span className="legend-color improved"></span>
-          <span>Improved model</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color baseline"></span>
-          <span>Baseline</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color perfect"></span>
-          <span>Perfect calibration</span>
-        </div>
+        <span>
+          <i className="legend-dot improved" />
+          Improved model
+        </span>
+        <span>
+          <i className="legend-dot baseline" />
+          Baseline
+        </span>
+        <span>
+          <i className="legend-line" />
+          Perfect calibration
+        </span>
       </div>
     </div>
   );
 }
 
-// 5. Model quality metrics list and outperform indicator banner
 function QualityPanel() {
-  const imp = report.backtest.improved;
-  const base = report.backtest.baseline;
+  const improved = report.backtest.improved;
+  const baseline = report.backtest.baseline;
 
   return (
-    <section className="panel quality-panel" id="backtest" aria-labelledby="quality-title">
-      <div className="panel-header" style={{ marginBottom: "12px" }}>
-        <div className="panel-title-area">
-          <div className="panel-title-row">
-            <ShieldCheck size={16} />
-            <h2 className="panel-title" id="quality-title">Model Quality</h2>
-          </div>
-          <p className="panel-subtitle">Chronological holdout since {report.backtest.cutoff}</p>
-        </div>
-        <button className="info-icon-btn" title="Evaluation metrics computed on matches after the validation cutoff date.">
-          <Info size={16} />
-        </button>
-      </div>
+    <section className="panel quality-card hero-card" id="backtest" aria-labelledby="quality-title" data-reveal>
+      <PanelHeader
+        icon={ShieldCheck}
+        id="quality-title"
+        title="Model Quality"
+        subtitle={`Out-of-sample backtest since ${report.backtest.cutoff}`}
+      />
 
-      <table className="model-quality-table">
+      <table className="quality-table">
         <thead>
           <tr>
             <th>Metric</th>
@@ -628,130 +499,361 @@ function QualityPanel() {
         </thead>
         <tbody>
           <tr>
-            <td className="metric-name">Log Loss (↓)</td>
-            <td className="val-improved">{imp.log_loss.toFixed(3)}</td>
-            <td className="val-baseline">{base.log_loss.toFixed(3)}</td>
+            <td>Log Loss</td>
+            <td>{improved.log_loss.toFixed(3)}</td>
+            <td>{baseline.log_loss.toFixed(3)}</td>
           </tr>
           <tr>
-            <td className="metric-name">Brier Score (↓)</td>
-            <td className="val-improved">{imp.brier_score.toFixed(3)}</td>
-            <td className="val-baseline">{base.brier_score.toFixed(3)}</td>
+            <td>Brier Score</td>
+            <td>{improved.brier_score.toFixed(3)}</td>
+            <td>{baseline.brier_score.toFixed(3)}</td>
           </tr>
           <tr>
-            <td className="metric-name">Accuracy (↑)</td>
-            <td className="val-improved">{percent(imp.accuracy)}</td>
-            <td className="val-baseline">{percent(base.accuracy)}</td>
+            <td>Accuracy</td>
+            <td>{percent(improved.accuracy)}</td>
+            <td>{percent(baseline.accuracy)}</td>
           </tr>
         </tbody>
       </table>
 
-      <div className="outperform-banner">
-        <ShieldCheck size={14} style={{ color: "var(--primary-green-dark)" }} />
-        <span>Improved model outperforms baseline</span>
+      <div className="quality-callout">
+        <CheckCircle2 size={15} />
+        <span>Lower loss and Brier score than baseline</span>
       </div>
 
-      <div style={{ marginTop: "12px", borderTop: "1px solid var(--border-color)", paddingTop: "12px" }}>
-        <div className="panel-title-row" style={{ marginBottom: "2px" }}>
-          <h3 className="panel-title" style={{ fontSize: "13px" }}>Calibration (Reliability Diagram)</h3>
+      <CalibrationChart />
+    </section>
+  );
+}
+
+function HeroDashboard() {
+  const [highlightedTeam, setHighlightedTeam] = useState(report.champions[0]?.team ?? "Spain");
+
+  return (
+    <section className="hero-stage" id="top">
+      <img className="hero-image" src={forecastStadium} alt="" aria-hidden="true" />
+      <div className="hero-image-fade" aria-hidden="true" />
+      <Header />
+
+      <div className="hero-layout">
+        <HeroIntro />
+        <div className="hero-dashboard">
+          <ChampionCard setHighlightedTeam={setHighlightedTeam} />
+          <StagePath highlightedTeam={highlightedTeam} setHighlightedTeam={setHighlightedTeam} />
+          <QualityPanel />
         </div>
-        <p className="panel-subtitle" style={{ marginBottom: "8px" }}>Observed accuracy versus predicted probability</p>
-        <CalibrationChart />
       </div>
     </section>
   );
 }
 
-// 6. Methodology section with clean, descriptive cards and bespoke SVGs
-function Methodology() {
-  const items = [
-    {
-      title: "1. Data Source",
-      body: "Open data from FIFA, Opta, FBref, Understat and national federation feeds. Matches up to June 2026.",
-      Icon: Database
-    },
-    {
-      title: "2. Dynamic Elo",
-      body: "Time-decayed Elo ratings with margin, home advantage, venue neutrality and tournament importance modifiers.",
-      Icon: TrendingUp
-    },
-    {
-      title: "3. Calibrated Probabilities",
-      body: "Platt scaling calibration on rolling holdout windows to produce well-calibrated win/draw/loss probabilities.",
-      Icon: Sliders
-    },
-    {
-      title: "4. Poisson Scorelines",
-      body: "Bivariate Poisson model for scoreline simulation with attack/defense strength and temporal form.",
-      Icon: GoalIcon
-    }
-  ];
+function AtlasStageCell({ team, stageKey, mode, max }) {
+  const value = getStageValue(team, stageKey, mode);
+  const tone = stageKey === "champion" ? "gold" : "green";
 
   return (
-    <section aria-labelledby="methodology-main-title">
-      <div className="methodology-heading-area">
-        <Sliders size={16} />
-        <h2 className="methodology-heading" id="methodology-main-title">Methodology</h2>
+    <div className="atlas-stage-cell">
+      <span>{percent(value)}</span>
+      <ProbabilityBar value={value} max={max} tone={tone} compact />
+    </div>
+  );
+}
+
+function CountryAtlas() {
+  const allRows = useMemo(buildTeamRows, []);
+  const [query, setQuery] = useState("");
+  const [group, setGroup] = useState("all");
+  const [mode, setMode] = useState("absolute");
+  const [sort, setSort] = useState({ key: "champion", direction: "desc" });
+
+  const groups = useMemo(
+    () => ["all", ...Array.from(new Set(allRows.map((row) => row.group).filter(Boolean))).sort()],
+    [allRows],
+  );
+
+  const maxByStage = useMemo(() => {
+    const result = {};
+    STAGES.forEach((stage) => {
+      result[stage.key] = Math.max(...allRows.map((row) => getStageValue(row.team, stage.key, mode)), 0.01);
+    });
+    return result;
+  }, [allRows, mode]);
+
+  const filteredRows = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const rows = allRows.filter((row) => {
+      const matchesQuery = !normalizedQuery || row.team.toLowerCase().includes(normalizedQuery);
+      const matchesGroup = group === "all" || row.group === group;
+      return matchesQuery && matchesGroup;
+    });
+
+    const multiplier = sort.direction === "asc" ? 1 : -1;
+    return rows.sort((a, b) => {
+      const aValue = sort.key in a ? a[sort.key] : getStageValue(a.team, sort.key, mode);
+      const bValue = sort.key in b ? b[sort.key] : getStageValue(b.team, sort.key, mode);
+      if (typeof aValue === "string" || typeof bValue === "string") {
+        return String(aValue).localeCompare(String(bValue)) * multiplier;
+      }
+      return ((aValue ?? -1) - (bValue ?? -1)) * multiplier;
+    });
+  }, [allRows, group, mode, query, sort]);
+
+  const toggleSort = (key) => {
+    setSort((current) => ({
+      key,
+      direction: current.key === key && current.direction === "desc" ? "asc" : "desc",
+    }));
+  };
+
+  const downloadCsv = () => {
+    const header = ["Rank", "Team", "Group", "FIFA Rank", ...STAGES.map((stage) => stage.label)];
+    const rows = filteredRows.map((row) => [
+      row.rank,
+      row.team,
+      row.group,
+      row.fifaRank ?? "",
+      ...STAGES.map((stage) => percent(getStageValue(row.team, stage.key, mode))),
+    ]);
+    const csv = [header, ...rows].map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "wcp-country-probabilities.csv";
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <section className="atlas-section" id="atlas">
+      <div className="section-heading">
+        <div className="section-icon">
+          <UsersRound size={24} />
+        </div>
+        <div>
+          <h2>All Countries Probability Atlas</h2>
+          <p>Explore probabilities for all 48 teams across key tournament stages.</p>
+        </div>
       </div>
-      <div className="method-strip">
-        {items.map(({ title, body, Icon }) => (
-          <article className="method-item" key={title}>
-            <div className="method-icon-container">
-              <Icon size={20} />
+
+      <div className="atlas-controls" aria-label="Atlas controls">
+        <label className="search-control">
+          <Search size={16} />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search team..." />
+        </label>
+
+        <label className="select-control">
+          <span>Group</span>
+          <select value={group} onChange={(event) => setGroup(event.target.value)}>
+            {groups.map((item) => (
+              <option key={item} value={item}>
+                {item === "all" ? "All Groups" : `Group ${item}`}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div className="segmented-control atlas-mode" aria-label="Atlas probability mode">
+          <button className={mode === "absolute" ? "active" : ""} type="button" onClick={() => setMode("absolute")}>
+            Probability
+          </button>
+          <button className={mode === "conditional" ? "active" : ""} type="button" onClick={() => setMode("conditional")}>
+            Percent
+          </button>
+        </div>
+
+        <button className="btn btn-secondary download-button" type="button" onClick={downloadCsv}>
+          <Download size={15} />
+          Download CSV
+        </button>
+      </div>
+
+      <div className="atlas-table-wrap">
+        <table className="atlas-table">
+          <thead>
+            <tr>
+              <th>
+                <button type="button" onClick={() => toggleSort("rank")}>
+                  #
+                </button>
+              </th>
+              <th>
+                <button type="button" onClick={() => toggleSort("team")}>
+                  Team
+                </button>
+              </th>
+              <th>
+                <button type="button" onClick={() => toggleSort("group")}>
+                  Group
+                </button>
+              </th>
+              <th>
+                <button type="button" onClick={() => toggleSort("fifaRank")}>
+                  FIFA
+                </button>
+              </th>
+              {STAGES.map((stage) => (
+                <th key={stage.key}>
+                  <button type="button" onClick={() => toggleSort(stage.key)}>
+                    <span>{stage.label}</span>
+                    <small>{stage.sub}</small>
+                  </button>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {filteredRows.map((row) => (
+              <tr key={row.team}>
+                <td>{row.rank}</td>
+                <td>
+                  <TeamIdentity team={row.team} />
+                </td>
+                <td>Group {row.group}</td>
+                <td>{row.fifaRank ? `#${row.fifaRank}` : "-"}</td>
+                {STAGES.map((stage) => (
+                  <td key={stage.key}>
+                    <AtlasStageCell team={row.team} stageKey={stage.key} mode={mode} max={maxByStage[stage.key]} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="atlas-mobile-list">
+        {filteredRows.map((row, index) => (
+          <article className="atlas-card" key={row.team} data-reveal style={{ "--reveal-delay": `${Math.min(index, 10) * 45}ms` }}>
+            <div className="atlas-card-header">
+              <TeamIdentity team={row.team} rank={row.rank} showRank />
+              <span>Group {row.group}</span>
             </div>
-            <div className="method-info">
-              <h3>{title}</h3>
-              <p>{body}</p>
+            <div className="atlas-card-grid">
+              {STAGES.map((stage) => (
+                <div key={stage.key}>
+                  <small>{stage.short}</small>
+                  <strong>{percent(getStageValue(row.team, stage.key, mode))}</strong>
+                  <ProbabilityBar
+                    value={getStageValue(row.team, stage.key, mode)}
+                    max={maxByStage[stage.key]}
+                    tone={stage.key === "champion" ? "gold" : "green"}
+                    compact
+                  />
+                </div>
+              ))}
             </div>
           </article>
         ))}
       </div>
+
+      <div className="atlas-footer">
+        <span>
+          Showing {filteredRows.length} of {allRows.length} teams
+        </span>
+        <span>{mode === "absolute" ? "Absolute tournament probability" : "Conditional stage-to-stage percent"}</span>
+      </div>
     </section>
   );
 }
 
-// 7. Footer section displaying model details
+function Methodology() {
+  const items = [
+    {
+      icon: Database,
+      title: "1. Data Sources",
+      body: "Open international match data, FIFA ranking priors, venues, fixtures, travel, rest, and climate features.",
+    },
+    {
+      icon: LineChart,
+      title: "2. Dynamic Elo",
+      body: "Time-decayed ratings with home advantage, margin adjustment, tournament importance, and lineup context.",
+    },
+    {
+      icon: SlidersHorizontal,
+      title: "3. Calibrated Probabilities",
+      body: "Rolling holdout calibration produces well-behaved win, draw, loss, and stage probabilities.",
+    },
+    {
+      icon: Sparkles,
+      title: "4. Tournament Simulation",
+      body: `${report.simulation.runs.toLocaleString()} Monte Carlo runs translate match probabilities into every stage path.`,
+    },
+  ];
+
+  return (
+    <section className="methodology-section" id="methodology" data-reveal>
+      <div className="section-heading">
+        <div className="section-icon">
+          <BarChart3 size={24} />
+        </div>
+        <div>
+          <h2>Methodology at a Glance</h2>
+          <p>Transparent ingredients behind the forecast.</p>
+        </div>
+      </div>
+
+      <div className="methodology-layout">
+        <div className="method-grid">
+          {items.map(({ icon: Icon, title, body }, index) => (
+            <article className="method-card" key={title} data-reveal style={{ "--reveal-delay": `${index * 90}ms` }}>
+              <div className="method-icon">
+                <Icon size={24} />
+              </div>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="simulation-card" data-reveal>
+          <img src={simulationCallout} alt="" />
+          <button type="button" aria-label="Simulation overview">
+            <Play size={22} fill="currentColor" />
+          </button>
+          <div>
+            <span>Simulation layer</span>
+            <strong>See how every path is sampled</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-disclaimer">
+      <div>
         <Info size={14} />
         <span>This model is for informational purposes only and not a guarantee of future results.</span>
       </div>
-      <div className="footer-meta">
-        <span>Model: {report.model.rows.toLocaleString()} matches · seed {report.simulation.seed}</span>
-        <span>Model version: 2026-06-10_v1.0 | &copy; 2026 WCP Forecast Lab</span>
+      <div>
+        <span>Model: {report.model.rows.toLocaleString()} matches</span>
+        <span>Seed {report.simulation.seed}</span>
+        <span>&copy; 2026 WCP Forecast Lab</span>
       </div>
     </footer>
   );
 }
 
-// Main App Container
 function App() {
-  const [highlightedTeam, setHighlightedTeam] = useState("Spain");
+  useRevealOnScroll();
 
   return (
     <main>
-      <Header />
-      
-      <section className="dashboard-grid" id="simulation">
-        <ChampionBoard />
-        <StagePath 
-          highlightedTeam={highlightedTeam} 
-          setHighlightedTeam={setHighlightedTeam} 
-        />
-        <QualityPanel />
-      </section>
-
+      <HeroDashboard />
+      <CountryAtlas />
       <Methodology />
       <Footer />
     </main>
   );
 }
 
-export default App;
-
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
