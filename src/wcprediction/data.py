@@ -61,3 +61,20 @@ def load_results(path: Path | str = DEFAULT_DATA_DIR / "results.csv") -> pd.Data
     df["away_score"] = df["away_score"].astype(int)
     df["neutral"] = df["neutral"].astype(bool)
     return df.sort_values("date").reset_index(drop=True)
+
+
+def load_shootouts(path: Path | str = DEFAULT_DATA_DIR / "shootouts.csv") -> pd.DataFrame:
+    """Load historical penalty shootout winners."""
+    df = pd.read_csv(path)
+    expected = {"date", "home_team", "away_team", "winner"}
+    missing = expected.difference(df.columns)
+    if missing:
+        raise ValueError(f"shootouts data missing required columns: {sorted(missing)}")
+
+    df = df.copy()
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    df = df.dropna(subset=["date", "home_team", "away_team", "winner"])
+    df["home_team"] = df["home_team"].map(canonical_team)
+    df["away_team"] = df["away_team"].map(canonical_team)
+    df["winner"] = df["winner"].map(canonical_team)
+    return df.sort_values("date").reset_index(drop=True)

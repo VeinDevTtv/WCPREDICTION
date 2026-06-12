@@ -1,0 +1,302 @@
+source_notes:
+  - "Lightweight scorer pool for deterministic bracket-challenge output as of 2026-06-11."
+  - "Weights are heuristic attacking-role weights layered on top of the team-level model; they are not a trained player-level goal model."
+  - "Played-match scorers in the tournament config override this pool."
+teams:
+  Algeria:
+    - {player: Riyad Mahrez, weight: 1.20, role: winger, penalties: true, set_pieces: true}
+    - {player: Amine Gouiri, weight: 1.05, role: forward, penalties: false, set_pieces: false}
+    - {player: Baghdad Bounedjah, weight: 0.95, role: striker, penalties: false, set_pieces: false}
+    - {player: Islam Slimani, weight: 0.85, role: striker, penalties: false, set_pieces: false}
+    - {player: Youcef Belaili, weight: 0.75, role: winger, penalties: false, set_pieces: true}
+  Argentina:
+    - {player: Lionel Messi, weight: 1.35, role: forward, penalties: true, set_pieces: true}
+    - {player: Lautaro Martinez, weight: 1.20, role: striker, penalties: false, set_pieces: false}
+    - {player: Julian Alvarez, weight: 1.08, role: forward, penalties: false, set_pieces: false}
+    - {player: Angel Di Maria, weight: 0.82, role: winger, penalties: false, set_pieces: true}
+    - {player: Alexis Mac Allister, weight: 0.68, role: midfielder, penalties: false, set_pieces: false}
+  Australia:
+    - {player: Mitchell Duke, weight: 1.10, role: striker, penalties: false, set_pieces: false}
+    - {player: Martin Boyle, weight: 1.00, role: winger, penalties: true, set_pieces: false}
+    - {player: Craig Goodwin, weight: 0.92, role: winger, penalties: false, set_pieces: true}
+    - {player: Riley McGree, weight: 0.80, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Jackson Irvine, weight: 0.72, role: midfielder, penalties: false, set_pieces: false}
+  Austria:
+    - {player: Marko Arnautovic, weight: 1.10, role: striker, penalties: true, set_pieces: false}
+    - {player: Michael Gregoritsch, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Marcel Sabitzer, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Christoph Baumgartner, weight: 0.85, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Konrad Laimer, weight: 0.55, role: midfielder, penalties: false, set_pieces: false}
+  Belgium:
+    - {player: Romelu Lukaku, weight: 1.30, role: striker, penalties: true, set_pieces: false}
+    - {player: Kevin De Bruyne, weight: 1.05, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Jeremy Doku, weight: 0.95, role: winger, penalties: false, set_pieces: false}
+    - {player: Leandro Trossard, weight: 0.92, role: forward, penalties: false, set_pieces: false}
+    - {player: Lois Openda, weight: 0.90, role: striker, penalties: false, set_pieces: false}
+  Bosnia and Herzegovina:
+    - {player: Edin Dzeko, weight: 1.25, role: striker, penalties: true, set_pieces: false}
+    - {player: Ermedin Demirovic, weight: 1.10, role: forward, penalties: false, set_pieces: false}
+    - {player: Haris Tabakovic, weight: 0.90, role: striker, penalties: false, set_pieces: false}
+    - {player: Amar Dedic, weight: 0.60, role: fullback, penalties: false, set_pieces: false}
+    - {player: Benjamin Tahirovic, weight: 0.55, role: midfielder, penalties: false, set_pieces: false}
+  Brazil:
+    - {player: Vinicius Junior, weight: 1.25, role: winger, penalties: false, set_pieces: false}
+    - {player: Rodrygo, weight: 1.15, role: forward, penalties: false, set_pieces: false}
+    - {player: Neymar, weight: 1.10, role: forward, penalties: true, set_pieces: true}
+    - {player: Raphinha, weight: 1.00, role: winger, penalties: false, set_pieces: true}
+    - {player: Richarlison, weight: 0.95, role: striker, penalties: false, set_pieces: false}
+    - {player: Gabriel Martinelli, weight: 0.86, role: winger, penalties: false, set_pieces: false}
+  Canada:
+    - {player: Jonathan David, weight: 1.25, role: striker, penalties: true, set_pieces: false}
+    - {player: Cyle Larin, weight: 1.05, role: striker, penalties: false, set_pieces: false}
+    - {player: Alphonso Davies, weight: 0.92, role: winger, penalties: false, set_pieces: false}
+    - {player: Tajon Buchanan, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+    - {player: Ismael Kone, weight: 0.58, role: midfielder, penalties: false, set_pieces: false}
+  Cape Verde:
+    - {player: Ryan Mendes, weight: 1.05, role: winger, penalties: true, set_pieces: false}
+    - {player: Garry Rodrigues, weight: 0.95, role: winger, penalties: false, set_pieces: false}
+    - {player: Bebe, weight: 0.88, role: forward, penalties: false, set_pieces: true}
+    - {player: Dailon Livramento, weight: 0.82, role: striker, penalties: false, set_pieces: false}
+    - {player: Jamiro Monteiro, weight: 0.68, role: midfielder, penalties: false, set_pieces: false}
+  Colombia:
+    - {player: Luis Diaz, weight: 1.20, role: winger, penalties: false, set_pieces: false}
+    - {player: James Rodriguez, weight: 1.05, role: midfielder, penalties: true, set_pieces: true}
+    - {player: Jhon Duran, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Rafael Borre, weight: 0.86, role: forward, penalties: false, set_pieces: false}
+    - {player: Jhon Arias, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+  Croatia:
+    - {player: Andrej Kramaric, weight: 1.15, role: forward, penalties: true, set_pieces: false}
+    - {player: Luka Modric, weight: 0.95, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Ivan Perisic, weight: 0.88, role: winger, penalties: false, set_pieces: false}
+    - {player: Bruno Petkovic, weight: 0.86, role: striker, penalties: false, set_pieces: false}
+    - {player: Lovro Majer, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
+  Curacao:
+    - {player: Leandro Bacuna, weight: 1.00, role: midfielder, penalties: true, set_pieces: true}
+    - {player: Rangelo Janga, weight: 0.95, role: striker, penalties: false, set_pieces: false}
+    - {player: Juninho Bacuna, weight: 0.86, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Kenji Gorre, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+    - {player: Brandley Kuwas, weight: 0.74, role: winger, penalties: false, set_pieces: true}
+  Czech Republic:
+    - {player: Patrik Schick, weight: 1.25, role: striker, penalties: true, set_pieces: false}
+    - {player: Adam Hlozek, weight: 0.98, role: forward, penalties: false, set_pieces: false}
+    - {player: Tomas Soucek, weight: 0.90, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Ladislav Krejci, weight: 0.78, role: defender, penalties: false, set_pieces: false}
+    - {player: Vaclav Cerny, weight: 0.74, role: winger, penalties: false, set_pieces: false}
+  DR Congo:
+    - {player: Yoane Wissa, weight: 1.15, role: forward, penalties: true, set_pieces: false}
+    - {player: Cedric Bakambu, weight: 1.02, role: striker, penalties: false, set_pieces: false}
+    - {player: Silas, weight: 0.88, role: winger, penalties: false, set_pieces: false}
+    - {player: Meschack Elia, weight: 0.82, role: winger, penalties: false, set_pieces: false}
+    - {player: Theo Bongonda, weight: 0.76, role: winger, penalties: false, set_pieces: false}
+  Ecuador:
+    - {player: Enner Valencia, weight: 1.20, role: striker, penalties: true, set_pieces: false}
+    - {player: Moises Caicedo, weight: 0.82, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Gonzalo Plata, weight: 0.80, role: winger, penalties: false, set_pieces: false}
+    - {player: Kevin Rodriguez, weight: 0.78, role: striker, penalties: false, set_pieces: false}
+    - {player: Kendry Paez, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
+  Egypt:
+    - {player: Mohamed Salah, weight: 1.35, role: winger, penalties: true, set_pieces: true}
+    - {player: Mostafa Mohamed, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Omar Marmoush, weight: 0.98, role: forward, penalties: false, set_pieces: false}
+    - {player: Trezeguet, weight: 0.82, role: winger, penalties: false, set_pieces: false}
+    - {player: Zizo, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
+  England:
+    - {player: Harry Kane, weight: 1.35, role: striker, penalties: true, set_pieces: false}
+    - {player: Jude Bellingham, weight: 1.10, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Bukayo Saka, weight: 1.00, role: winger, penalties: false, set_pieces: false}
+    - {player: Phil Foden, weight: 0.95, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Cole Palmer, weight: 0.90, role: forward, penalties: false, set_pieces: true}
+    - {player: Ollie Watkins, weight: 0.82, role: striker, penalties: false, set_pieces: false}
+  France:
+    - {player: Kylian Mbappe, weight: 1.35, role: forward, penalties: true, set_pieces: false}
+    - {player: Antoine Griezmann, weight: 1.05, role: forward, penalties: false, set_pieces: true}
+    - {player: Ousmane Dembele, weight: 0.95, role: winger, penalties: false, set_pieces: false}
+    - {player: Marcus Thuram, weight: 0.90, role: striker, penalties: false, set_pieces: false}
+    - {player: Olivier Giroud, weight: 0.84, role: striker, penalties: false, set_pieces: false}
+  Germany:
+    - {player: Jamal Musiala, weight: 1.12, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Florian Wirtz, weight: 1.05, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Kai Havertz, weight: 1.00, role: forward, penalties: true, set_pieces: false}
+    - {player: Niclas Fullkrug, weight: 0.96, role: striker, penalties: false, set_pieces: false}
+    - {player: Leroy Sane, weight: 0.86, role: winger, penalties: false, set_pieces: false}
+    - {player: Serge Gnabry, weight: 0.82, role: winger, penalties: false, set_pieces: false}
+  Ghana:
+    - {player: Mohammed Kudus, weight: 1.15, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Inaki Williams, weight: 1.05, role: forward, penalties: false, set_pieces: false}
+    - {player: Jordan Ayew, weight: 0.95, role: forward, penalties: true, set_pieces: false}
+    - {player: Antoine Semenyo, weight: 0.84, role: forward, penalties: false, set_pieces: false}
+    - {player: Thomas Partey, weight: 0.62, role: midfielder, penalties: false, set_pieces: false}
+  Haiti:
+    - {player: Duckens Nazon, weight: 1.15, role: striker, penalties: true, set_pieces: false}
+    - {player: Frantzdy Pierrot, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Carnejy Antoine, weight: 0.82, role: forward, penalties: false, set_pieces: false}
+    - {player: Louicius Don Deedson, weight: 0.76, role: winger, penalties: false, set_pieces: false}
+    - {player: Leverton Pierre, weight: 0.58, role: midfielder, penalties: false, set_pieces: false}
+  Iran:
+    - {player: Mehdi Taremi, weight: 1.25, role: striker, penalties: true, set_pieces: false}
+    - {player: Sardar Azmoun, weight: 1.08, role: striker, penalties: false, set_pieces: false}
+    - {player: Alireza Jahanbakhsh, weight: 0.88, role: winger, penalties: false, set_pieces: true}
+    - {player: Mehdi Ghayedi, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+    - {player: Saeid Ezatolahi, weight: 0.60, role: midfielder, penalties: false, set_pieces: false}
+  Iraq:
+    - {player: Aymen Hussein, weight: 1.22, role: striker, penalties: true, set_pieces: false}
+    - {player: Ali Jasim, weight: 0.95, role: winger, penalties: false, set_pieces: false}
+    - {player: Mohanad Ali, weight: 0.88, role: striker, penalties: false, set_pieces: false}
+    - {player: Ibrahim Bayesh, weight: 0.72, role: winger, penalties: false, set_pieces: false}
+    - {player: Zidane Iqbal, weight: 0.60, role: midfielder, penalties: false, set_pieces: false}
+  Ivory Coast:
+    - {player: Sebastien Haller, weight: 1.18, role: striker, penalties: true, set_pieces: false}
+    - {player: Franck Kessie, weight: 0.96, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Simon Adingra, weight: 0.92, role: winger, penalties: false, set_pieces: false}
+    - {player: Nicolas Pepe, weight: 0.86, role: winger, penalties: false, set_pieces: true}
+    - {player: Oumar Diakite, weight: 0.78, role: forward, penalties: false, set_pieces: false}
+  Japan:
+    - {player: Takumi Minamino, weight: 1.05, role: forward, penalties: false, set_pieces: false}
+    - {player: Daichi Kamada, weight: 0.98, role: midfielder, penalties: true, set_pieces: true}
+    - {player: Takefusa Kubo, weight: 0.95, role: winger, penalties: false, set_pieces: true}
+    - {player: Kaoru Mitoma, weight: 0.92, role: winger, penalties: false, set_pieces: false}
+    - {player: Ayase Ueda, weight: 0.88, role: striker, penalties: false, set_pieces: false}
+  Jordan:
+    - {player: Mousa Al-Taamari, weight: 1.20, role: winger, penalties: true, set_pieces: false}
+    - {player: Yazan Al-Naimat, weight: 1.02, role: striker, penalties: false, set_pieces: false}
+    - {player: Ali Olwan, weight: 0.82, role: forward, penalties: false, set_pieces: false}
+    - {player: Noor Al-Rawabdeh, weight: 0.58, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Mahmoud Mardi, weight: 0.56, role: winger, penalties: false, set_pieces: false}
+  Mexico:
+    - {player: Raul Jimenez, weight: 1.18, role: striker, penalties: true, set_pieces: false}
+    - {player: Julian Quinones, weight: 1.05, role: forward, penalties: false, set_pieces: false}
+    - {player: Santiago Gimenez, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Hirving Lozano, weight: 0.88, role: winger, penalties: false, set_pieces: false}
+    - {player: Henry Martin, weight: 0.80, role: striker, penalties: false, set_pieces: false}
+    - {player: Alexis Vega, weight: 0.72, role: winger, penalties: false, set_pieces: true}
+  Morocco:
+    - {player: Youssef En-Nesyri, weight: 1.15, role: striker, penalties: false, set_pieces: false}
+    - {player: Achraf Hakimi, weight: 0.96, role: fullback, penalties: false, set_pieces: true}
+    - {player: Hakim Ziyech, weight: 0.94, role: winger, penalties: true, set_pieces: true}
+    - {player: Brahim Diaz, weight: 0.92, role: forward, penalties: false, set_pieces: false}
+    - {player: Soufiane Rahimi, weight: 0.84, role: forward, penalties: false, set_pieces: false}
+    - {player: Ayoub El Kaabi, weight: 0.82, role: striker, penalties: false, set_pieces: false}
+  Netherlands:
+    - {player: Memphis Depay, weight: 1.15, role: forward, penalties: true, set_pieces: true}
+    - {player: Cody Gakpo, weight: 1.10, role: forward, penalties: false, set_pieces: false}
+    - {player: Xavi Simons, weight: 0.94, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Donyell Malen, weight: 0.86, role: winger, penalties: false, set_pieces: false}
+    - {player: Wout Weghorst, weight: 0.82, role: striker, penalties: false, set_pieces: false}
+  New Zealand:
+    - {player: Chris Wood, weight: 1.25, role: striker, penalties: true, set_pieces: false}
+    - {player: Sarpreet Singh, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Ben Waine, weight: 0.82, role: striker, penalties: false, set_pieces: false}
+    - {player: Elijah Just, weight: 0.70, role: winger, penalties: false, set_pieces: false}
+    - {player: Matthew Garbett, weight: 0.62, role: midfielder, penalties: false, set_pieces: false}
+  Norway:
+    - {player: Erling Haaland, weight: 1.40, role: striker, penalties: true, set_pieces: false}
+    - {player: Martin Odegaard, weight: 1.02, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Alexander Sorloth, weight: 0.98, role: striker, penalties: false, set_pieces: false}
+    - {player: Antonio Nusa, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+    - {player: Oscar Bobb, weight: 0.72, role: winger, penalties: false, set_pieces: false}
+  Panama:
+    - {player: Jose Fajardo, weight: 1.05, role: striker, penalties: false, set_pieces: false}
+    - {player: Ismael Diaz, weight: 0.96, role: forward, penalties: true, set_pieces: false}
+    - {player: Cecilio Waterman, weight: 0.86, role: striker, penalties: false, set_pieces: false}
+    - {player: Edgar Barcenas, weight: 0.76, role: winger, penalties: false, set_pieces: true}
+    - {player: Adalberto Carrasquilla, weight: 0.62, role: midfielder, penalties: false, set_pieces: false}
+  Paraguay:
+    - {player: Miguel Almiron, weight: 1.05, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Julio Enciso, weight: 1.00, role: forward, penalties: false, set_pieces: false}
+    - {player: Antonio Sanabria, weight: 0.98, role: striker, penalties: true, set_pieces: false}
+    - {player: Ramon Sosa, weight: 0.82, role: winger, penalties: false, set_pieces: false}
+    - {player: Adam Bareiro, weight: 0.76, role: striker, penalties: false, set_pieces: false}
+  Portugal:
+    - {player: Cristiano Ronaldo, weight: 1.28, role: striker, penalties: true, set_pieces: false}
+    - {player: Bruno Fernandes, weight: 1.12, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Rafael Leao, weight: 1.00, role: winger, penalties: false, set_pieces: false}
+    - {player: Goncalo Ramos, weight: 0.92, role: striker, penalties: false, set_pieces: false}
+    - {player: Bernardo Silva, weight: 0.84, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Joao Felix, weight: 0.78, role: forward, penalties: false, set_pieces: false}
+  Qatar:
+    - {player: Akram Afif, weight: 1.20, role: winger, penalties: true, set_pieces: true}
+    - {player: Almoez Ali, weight: 1.05, role: striker, penalties: false, set_pieces: false}
+    - {player: Hassan Al-Haydos, weight: 0.80, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Mohammed Muntari, weight: 0.74, role: striker, penalties: false, set_pieces: false}
+    - {player: Yusuf Abdurisag, weight: 0.68, role: forward, penalties: false, set_pieces: false}
+  Saudi Arabia:
+    - {player: Salem Al-Dawsari, weight: 1.15, role: winger, penalties: true, set_pieces: true}
+    - {player: Firas Al-Buraikan, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Saleh Al-Shehri, weight: 0.88, role: striker, penalties: false, set_pieces: false}
+    - {player: Sami Al-Najei, weight: 0.70, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Abdulrahman Ghareeb, weight: 0.68, role: winger, penalties: false, set_pieces: false}
+  Scotland:
+    - {player: Scott McTominay, weight: 1.05, role: midfielder, penalties: false, set_pieces: false}
+    - {player: John McGinn, weight: 0.95, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Che Adams, weight: 0.90, role: striker, penalties: false, set_pieces: false}
+    - {player: Lyndon Dykes, weight: 0.82, role: striker, penalties: true, set_pieces: false}
+    - {player: Ryan Christie, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
+  Senegal:
+    - {player: Sadio Mane, weight: 1.25, role: forward, penalties: true, set_pieces: false}
+    - {player: Nicolas Jackson, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Ismaila Sarr, weight: 0.88, role: winger, penalties: false, set_pieces: false}
+    - {player: Habib Diallo, weight: 0.82, role: striker, penalties: false, set_pieces: false}
+    - {player: Iliman Ndiaye, weight: 0.76, role: forward, penalties: false, set_pieces: false}
+  South Africa:
+    - {player: Percy Tau, weight: 1.05, role: forward, penalties: true, set_pieces: false}
+    - {player: Lyle Foster, weight: 1.00, role: striker, penalties: false, set_pieces: false}
+    - {player: Evidence Makgopa, weight: 0.86, role: striker, penalties: false, set_pieces: false}
+    - {player: Themba Zwane, weight: 0.76, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Iqraam Rayners, weight: 0.72, role: forward, penalties: false, set_pieces: false}
+  South Korea:
+    - {player: Son Heung-min, weight: 1.25, role: forward, penalties: true, set_pieces: true}
+    - {player: Hwang Hee-chan, weight: 1.02, role: forward, penalties: false, set_pieces: false}
+    - {player: Lee Kang-in, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Hwang In-beom, weight: 0.78, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Oh Hyeon-gyu, weight: 0.76, role: striker, penalties: false, set_pieces: false}
+  Spain:
+    - {player: Lamine Yamal, weight: 1.12, role: winger, penalties: false, set_pieces: false}
+    - {player: Alvaro Morata, weight: 1.05, role: striker, penalties: true, set_pieces: false}
+    - {player: Nico Williams, weight: 0.98, role: winger, penalties: false, set_pieces: false}
+    - {player: Dani Olmo, weight: 0.90, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Pedri, weight: 0.72, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Mikel Oyarzabal, weight: 0.70, role: forward, penalties: false, set_pieces: false}
+  Sweden:
+    - {player: Alexander Isak, weight: 1.25, role: striker, penalties: true, set_pieces: false}
+    - {player: Viktor Gyokeres, weight: 1.18, role: striker, penalties: false, set_pieces: false}
+    - {player: Dejan Kulusevski, weight: 0.95, role: winger, penalties: false, set_pieces: false}
+    - {player: Emil Forsberg, weight: 0.82, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Anthony Elanga, weight: 0.76, role: winger, penalties: false, set_pieces: false}
+  Switzerland:
+    - {player: Breel Embolo, weight: 1.12, role: striker, penalties: false, set_pieces: false}
+    - {player: Zeki Amdouni, weight: 1.00, role: forward, penalties: true, set_pieces: false}
+    - {player: Xherdan Shaqiri, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Ruben Vargas, weight: 0.82, role: winger, penalties: false, set_pieces: false}
+    - {player: Dan Ndoye, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+  Tunisia:
+    - {player: Youssef Msakni, weight: 1.05, role: forward, penalties: true, set_pieces: false}
+    - {player: Elias Achouri, weight: 0.92, role: winger, penalties: false, set_pieces: false}
+    - {player: Seifeddine Jaziri, weight: 0.86, role: striker, penalties: false, set_pieces: false}
+    - {player: Hannibal Mejbri, weight: 0.70, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Anis Ben Slimane, weight: 0.66, role: midfielder, penalties: false, set_pieces: false}
+  Turkey:
+    - {player: Hakan Calhanoglu, weight: 1.05, role: midfielder, penalties: true, set_pieces: true}
+    - {player: Arda Guler, weight: 1.00, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Kenan Yildiz, weight: 0.95, role: forward, penalties: false, set_pieces: false}
+    - {player: Kerem Akturkoglu, weight: 0.90, role: winger, penalties: false, set_pieces: false}
+    - {player: Cenk Tosun, weight: 0.82, role: striker, penalties: false, set_pieces: false}
+    - {player: Orkun Kokcu, weight: 0.70, role: midfielder, penalties: false, set_pieces: false}
+  United States:
+    - {player: Christian Pulisic, weight: 1.25, role: winger, penalties: true, set_pieces: true}
+    - {player: Folarin Balogun, weight: 1.05, role: striker, penalties: false, set_pieces: false}
+    - {player: Ricardo Pepi, weight: 0.92, role: striker, penalties: false, set_pieces: false}
+    - {player: Gio Reyna, weight: 0.88, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Timothy Weah, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+    - {player: Weston McKennie, weight: 0.68, role: midfielder, penalties: false, set_pieces: false}
+  Uruguay:
+    - {player: Darwin Nunez, weight: 1.25, role: striker, penalties: false, set_pieces: false}
+    - {player: Federico Valverde, weight: 1.00, role: midfielder, penalties: false, set_pieces: false}
+    - {player: Luis Suarez, weight: 0.95, role: striker, penalties: true, set_pieces: false}
+    - {player: Giorgian De Arrascaeta, weight: 0.86, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Facundo Pellistri, weight: 0.72, role: winger, penalties: false, set_pieces: false}
+  Uzbekistan:
+    - {player: Eldor Shomurodov, weight: 1.20, role: striker, penalties: true, set_pieces: false}
+    - {player: Abbosbek Fayzullaev, weight: 0.96, role: midfielder, penalties: false, set_pieces: true}
+    - {player: Igor Sergeev, weight: 0.86, role: striker, penalties: false, set_pieces: false}
+    - {player: Oston Urunov, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+    - {player: Jaloliddin Masharipov, weight: 0.72, role: winger, penalties: false, set_pieces: true}

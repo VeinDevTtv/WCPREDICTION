@@ -30,6 +30,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     train_parser = subparsers.add_parser("train", help="Train model")
     train_parser.add_argument("--results", default=str(DEFAULT_DATA_DIR / "results.csv"))
+    train_parser.add_argument("--shootouts", default=str(DEFAULT_DATA_DIR / "shootouts.csv"))
     train_parser.add_argument("--output", default="artifacts/model.joblib")
     train_parser.add_argument("--seed", type=int, default=42)
 
@@ -47,6 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
     simulate_parser.add_argument("--seed", type=int, default=42)
     simulate_parser.add_argument("--output")
     simulate_parser.add_argument("--csv-dir")
+    simulate_parser.add_argument("--scorer-pool", default="data/player_scorer_pool_2026.yaml")
     return parser
 
 
@@ -66,7 +68,7 @@ def main(argv: list[str] | None = None) -> None:
         return
 
     if args.command == "train":
-        model = train(args.results, args.output, seed=args.seed)
+        model = train(args.results, args.output, seed=args.seed, shootouts_path=args.shootouts)
         _write_json({"output": args.output, "metadata": model.metadata}, None)
         return
 
@@ -78,7 +80,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "simulate":
         config = args.config or f"configs/tournaments/{args.tournament}.yaml"
         model = load_model(args.model)
-        report = simulate_tournament(model, config, runs=args.runs, seed=args.seed)
+        report = simulate_tournament(model, config, runs=args.runs, seed=args.seed, scorer_pool_path=args.scorer_pool)
         if args.csv_dir:
             write_csv_summaries(report, args.csv_dir)
         _write_json(report, args.output)

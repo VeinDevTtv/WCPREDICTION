@@ -7,7 +7,7 @@ hosts:
 source_notes:
   - "Groups checked against FIFA/search-visible standings and fixtures on 2026-06-10."
   - "Group-stage fixture dates, kick-off times, venues, and cities are from FIFA's updated 2026 match schedule PDF and cross-checked against an accessible schedule table."
-  - "FIFA ranking prior uses FIFA FDCP men's ranking endpoint rows available on 2026-06-10; FIFA's page lists 2026-04-01 as the last official update and 2026-06-11 as the next official update."
+  - "FIFA ranking prior uses FIFA FDCP men's ranking endpoint rows rechecked on 2026-06-12; FIFA's men ranking page was checked for the June 2026 official update cycle and records the next official update as 2026-07-20."
   - "Venue weather inputs are historical June climate-normal style features, not matchday forecasts; use live forecasts when matches enter a reliable forecast window."
   - "Squad, injury, suspension, and recent-player-minutes fields are modeled as rating adjustments and currently default to zero until populated from a current availability feed."
   - "Top two teams in each of 12 groups plus the eight best third-place teams advance to a 32-team knockout stage."
@@ -220,7 +220,8 @@ venues:
     avg_humidity_pct: 67
 fifa_rankings:
   source: "FIFA FDCP men's ranking endpoint"
-  pulled_at: "2026-06-10"
+  pulled_at: "2026-06-12"
+  official_date: "2026-06-11"
   teams:
     - team: Mexico
       rank: 15
@@ -424,6 +425,29 @@ fixtures:
     away: South Africa
     group: A
     venue: Estadio Azteca
+    status: played
+    home_goals: 2
+    away_goals: 0
+    scorers:
+      - team: Mexico
+        player: Julián Quiñones
+        minute: 9
+      - team: Mexico
+        player: Raúl Jiménez
+        minute: 67
+    discipline:
+      - team: South Africa
+        player: Yaya Sithole
+        card: direct_red
+        minute: 50
+      - team: South Africa
+        player: Themba Zwane
+        card: direct_red
+        minute: 84
+      - team: Mexico
+        player: César Montes
+        card: direct_red
+        minute: 90
   - match_number: 2
     date: 2026-06-11
     kickoff_et: "22:00"
@@ -432,6 +456,19 @@ fixtures:
     away: Czechia
     group: A
     venue: Estadio Akron
+    status: played
+    home_goals: 2
+    away_goals: 1
+    scorers:
+      - team: Czechia
+        player: Ladislav Krejčí
+        minute: 59
+      - team: South Korea
+        player: Hwang In-beom
+        minute: 67
+      - team: South Korea
+        player: Oh Hyeon-gyu
+        minute: 80
   - match_number: 3
     date: 2026-06-12
     kickoff_et: "15:00"

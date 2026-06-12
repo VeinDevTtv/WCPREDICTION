@@ -23,3 +23,17 @@ def test_2026_config_includes_context_inputs() -> None:
     assert len(config.team_adjustments) == 48
     assert config.team_priors["Morocco"].rank == 8
     assert config.team_priors["Colombia"].rank == 13
+
+
+def test_2026_config_loads_played_fixture_results() -> None:
+    config = load_tournament_config(Path("configs/tournaments/2026.yaml"))
+    opener = config.fixtures[0]
+    second_match = config.fixtures[1]
+
+    assert opener.status == "played"
+    assert (opener.home, opener.away) == ("Mexico", "South Africa")
+    assert (opener.home_goals, opener.away_goals) == (2, 0)
+    assert [scorer.player for scorer in opener.scorers or []] == ["Julián Quiñones", "Raúl Jiménez"]
+    assert len(opener.discipline or []) == 3
+    assert second_match.status == "played"
+    assert (second_match.home_goals, second_match.away_goals) == (2, 1)
