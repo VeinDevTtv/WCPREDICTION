@@ -29,6 +29,7 @@ def test_2026_config_loads_played_fixture_results() -> None:
     config = load_tournament_config(Path("configs/tournaments/2026.yaml"))
     opener = config.fixtures[0]
     second_match = config.fixtures[1]
+    third_match = config.fixtures[2]
 
     assert opener.status == "played"
     assert (opener.home, opener.away) == ("Mexico", "South Africa")
@@ -37,3 +38,7 @@ def test_2026_config_loads_played_fixture_results() -> None:
     assert len(opener.discipline or []) == 3
     assert second_match.status == "played"
     assert (second_match.home_goals, second_match.away_goals) == (2, 1)
+    assert third_match.status == "played"
+    assert (third_match.home, third_match.away) == ("Canada", "Bosnia and Herzegovina")
+    assert (third_match.home_goals, third_match.away_goals) == (1, 1)
+    assert [scorer.player for scorer in third_match.scorers or []] == ["Jovo Lukic", "Cyle Larin"]

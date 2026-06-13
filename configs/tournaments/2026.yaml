@@ -8,10 +8,12 @@ source_notes:
   - "Groups checked against FIFA/search-visible standings and fixtures on 2026-06-10."
   - "Group-stage fixture dates, kick-off times, venues, and cities are from FIFA's updated 2026 match schedule PDF and cross-checked against an accessible schedule table."
   - "FIFA ranking prior uses FIFA FDCP men's ranking endpoint rows rechecked on 2026-06-12; FIFA's men ranking page was checked for the June 2026 official update cycle and records the next official update as 2026-07-20."
+  - "Official 48-team squad snapshot imported from FIFA SquadLists-English.pdf Version 1, published Friday 12 June 2026 21:07 UTC."
+  - "Played results are locked through the 2026-06-12T23:30:00Z snapshot: Mexico 2-0 South Africa, South Korea 2-1 Czechia, Canada 1-1 Bosnia and Herzegovina."
   - "Venue weather inputs are historical June climate-normal style features, not matchday forecasts; use live forecasts when matches enter a reliable forecast window."
-  - "Squad, injury, suspension, and recent-player-minutes fields are modeled as rating adjustments and currently default to zero until populated from a current availability feed."
+  - "Injury, suspension, and recent-player-minutes fields are modeled as rating adjustments and currently default to zero unless source-noted in team adjustments."
   - "Top two teams in each of 12 groups plus the eight best third-place teams advance to a 32-team knockout stage."
-  - "The simulation uses a deterministic bracket approximation for third-place placement unless a future config adds FIFA's full dynamic third-place matchup table."
+  - "Bracket challenge output uses FIFA's Round-of-32 slots plus an Annex-C-style third-place slot eligibility resolver."
 groups:
   A:
     - Mexico
@@ -477,6 +479,32 @@ fixtures:
     away: Bosnia and Herzegovina
     group: B
     venue: BMO Field
+    status: played
+    home_goals: 1
+    away_goals: 1
+    scorers:
+      - team: Bosnia and Herzegovina
+        player: Jovo Lukic
+        minute: 21
+      - team: Canada
+        player: Cyle Larin
+        minute: 78
+    discipline:
+      - team: Canada
+        player: Alistair Johnston
+        card: yellow
+      - team: Canada
+        player: Luc de Fougerolles
+        card: yellow
+      - team: Bosnia and Herzegovina
+        player: Jovo Lukic
+        card: yellow
+      - team: Bosnia and Herzegovina
+        player: Ermedin Demirovic
+        card: yellow
+      - team: Bosnia and Herzegovina
+        player: Nikola Katic
+        card: yellow
   - match_number: 4
     date: 2026-06-12
     kickoff_et: "21:00"

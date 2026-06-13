@@ -3,7 +3,7 @@ from pathlib import Path
 
 import numpy as np
 
-from wcprediction.simulate import _first_knockout_round, build_bracket_challenge, simulate_group
+from wcprediction.simulate import _first_knockout_round, build_bracket_challenge, load_scorer_pool, load_squad_snapshot, simulate_group
 from wcprediction.tournament import load_tournament_config
 
 
@@ -50,12 +50,16 @@ def test_bracket_challenge_locks_played_fixtures() -> None:
     bracket = build_bracket_challenge(config, DummyModel())
     match_one = next(match for match in bracket["matches"] if match["matchNumber"] == 1)
     match_two = next(match for match in bracket["matches"] if match["matchNumber"] == 2)
+    match_three = next(match for match in bracket["matches"] if match["matchNumber"] == 3)
 
     assert match_one["status"] == "played"
     assert (match_one["homeGoals"], match_one["awayGoals"]) == (2, 0)
     assert [scorer["player"] for scorer in match_one["scorers"]] == ["Julián Quiñones", "Raúl Jiménez"]
     assert match_two["status"] == "played"
     assert (match_two["homeGoals"], match_two["awayGoals"]) == (2, 1)
+    assert match_three["status"] == "played"
+    assert (match_three["homeGoals"], match_three["awayGoals"]) == (1, 1)
+    assert [scorer["player"] for scorer in match_three["scorers"]] == ["Jovo Lukic", "Cyle Larin"]
 
 
 def test_bracket_challenge_outputs_full_unique_knockout_card() -> None:
@@ -71,6 +75,8 @@ def test_bracket_challenge_outputs_full_unique_knockout_card() -> None:
     assert bracket["champion"]
     assert bracket["runnerUp"]
     assert bracket["thirdPlace"]
+    assert bracket["squadSource"]["teamCount"] == 48
+    assert bracket["squads"]
 
 
 def test_bracket_challenge_scorer_counts_match_goals() -> None:
@@ -81,3 +87,21 @@ def test_bracket_challenge_scorer_counts_match_goals() -> None:
         scorers = Counter(scorer["team"] for scorer in match["scorers"])
         assert scorers[match["home"]] == match["homeGoals"]
         assert scorers[match["away"]] == match["awayGoals"]
+
+
+def test_official_squad_snapshot_and_scorer_pool_align() -> None:
+    snapshot = load_squad_snapshot(Path("data/squads_2026.yaml"))
+    pool = load_scorer_pool(Path("data/player_scorer_pool_2026.yaml"))
+    squad_numbers = {
+        team["team"]: {player["number"] for player in team["players"]}
+        for team in snapshot["teams"]
+    }
+
+    assert snapshot["teamCount"] == 48
+    assert len(snapshot["teams"]) == 48
+    assert all(len(team["players"]) == 26 for team in snapshot["teams"])
+    assert set(pool["teams"]) == set(squad_numbers)
+    for team, rows in pool["teams"].items():
+        assert 5 <= len(rows) <= 8
+        for row in rows:
+            assert row["number"] in squad_numbers[team]

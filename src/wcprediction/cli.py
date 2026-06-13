@@ -49,6 +49,7 @@ def build_parser() -> argparse.ArgumentParser:
     simulate_parser.add_argument("--output")
     simulate_parser.add_argument("--csv-dir")
     simulate_parser.add_argument("--scorer-pool", default="data/player_scorer_pool_2026.yaml")
+    simulate_parser.add_argument("--squad-snapshot", default="data/squads_2026.yaml")
     return parser
 
 
@@ -80,7 +81,14 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "simulate":
         config = args.config or f"configs/tournaments/{args.tournament}.yaml"
         model = load_model(args.model)
-        report = simulate_tournament(model, config, runs=args.runs, seed=args.seed, scorer_pool_path=args.scorer_pool)
+        report = simulate_tournament(
+            model,
+            config,
+            runs=args.runs,
+            seed=args.seed,
+            scorer_pool_path=args.scorer_pool,
+            squad_snapshot_path=args.squad_snapshot,
+        )
         if args.csv_dir:
             write_csv_summaries(report, args.csv_dir)
         _write_json(report, args.output)

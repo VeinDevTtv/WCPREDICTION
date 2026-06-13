@@ -1,302 +1,3511 @@
 source_notes:
-  - "Lightweight scorer pool for deterministic bracket-challenge output as of 2026-06-11."
-  - "Weights are heuristic attacking-role weights layered on top of the team-level model; they are not a trained player-level goal model."
-  - "Played-match scorers in the tournament config override this pool."
+- Squad-backed scorer pool regenerated from the official FIFA World Cup 2026 squad list PDF.
+- 'Squad source: https://fdp.fifa.org/assetspublic/ce281/pdf/SquadLists-English.pdf; Version 1; published 2026-06-12T21:07:00Z.'
+- Weights combine current squad position, international goals/caps, and matched prior attacking-role weights when the prior
+  player still appears in the official squad.
+- Played-match scorers in the tournament config override this pool.
 teams:
   Algeria:
-    - {player: Riyad Mahrez, weight: 1.20, role: winger, penalties: true, set_pieces: true}
-    - {player: Amine Gouiri, weight: 1.05, role: forward, penalties: false, set_pieces: false}
-    - {player: Baghdad Bounedjah, weight: 0.95, role: striker, penalties: false, set_pieces: false}
-    - {player: Islam Slimani, weight: 0.85, role: striker, penalties: false, set_pieces: false}
-    - {player: Youcef Belaili, weight: 0.75, role: winger, penalties: false, set_pieces: true}
+  - player: Riyad Mahrez
+    officialName: Riyad Mahrez
+    number: 7
+    position: FW
+    weight: 2.195
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Mohamed Amoura
+    officialName: Mohamed Amoura
+    number: 18
+    position: FW
+    weight: 1.516
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Amine Gouiri
+    officialName: Amine Gouiri
+    number: 9
+    position: FW
+    weight: 1.207
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Adil Boulbina
+    officialName: Adil Boulbina
+    number: 20
+    position: FW
+    weight: 1.038
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Anis Hadj Moussa
+    officialName: Anis Hadj Moussa
+    number: 11
+    position: FW
+    weight: 0.953
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Aissa Mandi
+    officialName: Aissa Mandi
+    number: 2
+    position: DF
+    weight: 0.922
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nadhir Benbouali
+    officialName: Nadhir Benbouali
+    number: 12
+    position: FW
+    weight: 0.906
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Fares Ghedjemis
+    officialName: Fares Ghedjemis
+    number: 25
+    position: FW
+    weight: 0.902
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Argentina:
-    - {player: Lionel Messi, weight: 1.35, role: forward, penalties: true, set_pieces: true}
-    - {player: Lautaro Martinez, weight: 1.20, role: striker, penalties: false, set_pieces: false}
-    - {player: Julian Alvarez, weight: 1.08, role: forward, penalties: false, set_pieces: false}
-    - {player: Angel Di Maria, weight: 0.82, role: winger, penalties: false, set_pieces: true}
-    - {player: Alexis Mac Allister, weight: 0.68, role: midfielder, penalties: false, set_pieces: false}
+  - player: Lionel Messi
+    officialName: Lionel Messi
+    number: 10
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Lautaro Martinez
+    officialName: Lautaro Martinez
+    number: 22
+    position: FW
+    weight: 1.303
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Julian Alvarez
+    officialName: Julian Alvarez
+    number: 9
+    position: FW
+    weight: 1.08
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Thiago Almada
+    officialName: Thiago Almada
+    number: 16
+    position: FW
+    weight: 0.934
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Giuliano Simeone
+    officialName: Giuliano Simeone
+    number: 17
+    position: FW
+    weight: 0.901
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nico Paz
+    officialName: Nico Paz
+    number: 18
+    position: FW
+    weight: 0.888
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jose Manuel Lopez
+    officialName: Jose Manuel Lopez
+    number: 21
+    position: FW
+    weight: 0.875
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Leandro Paredes
+    officialName: Leandro Paredes
+    number: 5
+    position: MF
+    weight: 0.749
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Australia:
-    - {player: Mitchell Duke, weight: 1.10, role: striker, penalties: false, set_pieces: false}
-    - {player: Martin Boyle, weight: 1.00, role: winger, penalties: true, set_pieces: false}
-    - {player: Craig Goodwin, weight: 0.92, role: winger, penalties: false, set_pieces: true}
-    - {player: Riley McGree, weight: 0.80, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Jackson Irvine, weight: 0.72, role: midfielder, penalties: false, set_pieces: false}
+  - player: Mathew Leckie
+    officialName: Mathew Leckie
+    number: 7
+    position: FW
+    weight: 2.16
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jackson Irvine
+    officialName: Jackson Irvine
+    number: 22
+    position: MF
+    weight: 1.922
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Awer Mabil
+    officialName: Awer Mabil
+    number: 11
+    position: FW
+    weight: 1.757
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Harry Souttar
+    officialName: Harry Souttar
+    number: 19
+    position: DF
+    weight: 1.469
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nestory Irankunda
+    officialName: Nestory Irankunda
+    number: 17
+    position: FW
+    weight: 1.307
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ajdin Hrustic
+    officialName: Ajdin Hrustic
+    number: 10
+    position: FW
+    weight: 1.18
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nishan Velupillay
+    officialName: Nishan Velupillay
+    number: 23
+    position: FW
+    weight: 1.129
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mohamed Toure
+    officialName: Mohamed Toure
+    number: 9
+    position: FW
+    weight: 1.052
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Austria:
-    - {player: Marko Arnautovic, weight: 1.10, role: striker, penalties: true, set_pieces: false}
-    - {player: Michael Gregoritsch, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Marcel Sabitzer, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Christoph Baumgartner, weight: 0.85, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Konrad Laimer, weight: 0.55, role: midfielder, penalties: false, set_pieces: false}
+  - player: Marko Arnautovic
+    officialName: Marko Arnautovic
+    number: 7
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Michael Gregoritsch
+    officialName: Michael Gregoritsch
+    number: 11
+    position: FW
+    weight: 1.559
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Marcel Sabitzer
+    officialName: Marcel Sabitzer
+    number: 9
+    position: MF
+    weight: 1.399
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: David Alaba
+    officialName: David Alaba
+    number: 8
+    position: DF
+    weight: 1.02
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Sasa Kalajdzic
+    officialName: Sasa Kalajdzic
+    number: 14
+    position: FW
+    weight: 0.998
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Patrick Wimmer
+    officialName: Patrick Wimmer
+    number: 21
+    position: FW
+    weight: 0.935
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Konrad Laimer
+    officialName: Konrad Laimer
+    number: 20
+    position: MF
+    weight: 0.878
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Alessandro Schoepf
+    officialName: Alessandro Schoepf
+    number: 26
+    position: MF
+    weight: 0.824
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Belgium:
-    - {player: Romelu Lukaku, weight: 1.30, role: striker, penalties: true, set_pieces: false}
-    - {player: Kevin De Bruyne, weight: 1.05, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Jeremy Doku, weight: 0.95, role: winger, penalties: false, set_pieces: false}
-    - {player: Leandro Trossard, weight: 0.92, role: forward, penalties: false, set_pieces: false}
-    - {player: Lois Openda, weight: 0.90, role: striker, penalties: false, set_pieces: false}
+  - player: Romelu Lukaku
+    officialName: Romelu Lukaku
+    number: 9
+    position: FW
+    weight: 2.184
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Kevin De Bruyne
+    officialName: Kevin De Bruyne
+    number: 7
+    position: MF
+    weight: 1.258
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Leandro Trossard
+    officialName: Leandro Trossard
+    number: 10
+    position: FW
+    weight: 1.09
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jeremy Doku
+    officialName: Jeremy Doku
+    number: 11
+    position: FW
+    weight: 1.016
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Dodi Lukebakio
+    officialName: Dodi Lukebakio
+    number: 14
+    position: FW
+    weight: 0.986
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Charles De Ketelaere
+    officialName: Charles De Ketelaere
+    number: 17
+    position: FW
+    weight: 0.986
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Axel Witsel
+    officialName: Axel Witsel
+    number: 6
+    position: MF
+    weight: 0.963
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Youri Tielemans
+    officialName: Youri Tielemans
+    number: 8
+    position: MF
+    weight: 0.907
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Bosnia and Herzegovina:
-    - {player: Edin Dzeko, weight: 1.25, role: striker, penalties: true, set_pieces: false}
-    - {player: Ermedin Demirovic, weight: 1.10, role: forward, penalties: false, set_pieces: false}
-    - {player: Haris Tabakovic, weight: 0.90, role: striker, penalties: false, set_pieces: false}
-    - {player: Amar Dedic, weight: 0.60, role: fullback, penalties: false, set_pieces: false}
-    - {player: Benjamin Tahirovic, weight: 0.55, role: midfielder, penalties: false, set_pieces: false}
+  - player: Edin Dzeko
+    officialName: Edin Dzeko
+    number: 11
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Ermedin Demirovic
+    officialName: Ermedin Demirovic
+    number: 10
+    position: FW
+    weight: 1.1
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Haris Tabakovic
+    officialName: Haris Tabakovic
+    number: 23
+    position: FW
+    weight: 0.945
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Esmir Bajraktarevic
+    officialName: Esmir Bajraktarevic
+    number: 20
+    position: FW
+    weight: 0.906
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Samed Bazdar
+    officialName: Samed Bazdar
+    number: 9
+    position: FW
+    weight: 0.903
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Kerim Alajbegovic
+    officialName: Kerim Alajbegovic
+    number: 19
+    position: FW
+    weight: 0.899
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jovo Lukic
+    officialName: Jovo Lukic
+    number: 25
+    position: FW
+    weight: 0.891
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Benjamin Tahirovic
+    officialName: Benjamin Tahirovic
+    number: 6
+    position: MF
+    weight: 0.697
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Brazil:
-    - {player: Vinicius Junior, weight: 1.25, role: winger, penalties: false, set_pieces: false}
-    - {player: Rodrygo, weight: 1.15, role: forward, penalties: false, set_pieces: false}
-    - {player: Neymar, weight: 1.10, role: forward, penalties: true, set_pieces: true}
-    - {player: Raphinha, weight: 1.00, role: winger, penalties: false, set_pieces: true}
-    - {player: Richarlison, weight: 0.95, role: striker, penalties: false, set_pieces: false}
-    - {player: Gabriel Martinelli, weight: 0.86, role: winger, penalties: false, set_pieces: false}
-  Canada:
-    - {player: Jonathan David, weight: 1.25, role: striker, penalties: true, set_pieces: false}
-    - {player: Cyle Larin, weight: 1.05, role: striker, penalties: false, set_pieces: false}
-    - {player: Alphonso Davies, weight: 0.92, role: winger, penalties: false, set_pieces: false}
-    - {player: Tajon Buchanan, weight: 0.78, role: winger, penalties: false, set_pieces: false}
-    - {player: Ismael Kone, weight: 0.58, role: midfielder, penalties: false, set_pieces: false}
+  - player: Neymar Da Silva Santos Júnior
+    officialName: Neymar Da Silva Santos Júnior
+    number: 10
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Vinicius Junior
+    officialName: Vinicius Paixão De Oliveira Júnior
+    number: 7
+    position: FW
+    weight: 1.25
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Raphinha
+    officialName: Raphael Dias Belloli
+    number: 11
+    position: FW
+    weight: 1.085
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Gabriel Martinelli
+    officialName: Gabriel Teodoro Martinelli Silva
+    number: 22
+    position: FW
+    weight: 0.961
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Endrick Moreira De Sousa Pessoa
+    officialName: Endrick Moreira De Sousa Pessoa
+    number: 19
+    position: FW
+    weight: 0.952
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Luiz Da Silva
+    officialName: Luiz Da Silva
+    number: 21
+    position: FW
+    weight: 0.92
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Matheus Santos Carneiro Da Cunha
+    officialName: Matheus Santos Carneiro Da Cunha
+    number: 9
+    position: FW
+    weight: 0.917
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Lucas Tolentino Coelho De Lima
+    officialName: Lucas Tolentino Coelho De Lima
+    number: 20
+    position: MF
+    weight: 0.908
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Cape Verde:
-    - {player: Ryan Mendes, weight: 1.05, role: winger, penalties: true, set_pieces: false}
-    - {player: Garry Rodrigues, weight: 0.95, role: winger, penalties: false, set_pieces: false}
-    - {player: Bebe, weight: 0.88, role: forward, penalties: false, set_pieces: true}
-    - {player: Dailon Livramento, weight: 0.82, role: striker, penalties: false, set_pieces: false}
-    - {player: Jamiro Monteiro, weight: 0.68, role: midfielder, penalties: false, set_pieces: false}
+  - player: Ryan Mendes
+    officialName: Ryan Da Graca Mendes
+    number: 20
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Dailon Livramento
+    officialName: Dailon Rocha Livramento
+    number: 19
+    position: FW
+    weight: 1.276
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Garry Rodrigues
+    officialName: Garry Mendes Rodrigues
+    number: 11
+    position: MF
+    weight: 1.265
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Benchimolgi Gilson
+    officialName: Benchimolgi Gilson
+    number: 9
+    position: FW
+    weight: 1.222
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jamiro Monteiro
+    officialName: Jamiro Monteiro Alvarenga
+    number: 10
+    position: MF
+    weight: 0.992
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Willy Semedo Afonso
+    officialName: Willy Semedo Afonso
+    number: 17
+    position: MF
+    weight: 0.857
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Kevin Gonçalves Pereira De Pina
+    officialName: Kevin Gonçalves Pereira De Pina
+    number: 6
+    position: MF
+    weight: 0.844
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jovane Borges Cabral
+    officialName: Jovane Borges Cabral
+    number: 7
+    position: MF
+    weight: 0.84
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Canada:
+  - player: Jonathan David
+    officialName: Jonathan David
+    number: 10
+    position: FW
+    weight: 2.173
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Cyle Larin
+    officialName: Cyle Larin
+    number: 9
+    position: FW
+    weight: 1.962
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Tajon Buchanan
+    officialName: Tajon Buchanan
+    number: 17
+    position: FW
+    weight: 1.225
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jonathan Osorio
+    officialName: Jonathan Osorio
+    number: 21
+    position: MF
+    weight: 1.105
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Alphonso Davies
+    officialName: Alphonso Davies
+    number: 19
+    position: DF
+    weight: 1.056
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Promise Prom David
+    officialName: Promise Prom David
+    number: 24
+    position: FW
+    weight: 0.98
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Tani Tani Oluwaseyi
+    officialName: Tani Tani Oluwaseyi
+    number: 12
+    position: FW
+    weight: 0.978
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jayden Nelson
+    officialName: Jayden Nelson
+    number: 26
+    position: FW
+    weight: 0.958
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Colombia:
-    - {player: Luis Diaz, weight: 1.20, role: winger, penalties: false, set_pieces: false}
-    - {player: James Rodriguez, weight: 1.05, role: midfielder, penalties: true, set_pieces: true}
-    - {player: Jhon Duran, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Rafael Borre, weight: 0.86, role: forward, penalties: false, set_pieces: false}
-    - {player: Jhon Arias, weight: 0.78, role: winger, penalties: false, set_pieces: false}
-  Croatia:
-    - {player: Andrej Kramaric, weight: 1.15, role: forward, penalties: true, set_pieces: false}
-    - {player: Luka Modric, weight: 0.95, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Ivan Perisic, weight: 0.88, role: winger, penalties: false, set_pieces: false}
-    - {player: Bruno Petkovic, weight: 0.86, role: striker, penalties: false, set_pieces: false}
-    - {player: Lovro Majer, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
-  Curacao:
-    - {player: Leandro Bacuna, weight: 1.00, role: midfielder, penalties: true, set_pieces: true}
-    - {player: Rangelo Janga, weight: 0.95, role: striker, penalties: false, set_pieces: false}
-    - {player: Juninho Bacuna, weight: 0.86, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Kenji Gorre, weight: 0.78, role: winger, penalties: false, set_pieces: false}
-    - {player: Brandley Kuwas, weight: 0.74, role: winger, penalties: false, set_pieces: true}
-  Czech Republic:
-    - {player: Patrik Schick, weight: 1.25, role: striker, penalties: true, set_pieces: false}
-    - {player: Adam Hlozek, weight: 0.98, role: forward, penalties: false, set_pieces: false}
-    - {player: Tomas Soucek, weight: 0.90, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Ladislav Krejci, weight: 0.78, role: defender, penalties: false, set_pieces: false}
-    - {player: Vaclav Cerny, weight: 0.74, role: winger, penalties: false, set_pieces: false}
+  - player: James Rodriguez
+    officialName: James Rodriguez
+    number: 10
+    position: MF
+    weight: 1.954
+    role: midfielder
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Luis Diaz
+    officialName: Luis Diaz
+    number: 7
+    position: FW
+    weight: 1.789
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jhon Cordoba
+    officialName: Jhon Cordoba
+    number: 9
+    position: FW
+    weight: 1.122
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Luis Suarez
+    officialName: Luis Suarez
+    number: 25
+    position: FW
+    weight: 1.072
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Cucho Hernandez
+    officialName: Cucho Hernandez
+    number: 19
+    position: FW
+    weight: 0.957
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Andres Gomez
+    officialName: Andres Gomez
+    number: 26
+    position: FW
+    weight: 0.955
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jaminton Campaz
+    officialName: Jaminton Campaz
+    number: 21
+    position: FW
+    weight: 0.921
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Juan Quintero
+    officialName: Juan Quintero
+    number: 20
+    position: MF
+    weight: 0.92
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   DR Congo:
-    - {player: Yoane Wissa, weight: 1.15, role: forward, penalties: true, set_pieces: false}
-    - {player: Cedric Bakambu, weight: 1.02, role: striker, penalties: false, set_pieces: false}
-    - {player: Silas, weight: 0.88, role: winger, penalties: false, set_pieces: false}
-    - {player: Meschack Elia, weight: 0.82, role: winger, penalties: false, set_pieces: false}
-    - {player: Theo Bongonda, weight: 0.76, role: winger, penalties: false, set_pieces: false}
-  Ecuador:
-    - {player: Enner Valencia, weight: 1.20, role: striker, penalties: true, set_pieces: false}
-    - {player: Moises Caicedo, weight: 0.82, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Gonzalo Plata, weight: 0.80, role: winger, penalties: false, set_pieces: false}
-    - {player: Kevin Rodriguez, weight: 0.78, role: striker, penalties: false, set_pieces: false}
-    - {player: Kendry Paez, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
-  Egypt:
-    - {player: Mohamed Salah, weight: 1.35, role: winger, penalties: true, set_pieces: true}
-    - {player: Mostafa Mohamed, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Omar Marmoush, weight: 0.98, role: forward, penalties: false, set_pieces: false}
-    - {player: Trezeguet, weight: 0.82, role: winger, penalties: false, set_pieces: false}
-    - {player: Zizo, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
-  England:
-    - {player: Harry Kane, weight: 1.35, role: striker, penalties: true, set_pieces: false}
-    - {player: Jude Bellingham, weight: 1.10, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Bukayo Saka, weight: 1.00, role: winger, penalties: false, set_pieces: false}
-    - {player: Phil Foden, weight: 0.95, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Cole Palmer, weight: 0.90, role: forward, penalties: false, set_pieces: true}
-    - {player: Ollie Watkins, weight: 0.82, role: striker, penalties: false, set_pieces: false}
-  France:
-    - {player: Kylian Mbappe, weight: 1.35, role: forward, penalties: true, set_pieces: false}
-    - {player: Antoine Griezmann, weight: 1.05, role: forward, penalties: false, set_pieces: true}
-    - {player: Ousmane Dembele, weight: 0.95, role: winger, penalties: false, set_pieces: false}
-    - {player: Marcus Thuram, weight: 0.90, role: striker, penalties: false, set_pieces: false}
-    - {player: Olivier Giroud, weight: 0.84, role: striker, penalties: false, set_pieces: false}
-  Germany:
-    - {player: Jamal Musiala, weight: 1.12, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Florian Wirtz, weight: 1.05, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Kai Havertz, weight: 1.00, role: forward, penalties: true, set_pieces: false}
-    - {player: Niclas Fullkrug, weight: 0.96, role: striker, penalties: false, set_pieces: false}
-    - {player: Leroy Sane, weight: 0.86, role: winger, penalties: false, set_pieces: false}
-    - {player: Serge Gnabry, weight: 0.82, role: winger, penalties: false, set_pieces: false}
-  Ghana:
-    - {player: Mohammed Kudus, weight: 1.15, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Inaki Williams, weight: 1.05, role: forward, penalties: false, set_pieces: false}
-    - {player: Jordan Ayew, weight: 0.95, role: forward, penalties: true, set_pieces: false}
-    - {player: Antoine Semenyo, weight: 0.84, role: forward, penalties: false, set_pieces: false}
-    - {player: Thomas Partey, weight: 0.62, role: midfielder, penalties: false, set_pieces: false}
-  Haiti:
-    - {player: Duckens Nazon, weight: 1.15, role: striker, penalties: true, set_pieces: false}
-    - {player: Frantzdy Pierrot, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Carnejy Antoine, weight: 0.82, role: forward, penalties: false, set_pieces: false}
-    - {player: Louicius Don Deedson, weight: 0.76, role: winger, penalties: false, set_pieces: false}
-    - {player: Leverton Pierre, weight: 0.58, role: midfielder, penalties: false, set_pieces: false}
-  Iran:
-    - {player: Mehdi Taremi, weight: 1.25, role: striker, penalties: true, set_pieces: false}
-    - {player: Sardar Azmoun, weight: 1.08, role: striker, penalties: false, set_pieces: false}
-    - {player: Alireza Jahanbakhsh, weight: 0.88, role: winger, penalties: false, set_pieces: true}
-    - {player: Mehdi Ghayedi, weight: 0.78, role: winger, penalties: false, set_pieces: false}
-    - {player: Saeid Ezatolahi, weight: 0.60, role: midfielder, penalties: false, set_pieces: false}
-  Iraq:
-    - {player: Aymen Hussein, weight: 1.22, role: striker, penalties: true, set_pieces: false}
-    - {player: Ali Jasim, weight: 0.95, role: winger, penalties: false, set_pieces: false}
-    - {player: Mohanad Ali, weight: 0.88, role: striker, penalties: false, set_pieces: false}
-    - {player: Ibrahim Bayesh, weight: 0.72, role: winger, penalties: false, set_pieces: false}
-    - {player: Zidane Iqbal, weight: 0.60, role: midfielder, penalties: false, set_pieces: false}
+  - player: Cedric Bakambu
+    officialName: Cedric Bakambu
+    number: 17
+    position: FW
+    weight: 2.136
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Meschack Elia
+    officialName: Meschack Elia
+    number: 13
+    position: FW
+    weight: 1.639
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Yoane Wissa
+    officialName: Yoane Wissa
+    number: 20
+    position: FW
+    weight: 1.371
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Fiston Mayele
+    officialName: Fiston Mayele
+    number: 19
+    position: FW
+    weight: 1.203
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Gael Kakuta
+    officialName: Gael Kakuta
+    number: 11
+    position: FW
+    weight: 1.195
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Theo Bongonda
+    officialName: Theo Bongonda
+    number: 10
+    position: MF
+    weight: 1.076
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Chancel Mbemba
+    officialName: Chancel Mbemba
+    number: 22
+    position: DF
+    weight: 1.063
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Simon Banza
+    officialName: Simon Banza
+    number: 23
+    position: FW
+    weight: 1.004
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Ivory Coast:
-    - {player: Sebastien Haller, weight: 1.18, role: striker, penalties: true, set_pieces: false}
-    - {player: Franck Kessie, weight: 0.96, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Simon Adingra, weight: 0.92, role: winger, penalties: false, set_pieces: false}
-    - {player: Nicolas Pepe, weight: 0.86, role: winger, penalties: false, set_pieces: true}
-    - {player: Oumar Diakite, weight: 0.78, role: forward, penalties: false, set_pieces: false}
+  - player: Franck Kessie
+    officialName: Franck Kessie
+    number: 8
+    position: MF
+    weight: 1.96
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nicolas Pepe
+    officialName: Nicolas Pepe
+    number: 19
+    position: FW
+    weight: 1.887
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Ibrahim Sangare
+    officialName: Ibrahim Sangare
+    number: 18
+    position: MF
+    weight: 1.569
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Oumar Diakite
+    officialName: Oumar Diakite
+    number: 14
+    position: FW
+    weight: 1.38
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Amad Diallo
+    officialName: Amad Diallo
+    number: 15
+    position: FW
+    weight: 1.363
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Simon Adingra
+    officialName: Simon Adingra
+    number: 10
+    position: FW
+    weight: 1.304
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Seko Fofana
+    officialName: Seko Fofana
+    number: 6
+    position: MF
+    weight: 1.222
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Evann Guessand
+    officialName: Evann Guessand
+    number: 22
+    position: FW
+    weight: 1.213
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Croatia:
+  - player: Ivan Perisic
+    officialName: Ivan Perisic
+    number: 14
+    position: FW
+    weight: 2.16
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Andrej Kramaric
+    officialName: Andrej Kramaric
+    number: 9
+    position: FW
+    weight: 2.065
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Luka Modric
+    officialName: Luka Modric
+    number: 10
+    position: MF
+    weight: 1.688
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Ante Budimir
+    officialName: Ante Budimir
+    number: 11
+    position: FW
+    weight: 1.086
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mario Pasalic
+    officialName: Mario Pasalic
+    number: 15
+    position: MF
+    weight: 1.07
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nikola Vlasic
+    officialName: Nikola Vlasic
+    number: 13
+    position: MF
+    weight: 0.99
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Igor Matanovic
+    officialName: Igor Matanovic
+    number: 20
+    position: FW
+    weight: 0.939
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Marco Pasalic
+    officialName: Marco Pasalic
+    number: 24
+    position: FW
+    weight: 0.914
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Curacao:
+  - player: Leandro Bacuna
+    officialName: Leandro Bacuna
+    number: 10
+    position: MF
+    weight: 1.96
+    role: midfielder
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Juninho Bacuna
+    officialName: Juninho Bacuna
+    number: 7
+    position: MF
+    weight: 1.761
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Gervane Kastaneer
+    officialName: Gervane Kastaneer
+    number: 19
+    position: FW
+    weight: 1.589
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Kenji Gorre
+    officialName: Kenji Gorre
+    number: 14
+    position: FW
+    weight: 1.396
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jearl Margaritha
+    officialName: Jearl Margaritha
+    number: 16
+    position: FW
+    weight: 1.284
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jeremy Antonisse
+    officialName: Jeremy Antonisse
+    number: 11
+    position: FW
+    weight: 1.225
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Brandley Kuwas
+    officialName: Brandley Kuwas
+    number: 17
+    position: FW
+    weight: 1.104
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Juergen Locadia
+    officialName: Juergen Locadia
+    number: 9
+    position: FW
+    weight: 0.974
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Czech Republic:
+  - player: Patrik Schick
+    officialName: Patrik Schick
+    number: 10
+    position: FW
+    weight: 2.127
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Tomas Soucek
+    officialName: Tomas Soucek
+    number: 22
+    position: MF
+    weight: 1.562
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Tomas Chory
+    officialName: Tomas Chory
+    number: 19
+    position: FW
+    weight: 1.225
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mojmir Chytil
+    officialName: Mojmir Chytil
+    number: 13
+    position: FW
+    weight: 1.181
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Adam Hlozek
+    officialName: Adam Hlozek
+    number: 9
+    position: FW
+    weight: 1.178
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Vladimir Darida
+    officialName: Vladimir Darida
+    number: 8
+    position: MF
+    weight: 1.14
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Pavel Sulc
+    officialName: Pavel Sulc
+    number: 15
+    position: FW
+    weight: 1.135
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jan Kuchta
+    officialName: Jan Kuchta
+    number: 11
+    position: FW
+    weight: 1.064
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Ecuador:
+  - player: Enner Valencia
+    officialName: Enner Valencia
+    number: 13
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Gonzalo Plata
+    officialName: Gonzalo Plata
+    number: 19
+    position: FW
+    weight: 1.143
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jordy Caicedo
+    officialName: Jordy Caicedo
+    number: 16
+    position: FW
+    weight: 0.998
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: John Yeboah
+    officialName: John Yeboah
+    number: 9
+    position: FW
+    weight: 0.978
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Kevin Rodriguez
+    officialName: Kevin Rodriguez
+    number: 11
+    position: FW
+    weight: 0.97
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nilson Angulo
+    officialName: Nilson Angulo
+    number: 20
+    position: FW
+    weight: 0.941
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jeremy Arevalo
+    officialName: Jeremy Arevalo
+    number: 24
+    position: FW
+    weight: 0.877
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Moises Caicedo
+    officialName: Moises Caicedo
+    number: 23
+    position: MF
+    weight: 0.82
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Egypt:
+  - player: Mohamed Salah
+    officialName: Mohamed Ghaly
+    number: 10
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Trezeguet
+    officialName: Mahmoud Hassan
+    number: 7
+    position: FW
+    weight: 1.414
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Oma Omar Marmoush
+    officialName: Oma Omar Marmoush
+    number: 22
+    position: FW
+    weight: 1.136
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Zizo
+    officialName: Ahmed Sayed
+    number: 25
+    position: FW
+    weight: 1.055
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Ibrahim Hassan
+    officialName: Ibrahim Hassan
+    number: 20
+    position: FW
+    weight: 0.959
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Haissem Hassan
+    officialName: Haissem Hassan
+    number: 12
+    position: FW
+    weight: 0.876
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ham Hamza Abdelkarim
+    officialName: Ham Hamza Abdelkarim
+    number: 9
+    position: FW
+    weight: 0.873
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Hamdy Abdelfattah
+    officialName: Hamdy Abdelfattah
+    number: 14
+    position: MF
+    weight: 0.798
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  England:
+  - player: Harry Kane
+    officialName: Harry Kane
+    number: 9
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Marcus Rashford
+    officialName: Marcus Rashford
+    number: 11
+    position: FW
+    weight: 1.246
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Bukayo Saka
+    officialName: Bukayo Saka
+    number: 7
+    position: FW
+    weight: 1.151
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jude Bellingham
+    officialName: Jude Bellingham
+    number: 10
+    position: MF
+    weight: 1.1
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ollie Watkins
+    officialName: Ollie Watkins
+    number: 19
+    position: FW
+    weight: 1.007
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Anthony Gordon
+    officialName: Anthony Gordon
+    number: 18
+    position: FW
+    weight: 0.944
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Noni Madueke
+    officialName: Noni Madueke
+    number: 20
+    position: FW
+    weight: 0.902
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ivan Toney
+    officialName: Ivan Toney
+    number: 22
+    position: FW
+    weight: 0.897
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  France:
+  - player: Kylian Mbappe
+    officialName: Kylian Mbappe
+    number: 10
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Ousmane Dembele
+    officialName: Ousmane Dembele
+    number: 7
+    position: FW
+    weight: 1.122
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Michael Olise
+    officialName: Michael Olise
+    number: 11
+    position: FW
+    weight: 1.045
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Marcus Mar Thuram
+    officialName: Marcus Mar Thuram
+    number: 9
+    position: FW
+    weight: 0.994
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Bradley Bra Barcola
+    officialName: Bradley Bra Barcola
+    number: 12
+    position: FW
+    weight: 0.968
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Desire Doue
+    officialName: Desire Doue
+    number: 20
+    position: FW
+    weight: 0.924
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jean-Philippe Mateta
+    officialName: Jean-Philippe Mateta
+    number: 22
+    position: FW
+    weight: 0.918
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Adrien Rabiot
+    officialName: Adrien Rabiot
+    number: 14
+    position: MF
+    weight: 0.882
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Germany:
+  - player: Kai Havertz
+    officialName: Kai Havertz
+    number: 7
+    position: FW
+    weight: 2.104
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Leroy Sane
+    officialName: Leroy Sane
+    number: 19
+    position: MF
+    weight: 1.629
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Leon Goretzka
+    officialName: Leon Goretzka
+    number: 8
+    position: MF
+    weight: 1.516
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Florian Wirtz
+    officialName: Florian Wirtz
+    number: 17
+    position: MF
+    weight: 1.265
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Deniz Undav
+    officialName: Deniz Undav
+    number: 26
+    position: FW
+    weight: 1.197
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Joshua Kimmich
+    officialName: Joshua Kimmich
+    number: 6
+    position: DF
+    weight: 1.182
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jamal Musiala
+    officialName: Jamal Musiala
+    number: 10
+    position: MF
+    weight: 1.161
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nick Woltemade
+    officialName: Nick Woltemade
+    number: 11
+    position: FW
+    weight: 1.095
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Ghana:
+  - player: Jordan Ayew
+    officialName: Jordan Ayew
+    number: 9
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Thomas Partey
+    officialName: Thomas Partey
+    number: 5
+    position: MF
+    weight: 1.26
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Inaki Williams
+    officialName: Inaki Williams
+    number: 19
+    position: FW
+    weight: 1.05
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ernest Nuamah
+    officialName: Ernest Nuamah
+    number: 24
+    position: FW
+    weight: 1.034
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Abdul Fatawu
+    officialName: Abdul Fatawu
+    number: 7
+    position: FW
+    weight: 1.013
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Kamaldeen Sulemana
+    officialName: Kamaldeen Sulemana
+    number: 22
+    position: FW
+    weight: 0.946
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Brandon Sol Thomas-Asante
+    officialName: Brandon Sol Thomas-Asante
+    number: 10
+    position: FW
+    weight: 0.916
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Christopher Bonsu Baah
+    officialName: Christopher Bonsu Baah
+    number: 13
+    position: FW
+    weight: 0.883
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Haiti:
+  - player: Duckens Nazon
+    officialName: Duckens Nazon
+    number: 9
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Frantzdy Pierrot
+    officialName: Frantzdy Pierrot
+    number: 20
+    position: FW
+    weight: 1.874
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Louicius Deedson
+    officialName: Louicius Deedson
+    number: 11
+    position: FW
+    weight: 1.201
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Derrick Etienne
+    officialName: Derrick Etienne
+    number: 7
+    position: FW
+    weight: 1.188
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ruben Providence
+    officialName: Ruben Providence
+    number: 15
+    position: FW
+    weight: 0.981
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Wilson Isidor
+    officialName: Wilson Isidor
+    number: 18
+    position: FW
+    weight: 0.931
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Lenny Joseph
+    officialName: Lenny Joseph
+    number: 16
+    position: FW
+    weight: 0.9
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Josue Casimir
+    officialName: Josue Casimir
+    number: 21
+    position: FW
+    weight: 0.885
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Iran:
+  - player: Mehdi Taremi
+    officialName: Mehdi Taremi
+    number: 9
+    position: FW
+    weight: 2.151
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Mehdi Ghayedi
+    officialName: Mehdi Ghayedi
+    number: 10
+    position: FW
+    weight: 1.102
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Alireza Jahanbakhsh
+    officialName: Alireza Jahanbakhsh
+    number: 7
+    position: MF
+    weight: 1.083
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Amirhoss Hosseinzadeh
+    officialName: Amirhoss Hosseinzadeh
+    number: 18
+    position: FW
+    weight: 0.99
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Shahriyar Moghanloo
+    officialName: Shahriyar Moghanloo
+    number: 20
+    position: FW
+    weight: 0.935
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mohammad Mohebbi
+    officialName: Mohammad Mohebbi
+    number: 8
+    position: MF
+    weight: 0.929
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ali Alipour
+    officialName: Ali Alipour
+    number: 11
+    position: FW
+    weight: 0.907
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Dennis Dargahi
+    officialName: Dennis Dargahi
+    number: 24
+    position: FW
+    weight: 0.87
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Iraq:
+  - player: Aym Aymen Hussein
+    officialName: Aym Aymen Hussein
+    number: 18
+    position: FW
+    weight: 2.184
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mohanad Ali
+    officialName: Mohanad Al-Shammari
+    number: 10
+    position: FW
+    weight: 1.901
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ali Alzubaidi
+    officialName: Ali Alzubaidi
+    number: 9
+    position: FW
+    weight: 1.079
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ibrahim Bayesh
+    officialName: Ibrahim Al-Kaabawi
+    number: 8
+    position: MF
+    weight: 1.04
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ali Jasim
+    officialName: Ali Al-Tameemi
+    number: 17
+    position: FW
+    weight: 1.002
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ali Najatee
+    officialName: Ali Najatee
+    number: 13
+    position: FW
+    weight: 0.917
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Marko Hussein
+    officialName: Marko Hussein
+    number: 21
+    position: FW
+    weight: 0.891
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ahmed Ahmed
+    officialName: Ahmed Ahmed
+    number: 11
+    position: FW
+    weight: 0.875
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Japan:
-    - {player: Takumi Minamino, weight: 1.05, role: forward, penalties: false, set_pieces: false}
-    - {player: Daichi Kamada, weight: 0.98, role: midfielder, penalties: true, set_pieces: true}
-    - {player: Takefusa Kubo, weight: 0.95, role: winger, penalties: false, set_pieces: true}
-    - {player: Kaoru Mitoma, weight: 0.92, role: winger, penalties: false, set_pieces: false}
-    - {player: Ayase Ueda, weight: 0.88, role: striker, penalties: false, set_pieces: false}
+  - player: Ayase Ueda
+    officialName: Ayase Ueda
+    number: 18
+    position: FW
+    weight: 2.07
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Junya Ito
+    officialName: Junya Ito
+    number: 14
+    position: MF
+    weight: 1.794
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Koki Ogawa
+    officialName: Koki Ogawa
+    number: 19
+    position: FW
+    weight: 1.679
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Daichi Kamada
+    officialName: Daichi Kamada
+    number: 15
+    position: MF
+    weight: 1.553
+    role: midfielder
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Ritsu Doan
+    officialName: Ritsu Doan
+    number: 10
+    position: MF
+    weight: 1.503
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Keito Nakamura
+    officialName: Keito Nakamura
+    number: 13
+    position: MF
+    weight: 1.453
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ao Tanaka
+    officialName: Ao Tanaka
+    number: 7
+    position: MF
+    weight: 1.252
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Shuto Machino
+    officialName: Shuto Machino
+    number: 6
+    position: FW
+    weight: 1.247
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Jordan:
-    - {player: Mousa Al-Taamari, weight: 1.20, role: winger, penalties: true, set_pieces: false}
-    - {player: Yazan Al-Naimat, weight: 1.02, role: striker, penalties: false, set_pieces: false}
-    - {player: Ali Olwan, weight: 0.82, role: forward, penalties: false, set_pieces: false}
-    - {player: Noor Al-Rawabdeh, weight: 0.58, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Mahmoud Mardi, weight: 0.56, role: winger, penalties: false, set_pieces: false}
-  Mexico:
-    - {player: Raul Jimenez, weight: 1.18, role: striker, penalties: true, set_pieces: false}
-    - {player: Julian Quinones, weight: 1.05, role: forward, penalties: false, set_pieces: false}
-    - {player: Santiago Gimenez, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Hirving Lozano, weight: 0.88, role: winger, penalties: false, set_pieces: false}
-    - {player: Henry Martin, weight: 0.80, role: striker, penalties: false, set_pieces: false}
-    - {player: Alexis Vega, weight: 0.72, role: winger, penalties: false, set_pieces: true}
-  Morocco:
-    - {player: Youssef En-Nesyri, weight: 1.15, role: striker, penalties: false, set_pieces: false}
-    - {player: Achraf Hakimi, weight: 0.96, role: fullback, penalties: false, set_pieces: true}
-    - {player: Hakim Ziyech, weight: 0.94, role: winger, penalties: true, set_pieces: true}
-    - {player: Brahim Diaz, weight: 0.92, role: forward, penalties: false, set_pieces: false}
-    - {player: Soufiane Rahimi, weight: 0.84, role: forward, penalties: false, set_pieces: false}
-    - {player: Ayoub El Kaabi, weight: 0.82, role: striker, penalties: false, set_pieces: false}
-  Netherlands:
-    - {player: Memphis Depay, weight: 1.15, role: forward, penalties: true, set_pieces: true}
-    - {player: Cody Gakpo, weight: 1.10, role: forward, penalties: false, set_pieces: false}
-    - {player: Xavi Simons, weight: 0.94, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Donyell Malen, weight: 0.86, role: winger, penalties: false, set_pieces: false}
-    - {player: Wout Weghorst, weight: 0.82, role: striker, penalties: false, set_pieces: false}
-  New Zealand:
-    - {player: Chris Wood, weight: 1.25, role: striker, penalties: true, set_pieces: false}
-    - {player: Sarpreet Singh, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Ben Waine, weight: 0.82, role: striker, penalties: false, set_pieces: false}
-    - {player: Elijah Just, weight: 0.70, role: winger, penalties: false, set_pieces: false}
-    - {player: Matthew Garbett, weight: 0.62, role: midfielder, penalties: false, set_pieces: false}
-  Norway:
-    - {player: Erling Haaland, weight: 1.40, role: striker, penalties: true, set_pieces: false}
-    - {player: Martin Odegaard, weight: 1.02, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Alexander Sorloth, weight: 0.98, role: striker, penalties: false, set_pieces: false}
-    - {player: Antonio Nusa, weight: 0.78, role: winger, penalties: false, set_pieces: false}
-    - {player: Oscar Bobb, weight: 0.72, role: winger, penalties: false, set_pieces: false}
-  Panama:
-    - {player: Jose Fajardo, weight: 1.05, role: striker, penalties: false, set_pieces: false}
-    - {player: Ismael Diaz, weight: 0.96, role: forward, penalties: true, set_pieces: false}
-    - {player: Cecilio Waterman, weight: 0.86, role: striker, penalties: false, set_pieces: false}
-    - {player: Edgar Barcenas, weight: 0.76, role: winger, penalties: false, set_pieces: true}
-    - {player: Adalberto Carrasquilla, weight: 0.62, role: midfielder, penalties: false, set_pieces: false}
-  Paraguay:
-    - {player: Miguel Almiron, weight: 1.05, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Julio Enciso, weight: 1.00, role: forward, penalties: false, set_pieces: false}
-    - {player: Antonio Sanabria, weight: 0.98, role: striker, penalties: true, set_pieces: false}
-    - {player: Ramon Sosa, weight: 0.82, role: winger, penalties: false, set_pieces: false}
-    - {player: Adam Bareiro, weight: 0.76, role: striker, penalties: false, set_pieces: false}
-  Portugal:
-    - {player: Cristiano Ronaldo, weight: 1.28, role: striker, penalties: true, set_pieces: false}
-    - {player: Bruno Fernandes, weight: 1.12, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Rafael Leao, weight: 1.00, role: winger, penalties: false, set_pieces: false}
-    - {player: Goncalo Ramos, weight: 0.92, role: striker, penalties: false, set_pieces: false}
-    - {player: Bernardo Silva, weight: 0.84, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Joao Felix, weight: 0.78, role: forward, penalties: false, set_pieces: false}
-  Qatar:
-    - {player: Akram Afif, weight: 1.20, role: winger, penalties: true, set_pieces: true}
-    - {player: Almoez Ali, weight: 1.05, role: striker, penalties: false, set_pieces: false}
-    - {player: Hassan Al-Haydos, weight: 0.80, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Mohammed Muntari, weight: 0.74, role: striker, penalties: false, set_pieces: false}
-    - {player: Yusuf Abdurisag, weight: 0.68, role: forward, penalties: false, set_pieces: false}
-  Saudi Arabia:
-    - {player: Salem Al-Dawsari, weight: 1.15, role: winger, penalties: true, set_pieces: true}
-    - {player: Firas Al-Buraikan, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Saleh Al-Shehri, weight: 0.88, role: striker, penalties: false, set_pieces: false}
-    - {player: Sami Al-Najei, weight: 0.70, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Abdulrahman Ghareeb, weight: 0.68, role: winger, penalties: false, set_pieces: false}
-  Scotland:
-    - {player: Scott McTominay, weight: 1.05, role: midfielder, penalties: false, set_pieces: false}
-    - {player: John McGinn, weight: 0.95, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Che Adams, weight: 0.90, role: striker, penalties: false, set_pieces: false}
-    - {player: Lyndon Dykes, weight: 0.82, role: striker, penalties: true, set_pieces: false}
-    - {player: Ryan Christie, weight: 0.72, role: midfielder, penalties: false, set_pieces: true}
-  Senegal:
-    - {player: Sadio Mane, weight: 1.25, role: forward, penalties: true, set_pieces: false}
-    - {player: Nicolas Jackson, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Ismaila Sarr, weight: 0.88, role: winger, penalties: false, set_pieces: false}
-    - {player: Habib Diallo, weight: 0.82, role: striker, penalties: false, set_pieces: false}
-    - {player: Iliman Ndiaye, weight: 0.76, role: forward, penalties: false, set_pieces: false}
-  South Africa:
-    - {player: Percy Tau, weight: 1.05, role: forward, penalties: true, set_pieces: false}
-    - {player: Lyle Foster, weight: 1.00, role: striker, penalties: false, set_pieces: false}
-    - {player: Evidence Makgopa, weight: 0.86, role: striker, penalties: false, set_pieces: false}
-    - {player: Themba Zwane, weight: 0.76, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Iqraam Rayners, weight: 0.72, role: forward, penalties: false, set_pieces: false}
+  - player: Ali Olwan
+    officialName: Ali Olwan
+    number: 9
+    position: FW
+    weight: 2.149
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mousa Suleiman
+    officialName: Mousa Suleiman
+    number: 10
+    position: FW
+    weight: 2.002
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mahmoud Almardi
+    officialName: Mahmoud Almardi
+    number: 13
+    position: FW
+    weight: 1.357
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mohammad Abu Zraiq
+    officialName: Mohammad Abu Zraiq
+    number: 7
+    position: FW
+    weight: 1.147
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Odeh Fakhoury
+    officialName: Odeh Fakhoury
+    number: 11
+    position: FW
+    weight: 0.929
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Noor Al-Rawabdeh
+    officialName: Noor Al Rawabdeh
+    number: 8
+    position: MF
+    weight: 0.882
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nizar Al-Rashdan
+    officialName: Nizar Al-Rashdan
+    number: 21
+    position: MF
+    weight: 0.881
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ali Azaizeh
+    officialName: Ali Azaizeh
+    number: 24
+    position: FW
+    weight: 0.878
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   South Korea:
-    - {player: Son Heung-min, weight: 1.25, role: forward, penalties: true, set_pieces: true}
-    - {player: Hwang Hee-chan, weight: 1.02, role: forward, penalties: false, set_pieces: false}
-    - {player: Lee Kang-in, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Hwang In-beom, weight: 0.78, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Oh Hyeon-gyu, weight: 0.76, role: striker, penalties: false, set_pieces: false}
+  - player: Son Heung-min
+    officialName: Heungmin Son
+    number: 7
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Guesung Cho
+    officialName: Guesung Cho
+    number: 9
+    position: FW
+    weight: 1.171
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Hwang Hee-chan
+    officialName: Heechan Hwang
+    number: 11
+    position: MF
+    weight: 1.078
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jaesung Lee
+    officialName: Jaesung Lee
+    number: 10
+    position: MF
+    weight: 1.07
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Oh Hyeon-gyu
+    officialName: Hyeongyu Oh
+    number: 18
+    position: FW
+    weight: 1.049
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Lee Kang-in
+    officialName: Kangin Lee
+    number: 19
+    position: MF
+    weight: 0.92
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Hwang In-beom
+    officialName: Inbeom Hwang
+    number: 6
+    position: MF
+    weight: 0.866
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Donggyeong Lee
+    officialName: Donggyeong Lee
+    number: 26
+    position: MF
+    weight: 0.734
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Mexico:
+  - player: Raul Jimenez
+    officialName: Raul Jimenez
+    number: 9
+    position: FW
+    weight: 2.169
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Alexis Vega
+    officialName: Alexis Vega
+    number: 10
+    position: FW
+    weight: 1.107
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Roberto Alvarado
+    officialName: Roberto Alvarado
+    number: 25
+    position: FW
+    weight: 1.101
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Santiago Gimenez
+    officialName: Santiago Gimenez
+    number: 11
+    position: FW
+    weight: 1.075
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Julian Quinones
+    officialName: Julian Quinones
+    number: 16
+    position: FW
+    weight: 1.05
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Orbelin Pineda
+    officialName: Orbelin Pineda
+    number: 17
+    position: MF
+    weight: 1.038
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Cesar Huerta
+    officialName: Cesar Huerta
+    number: 21
+    position: FW
+    weight: 0.976
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Guillermo Martinez
+    officialName: Guillermo Martinez
+    number: 22
+    position: FW
+    weight: 0.959
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Morocco:
+  - player: Ayoub El Kaabi
+    officialName: Ayoub El Kaabi
+    number: 20
+    position: FW
+    weight: 2.153
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Brahim Diaz
+    officialName: Brahim Diaz
+    number: 10
+    position: FW
+    weight: 1.398
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Souane Rahimi
+    officialName: Souane Rahimi
+    number: 9
+    position: FW
+    weight: 1.323
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Achraf Hakimi
+    officialName: Achraf Hakimi
+    number: 2
+    position: DF
+    weight: 1.031
+    role: defender
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Azzedine Ounahi
+    officialName: Azzedine Ounahi
+    number: 8
+    position: MF
+    weight: 1.009
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ismael Saibari
+    officialName: Ismael Saibari
+    number: 11
+    position: MF
+    weight: 0.974
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Amine Sbai
+    officialName: Amine Sbai
+    number: 17
+    position: FW
+    weight: 0.874
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ayoube Amaimouni
+    officialName: Ayoube Amaimouni
+    number: 21
+    position: FW
+    weight: 0.874
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Netherlands:
+  - player: Memphis Depay
+    officialName: Memphis Depay
+    number: 10
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Cody Gakpo
+    officialName: Cody Gakpo
+    number: 11
+    position: FW
+    weight: 1.392
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Wout Weghorst
+    officialName: Wout Weghorst
+    number: 9
+    position: FW
+    weight: 1.249
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Donyell Malen
+    officialName: Donyell Malen
+    number: 18
+    position: FW
+    weight: 1.229
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Noa Lang
+    officialName: Noa Lang
+    number: 17
+    position: FW
+    weight: 0.957
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Brian Brobbey
+    officialName: Brian Brobbey
+    number: 19
+    position: FW
+    weight: 0.911
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Virgil Van Dijk
+    officialName: Virgil Van Dijk
+    number: 4
+    position: DF
+    weight: 0.903
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Crysencio C Summerville
+    officialName: Crysencio C Summerville
+    number: 24
+    position: FW
+    weight: 0.873
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  New Zealand:
+  - player: Chris Wood
+    officialName: Chris Wood
+    number: 9
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Kosta Barbarouses
+    officialName: Kosta Barbarouses
+    number: 17
+    position: FW
+    weight: 1.278
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ben Waine
+    officialName: Ben Waine
+    number: 18
+    position: FW
+    weight: 1.162
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Elijah Just
+    officialName: Elijah Just
+    number: 11
+    position: MF
+    weight: 0.948
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jesse Randall
+    officialName: Jesse Randall
+    number: 21
+    position: FW
+    weight: 0.943
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Sarpreet Singh
+    officialName: Sarpreet Singh
+    number: 10
+    position: MF
+    weight: 0.92
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Matthew Garbett
+    officialName: Matthew Garbett
+    number: 7
+    position: MF
+    weight: 0.836
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Callum Mccowatt
+    officialName: Callum Mccowatt
+    number: 20
+    position: MF
+    weight: 0.824
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Norway:
+  - player: Erling Haaland
+    officialName: Erling Haaland
+    number: 9
+    position: FW
+    weight: 2.145
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Alexander Sorloth
+    officialName: Alexander Sorloth
+    number: 7
+    position: FW
+    weight: 1.594
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Antonio Nusa
+    officialName: Antonio Nusa
+    number: 20
+    position: FW
+    weight: 1.097
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jorgen Strand Larsen
+    officialName: Jorgen Strand Larsen
+    number: 11
+    position: FW
+    weight: 1.065
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Martin Odegaard
+    officialName: Martin Odegaard
+    number: 10
+    position: MF
+    weight: 1.02
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Julian Ryerson
+    officialName: Julian Ryerson
+    number: 26
+    position: FW
+    weight: 0.998
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Sander Berge
+    officialName: Sander Berge
+    number: 8
+    position: MF
+    weight: 0.816
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Kristian Thorstvedt
+    officialName: Kristian Thorstvedt
+    number: 18
+    position: MF
+    weight: 0.806
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Panama:
+  - player: Jose Fajardo
+    officialName: Jose Fajardo
+    number: 17
+    position: FW
+    weight: 2.098
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Cecilio Waterman
+    officialName: Cecilio Waterman
+    number: 18
+    position: FW
+    weight: 1.947
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ismael Diaz
+    officialName: Ismael Diaz
+    number: 10
+    position: MF
+    weight: 1.843
+    role: midfielder
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Edgar Yoel Barcenas
+    officialName: Edgar Yoel Barcenas
+    number: 11
+    position: MF
+    weight: 1.424
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Alberto Quintero
+    officialName: Alberto Quintero
+    number: 19
+    position: MF
+    weight: 1.263
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jose Luis Rodriguez
+    officialName: Jose Luis Rodriguez
+    number: 7
+    position: MF
+    weight: 1.25
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Eric Davis
+    officialName: Eric Davis
+    number: 15
+    position: DF
+    weight: 1.23
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Amir Murillo
+    officialName: Amir Murillo
+    number: 23
+    position: DF
+    weight: 1.214
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Paraguay:
+  - player: Miguel Almiron
+    officialName: Miguel Almiron
+    number: 10
+    position: MF
+    weight: 1.934
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Antonio Sanabria
+    officialName: Antonio Sanabria
+    number: 9
+    position: FW
+    weight: 1.772
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Alejandr Romero Gamarra
+    officialName: Alejandr Romero Gamarra
+    number: 17
+    position: FW
+    weight: 1.629
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Julio Enciso
+    officialName: Julio Enciso
+    number: 19
+    position: FW
+    weight: 1.395
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Gabriel Avalos
+    officialName: Gabriel Avalos
+    number: 21
+    position: FW
+    weight: 1.147
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Gustavo Gomez
+    officialName: Gustavo Gomez
+    number: 15
+    position: DF
+    weight: 1.14
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Diego Gomez
+    officialName: Diego Gomez
+    number: 8
+    position: MF
+    weight: 1.024
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Alex Arce
+    officialName: Alex Arce
+    number: 18
+    position: FW
+    weight: 1.015
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Portugal:
+  - player: Cristiano Ronaldo
+    officialName: Cristiano Santos Aveiro
+    number: 7
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Bruno Fernandes
+    officialName: Bruno Borges Fernandes
+    number: 8
+    position: MF
+    weight: 1.12
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Joao Felix
+    officialName: João Félix Sequeira
+    number: 11
+    position: FW
+    weight: 1.009
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Rafael Leao
+    officialName: Rafael Nceição Leão
+    number: 17
+    position: FW
+    weight: 1.0
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Goncalo Ramos
+    officialName: Gonçalo Matias Ramos
+    number: 9
+    position: FW
+    weight: 0.97
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Gonçalo Ho Guedes
+    officialName: Gonçalo Ho Guedes
+    number: 19
+    position: FW
+    weight: 0.962
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Francisco Fernandes Da Conceição
+    officialName: Francisco Fernandes Da Conceição
+    number: 26
+    position: FW
+    weight: 0.916
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Pedro Lomba Neto
+    officialName: Pedro Lomba Neto
+    number: 18
+    position: FW
+    weight: 0.914
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Qatar:
+  - player: Lmoez Mabdulla
+    officialName: Lmoez Mabdulla
+    number: 19
+    position: FW
+    weight: 2.142
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Hassan Al-Haydos
+    officialName: Hasan Alhaydos
+    number: 10
+    position: FW
+    weight: 1.823
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Akram Afif
+    officialName: Akram Afif
+    number: 11
+    position: FW
+    weight: 1.793
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Mohammed Muntari
+    officialName: Mohammed Muntari
+    number: 9
+    position: FW
+    weight: 1.278
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ahmed Abdelmotaal
+    officialName: Ahmed Abdelmotaal
+    number: 7
+    position: FW
+    weight: 1.142
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Boualem Khoukhi
+    officialName: Boualem Khoukhi
+    number: 16
+    position: DF
+    weight: 1.038
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Abdelaziz Mohamed
+    officialName: Abdelaziz Mohamed
+    number: 6
+    position: MF
+    weight: 0.974
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Yusuf Abdurisag
+    officialName: Yusuf Yusuf
+    number: 15
+    position: FW
+    weight: 0.971
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Saudi Arabia:
+  - player: Salem Al-Dawsari
+    officialName: Salem Aldawsari
+    number: 10
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Saleh Al-Shehri
+    officialName: Saleh Alshehri
+    number: 11
+    position: FW
+    weight: 1.69
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Feras Albrikan
+    officialName: Feras Albrikan
+    number: 9
+    position: FW
+    weight: 1.668
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Abdullah Alhamddan
+    officialName: Abdullah Alhamddan
+    number: 19
+    position: FW
+    weight: 1.508
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mohamed Kanno
+    officialName: Mohamed Kanno
+    number: 23
+    position: MF
+    weight: 1.099
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Sultan Mandash
+    officialName: Sultan Mandash
+    number: 20
+    position: FW
+    weight: 0.967
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Musab Aljuwayr
+    officialName: Musab Aljuwayr
+    number: 7
+    position: MF
+    weight: 0.946
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Aiman Ahmed
+    officialName: Aiman Ahmed
+    number: 8
+    position: FW
+    weight: 0.912
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Scotland:
+  - player: John McGinn
+    officialName: John Mcginn
+    number: 7
+    position: MF
+    weight: 1.945
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Che Adams
+    officialName: Che Adams
+    number: 10
+    position: FW
+    weight: 1.708
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Scott McTominay
+    officialName: Scott Mctominay
+    number: 4
+    position: MF
+    weight: 1.627
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Lyndon Dykes
+    officialName: Lyndon Dykes
+    number: 9
+    position: FW
+    weight: 1.543
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Ryan Christie
+    officialName: Ryan Christie
+    number: 11
+    position: MF
+    weight: 1.335
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Lawrence Shankland
+    officialName: Lawrence Shankland
+    number: 20
+    position: FW
+    weight: 1.311
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ben Gannon-Doak
+    officialName: Ben Gannon-Doak
+    number: 17
+    position: FW
+    weight: 0.954
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: George Hirst
+    officialName: George Hirst
+    number: 18
+    position: FW
+    weight: 0.947
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  Senegal:
+  - player: Sadio Mane
+    officialName: Sadio Mane
+    number: 10
+    position: FW
+    weight: 2.192
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Ismaila Sarr
+    officialName: Ismaila Sarr
+    number: 18
+    position: FW
+    weight: 1.386
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nicolas Jackson
+    officialName: Nicolas Jackson
+    number: 11
+    position: FW
+    weight: 1.085
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Iliman Ndiaye
+    officialName: Iliman Ndiaye
+    number: 13
+    position: FW
+    weight: 1.009
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Cherif Ndiaye
+    officialName: Cherif Ndiaye
+    number: 12
+    position: FW
+    weight: 0.98
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Idrissa Gana Gueye
+    officialName: Idrissa Gana Gueye
+    number: 5
+    position: MF
+    weight: 0.959
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ibrahim Mbaye
+    officialName: Ibrahim Mbaye
+    number: 20
+    position: FW
+    weight: 0.948
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Bamba Dieng
+    officialName: Bamba Dieng
+    number: 9
+    position: FW
+    weight: 0.943
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  South Africa:
+  - player: Themba Zwane
+    officialName: Themba Zwane
+    number: 11
+    position: MF
+    weight: 1.935
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Lyle Foster
+    officialName: Lyle Foster
+    number: 9
+    position: FW
+    weight: 1.917
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Oswin Appollis
+    officialName: Oswin Appollis
+    number: 7
+    position: FW
+    weight: 1.714
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Teboho Mokoena
+    officialName: Teboho Mokoena
+    number: 4
+    position: MF
+    weight: 1.653
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Evidence Makgopa
+    officialName: Evidence Makgopa
+    number: 17
+    position: FW
+    weight: 1.523
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Iqraam Rayners
+    officialName: Iqraam Rayners
+    number: 15
+    position: FW
+    weight: 1.407
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Relebohile Mofokeng
+    officialName: Relebohile Mofokeng
+    number: 10
+    position: FW
+    weight: 1.005
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Tshepang Moremi
+    officialName: Tshepang Moremi
+    number: 8
+    position: FW
+    weight: 0.994
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Spain:
-    - {player: Lamine Yamal, weight: 1.12, role: winger, penalties: false, set_pieces: false}
-    - {player: Alvaro Morata, weight: 1.05, role: striker, penalties: true, set_pieces: false}
-    - {player: Nico Williams, weight: 0.98, role: winger, penalties: false, set_pieces: false}
-    - {player: Dani Olmo, weight: 0.90, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Pedri, weight: 0.72, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Mikel Oyarzabal, weight: 0.70, role: forward, penalties: false, set_pieces: false}
+  - player: Mikel Oyarzabal
+    officialName: Mikel Oyarzabal
+    number: 21
+    position: FW
+    weight: 2.174
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ferran Torres
+    officialName: Ferran Torres
+    number: 7
+    position: FW
+    weight: 2.139
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Dani Olmo
+    officialName: Dani Olmo
+    number: 10
+    position: FW
+    weight: 1.567
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Nico Williams
+    officialName: Nico Williams
+    number: 17
+    position: FW
+    weight: 1.233
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Lamine Yamal
+    officialName: Lamine Yamal
+    number: 19
+    position: FW
+    weight: 1.219
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Mikel Merino
+    officialName: Mikel Merino
+    number: 6
+    position: MF
+    weight: 1.215
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Yeremy Pino
+    officialName: Yeremy Pino
+    number: 11
+    position: FW
+    weight: 1.121
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Fabian Ruiz
+    officialName: Fabian Ruiz
+    number: 8
+    position: MF
+    weight: 1.028
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Sweden:
-    - {player: Alexander Isak, weight: 1.25, role: striker, penalties: true, set_pieces: false}
-    - {player: Viktor Gyokeres, weight: 1.18, role: striker, penalties: false, set_pieces: false}
-    - {player: Dejan Kulusevski, weight: 0.95, role: winger, penalties: false, set_pieces: false}
-    - {player: Emil Forsberg, weight: 0.82, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Anthony Elanga, weight: 0.76, role: winger, penalties: false, set_pieces: false}
+  - player: Viktor Gyokeres
+    officialName: Viktor Gyokeres
+    number: 17
+    position: FW
+    weight: 2.098
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Alexander Isak
+    officialName: Alexander Isak
+    number: 9
+    position: FW
+    weight: 1.985
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Anthony Elanga
+    officialName: Anthony Elanga
+    number: 11
+    position: FW
+    weight: 1.286
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Gustaf Nilsson
+    officialName: Gustaf Nilsson
+    number: 25
+    position: FW
+    weight: 1.121
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ken Sema
+    officialName: Ken Sema
+    number: 13
+    position: MF
+    weight: 0.993
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Taha Ali
+    officialName: Taha Ali
+    number: 26
+    position: FW
+    weight: 0.875
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Victor Lindelof
+    officialName: Victor Lindelof
+    number: 3
+    position: DF
+    weight: 0.853
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Yasin Ayari
+    officialName: Yasin Ayari
+    number: 18
+    position: MF
+    weight: 0.852
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Switzerland:
-    - {player: Breel Embolo, weight: 1.12, role: striker, penalties: false, set_pieces: false}
-    - {player: Zeki Amdouni, weight: 1.00, role: forward, penalties: true, set_pieces: false}
-    - {player: Xherdan Shaqiri, weight: 0.92, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Ruben Vargas, weight: 0.82, role: winger, penalties: false, set_pieces: false}
-    - {player: Dan Ndoye, weight: 0.78, role: winger, penalties: false, set_pieces: false}
+  - player: Breel Embolo
+    officialName: Breel Embolo
+    number: 7
+    position: FW
+    weight: 2.126
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Granit Xhaka
+    officialName: Granit Xhaka
+    number: 10
+    position: MF
+    weight: 1.625
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ruben Vargas
+    officialName: Ruben Vargas
+    number: 17
+    position: FW
+    weight: 1.472
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Zeki Amdouni
+    officialName: Zeki Amdouni
+    number: 23
+    position: FW
+    weight: 1.433
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Dan Ndoye
+    officialName: Dan Ndoye
+    number: 11
+    position: FW
+    weight: 1.292
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Remo Freuler
+    officialName: Remo Freuler
+    number: 8
+    position: MF
+    weight: 1.266
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Christian Fassnacht
+    officialName: Christian Fassnacht
+    number: 16
+    position: FW
+    weight: 1.138
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Cedric Itten
+    officialName: Cedric Itten
+    number: 26
+    position: FW
+    weight: 1.128
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Tunisia:
-    - {player: Youssef Msakni, weight: 1.05, role: forward, penalties: true, set_pieces: false}
-    - {player: Elias Achouri, weight: 0.92, role: winger, penalties: false, set_pieces: false}
-    - {player: Seifeddine Jaziri, weight: 0.86, role: striker, penalties: false, set_pieces: false}
-    - {player: Hannibal Mejbri, weight: 0.70, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Anis Ben Slimane, weight: 0.66, role: midfielder, penalties: false, set_pieces: false}
+  - player: Firas Chaouat
+    officialName: Firas Chaouat
+    number: 19
+    position: FW
+    weight: 1.921
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Elias Achouri
+    officialName: Elias Achouri
+    number: 7
+    position: FW
+    weight: 1.756
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ali Abdi
+    officialName: Ali Abdi
+    number: 2
+    position: DF
+    weight: 1.75
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Hazem Mastouri
+    officialName: Hazem Mastouri
+    number: 9
+    position: FW
+    weight: 1.568
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Ellyes Skhiri
+    officialName: Ellyes Skhiri
+    number: 17
+    position: MF
+    weight: 1.467
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Elias Saad
+    officialName: Elias Saad
+    number: 8
+    position: FW
+    weight: 1.395
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Anis Ben Slimane
+    officialName: Anis Slimane
+    number: 25
+    position: MF
+    weight: 1.374
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Montassar Talbi
+    officialName: Montassar Talbi
+    number: 3
+    position: DF
+    weight: 1.296
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Turkey:
-    - {player: Hakan Calhanoglu, weight: 1.05, role: midfielder, penalties: true, set_pieces: true}
-    - {player: Arda Guler, weight: 1.00, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Kenan Yildiz, weight: 0.95, role: forward, penalties: false, set_pieces: false}
-    - {player: Kerem Akturkoglu, weight: 0.90, role: winger, penalties: false, set_pieces: false}
-    - {player: Cenk Tosun, weight: 0.82, role: striker, penalties: false, set_pieces: false}
-    - {player: Orkun Kokcu, weight: 0.70, role: midfielder, penalties: false, set_pieces: false}
-  United States:
-    - {player: Christian Pulisic, weight: 1.25, role: winger, penalties: true, set_pieces: true}
-    - {player: Folarin Balogun, weight: 1.05, role: striker, penalties: false, set_pieces: false}
-    - {player: Ricardo Pepi, weight: 0.92, role: striker, penalties: false, set_pieces: false}
-    - {player: Gio Reyna, weight: 0.88, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Timothy Weah, weight: 0.78, role: winger, penalties: false, set_pieces: false}
-    - {player: Weston McKennie, weight: 0.68, role: midfielder, penalties: false, set_pieces: false}
+  - player: Hakan Calhanoglu
+    officialName: Hakan Calhanoglu
+    number: 10
+    position: MF
+    weight: 1.96
+    role: midfielder
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Kerem Akturkoglu
+    officialName: Kerem Akturkoglu
+    number: 7
+    position: FW
+    weight: 1.742
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Irfan Can Kahveci
+    officialName: Irfan Can Kahveci
+    number: 17
+    position: FW
+    weight: 1.263
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Arda Guler
+    officialName: Arda Guler
+    number: 8
+    position: FW
+    weight: 1.235
+    role: forward
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Kenan Yildiz
+    officialName: Kenan Yildiz
+    number: 11
+    position: FW
+    weight: 1.179
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Baris Alper Yilmaz
+    officialName: Baris Alper Yilmaz
+    number: 21
+    position: FW
+    weight: 1.139
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Yunus Akgun
+    officialName: Yunus Akgun
+    number: 19
+    position: FW
+    weight: 1.111
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Kaan Ayhan
+    officialName: Kaan Ayhan
+    number: 22
+    position: MF
+    weight: 1.015
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Uruguay:
-    - {player: Darwin Nunez, weight: 1.25, role: striker, penalties: false, set_pieces: false}
-    - {player: Federico Valverde, weight: 1.00, role: midfielder, penalties: false, set_pieces: false}
-    - {player: Luis Suarez, weight: 0.95, role: striker, penalties: true, set_pieces: false}
-    - {player: Giorgian De Arrascaeta, weight: 0.86, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Facundo Pellistri, weight: 0.72, role: winger, penalties: false, set_pieces: false}
+  - player: Darwin Nunez
+    officialName: Darwin Nunez
+    number: 9
+    position: FW
+    weight: 2.071
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Giorg De Arrascaeta
+    officialName: Giorg De Arrascaeta
+    number: 10
+    position: MF
+    weight: 1.859
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Federico Valverde
+    officialName: Federico Valverde
+    number: 8
+    position: MF
+    weight: 1.524
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jose Maria Gimenez
+    officialName: Jose Maria Gimenez
+    number: 2
+    position: DF
+    weight: 1.341
+    role: defender
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Brian Rodriguez
+    officialName: Brian Rodriguez
+    number: 18
+    position: FW
+    weight: 1.268
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Rodrigo Aguirre
+    officialName: Rodrigo Aguirre
+    number: 19
+    position: FW
+    weight: 1.149
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Nicolas De La Cruz
+    officialName: Nicolas De La Cruz
+    number: 7
+    position: MF
+    weight: 1.118
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Facundo Pellistri
+    officialName: Facundo Pellistri
+    number: 11
+    position: FW
+    weight: 1.099
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  United States:
+  - player: Christian Pulisic
+    officialName: Christian Pulisic
+    number: 10
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: true
+    source: official_squad
+  - player: Ricardo Pepi
+    officialName: Ricardo Pepi
+    number: 9
+    position: FW
+    weight: 1.4
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Brenden Aaronson
+    officialName: Brenden Aaronson
+    number: 11
+    position: FW
+    weight: 1.305
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Folarin Balogun
+    officialName: Folarin Balogun
+    number: 20
+    position: FW
+    weight: 1.24
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Timothy Weah
+    officialName: Timothy Weah
+    number: 21
+    position: FW
+    weight: 1.221
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Weston McKennie
+    officialName: Weston Mc Kennie
+    number: 8
+    position: MF
+    weight: 1.186
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Haji Wright
+    officialName: Haji Wright
+    number: 19
+    position: FW
+    weight: 1.156
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Giovanni Reyna
+    officialName: Giovanni Reyna
+    number: 7
+    position: MF
+    weight: 1.023
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
   Uzbekistan:
-    - {player: Eldor Shomurodov, weight: 1.20, role: striker, penalties: true, set_pieces: false}
-    - {player: Abbosbek Fayzullaev, weight: 0.96, role: midfielder, penalties: false, set_pieces: true}
-    - {player: Igor Sergeev, weight: 0.86, role: striker, penalties: false, set_pieces: false}
-    - {player: Oston Urunov, weight: 0.78, role: winger, penalties: false, set_pieces: false}
-    - {player: Jaloliddin Masharipov, weight: 0.72, role: winger, penalties: false, set_pieces: true}
+  - player: Eldor Shomurodov
+    officialName: Eldor Shomurodov
+    number: 14
+    position: FW
+    weight: 2.2
+    role: forward
+    penalties: true
+    set_pieces: false
+    source: official_squad
+  - player: Igor Sergeev
+    officialName: Igor Sergeev
+    number: 21
+    position: FW
+    weight: 1.688
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Jaloliddin Masharipov
+    officialName: Jaloliddin Masharipov
+    number: 10
+    position: MF
+    weight: 1.141
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Otabek Shukurov
+    officialName: Otabek Shukurov
+    number: 7
+    position: MF
+    weight: 1.066
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Oston Urunov
+    officialName: Oston Urunov
+    number: 11
+    position: MF
+    weight: 0.978
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Abbosbek Fayzullaev
+    officialName: Abbosbek Fayzullaev
+    number: 22
+    position: MF
+    weight: 0.96
+    role: midfielder
+    penalties: false
+    set_pieces: true
+    source: official_squad
+  - player: Azizbek Amonov
+    officialName: Azizbek Amonov
+    number: 20
+    position: FW
+    weight: 0.947
+    role: forward
+    penalties: false
+    set_pieces: false
+    source: official_squad
+  - player: Dostonbek Khamdamov
+    officialName: Dostonbek Khamdamov
+    number: 17
+    position: MF
+    weight: 0.832
+    role: midfielder
+    penalties: false
+    set_pieces: false
+    source: official_squad

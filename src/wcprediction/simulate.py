@@ -33,6 +33,7 @@ class MatchResult:
 
 
 DEFAULT_SCORER_POOL_PATH = Path("data/player_scorer_pool_2026.yaml")
+DEFAULT_SQUAD_SNAPSHOT_PATH = Path("data/squads_2026.yaml")
 
 CARD_DEDUCTIONS = {
     "yellow": -1,
@@ -285,6 +286,29 @@ def load_scorer_pool(path: Path | str = DEFAULT_SCORER_POOL_PATH) -> dict[str, A
         for team, rows in raw.get("teams", {}).items()
     }
     return {"source_notes": list(raw.get("source_notes", [])), "teams": teams}
+
+
+def load_squad_snapshot(path: Path | str = DEFAULT_SQUAD_SNAPSHOT_PATH) -> dict[str, Any]:
+    snapshot_path = Path(path)
+    if not snapshot_path.exists():
+        return {"source": None, "version": None, "publishedAtUtc": None, "snapshotTimestampUtc": None, "teams": []}
+    raw = yaml.safe_load(snapshot_path.read_text(encoding="utf-8")) or {}
+    teams = []
+    for team in raw.get("teams", []):
+        teams.append(
+            {
+                **team,
+                "team": canonical_team(str(team.get("team", ""))),
+            }
+        )
+    return {
+        "source": raw.get("source"),
+        "version": raw.get("version"),
+        "publishedAtUtc": raw.get("publishedAtUtc"),
+        "snapshotTimestampUtc": raw.get("snapshotTimestampUtc"),
+        "teamCount": raw.get("teamCount", len(teams)),
+        "teams": teams,
+    }
 
 
 def _poisson_log_probability(goals: int, rate: float) -> float:
@@ -806,10 +830,13 @@ def build_bracket_challenge(
     config: TournamentConfig,
     model: TrainedModel,
     scorer_pool_path: Path | str = DEFAULT_SCORER_POOL_PATH,
-    as_of_date: str = "2026-06-11",
+    squad_snapshot_path: Path | str = DEFAULT_SQUAD_SNAPSHOT_PATH,
+    as_of_date: str = "2026-06-12",
+    stage_probabilities: dict[str, dict[str, float]] | None = None,
 ) -> dict[str, Any]:
     scorer_data = load_scorer_pool(scorer_pool_path)
     scorer_pool = scorer_data["teams"]
+    squad_snapshot = load_squad_snapshot(squad_snapshot_path)
     prior_ratings = _prior_rating_map(config, model)
     last_dates: dict[str, date] = {}
     last_venues: dict[str, str] = {}
@@ -846,6 +873,7 @@ def build_bracket_challenge(
     for index, row in enumerate(third_rows, start=1):
         row["thirdRank"] = index
         row["qualified"] = index <= 8
+        row["score"] = round(100 * (stage_probabilities or {}).get("round_of_32", {}).get(row["team"], 0.0), 1)
     best_third_rows = third_rows[:8]
     third_rows_by_group = {row["group"]: row for row in best_third_rows}
     third_slot_assignment = _third_place_slot_assignment([row["group"] for row in best_third_rows])
@@ -935,6 +963,15 @@ def build_bracket_challenge(
     all_matches = sorted(group_matches + knockout_records, key=lambda row: row["matchNumber"])
     return {
         "asOfDate": as_of_date,
+        "dataVersion": f"official-squads-{squad_snapshot.get('version') or 'unknown'}",
+        "snapshotTimestampUtc": squad_snapshot.get("snapshotTimestampUtc"),
+        "squadSource": {
+            "source": squad_snapshot.get("source"),
+            "version": squad_snapshot.get("version"),
+            "publishedAtUtc": squad_snapshot.get("publishedAtUtc"),
+            "teamCount": squad_snapshot.get("teamCount"),
+        },
+        "squads": squad_snapshot.get("teams", []),
         "mode": "most_likely_path",
         "format": "Top two in each group plus eight best third-place teams; deterministic knockout scores.",
         "groupPicks": group_picks,
@@ -947,8 +984,25 @@ def build_bracket_challenge(
         "champion": winners[104],
         "runnerUp": losers[104],
         "thirdPlace": winners[103],
+        "resultSources": [
+            {
+                "matchNumber": 1,
+                "source": "AP live recap",
+                "url": "https://apnews.com/live/world-cup-mexico-south-africa-2026-updates",
+            },
+            {
+                "matchNumber": 2,
+                "source": "AP match recap",
+                "url": "https://apnews.com/article/world-cup-south-korea-czech-republic-score-496e7772dde95ca0af90b5074fdb13d9",
+            },
+            {
+                "matchNumber": 3,
+                "source": "AP/ESPN/Ahram match reports",
+                "url": "https://apnews.com/article/c58d5a51d827dd0456fe56e65eca1518",
+            },
+        ],
         "sourceNotes": [
-            "Match 1 and Match 2 are locked as played results from 2026-06-11.",
+            "Matches 1-3 are locked as played results through the 2026-06-12T23:30:00Z data snapshot.",
             "Round-of-32 slots use FIFA's official group-winner/runner-up slots and third-place slot eligibility from the FIFA World Cup 26 regulations.",
             "Knockout scorelines are deterministic most-likely model scorelines; tied knockout scorelines are resolved in extra time for a bracket winner.",
         ],
@@ -1011,6 +1065,7 @@ def simulate_tournament(
     runs: int = 10000,
     seed: int = 42,
     scorer_pool_path: Path | str = DEFAULT_SCORER_POOL_PATH,
+    squad_snapshot_path: Path | str = DEFAULT_SQUAD_SNAPSHOT_PATH,
 ) -> dict[str, Any]:
     config = load_tournament_config(config_path)
     rng = np.random.default_rng(seed)
@@ -1078,7 +1133,13 @@ def simulate_tournament(
             "Knockout penalty decisions blend match-model strength with historical shootout success where available.",
         ],
         "team_context": team_context,
-        "bracket_challenge": build_bracket_challenge(config, model, scorer_pool_path=scorer_pool_path),
+        "bracket_challenge": build_bracket_challenge(
+            config,
+            model,
+            scorer_pool_path=scorer_pool_path,
+            squad_snapshot_path=squad_snapshot_path,
+            stage_probabilities=stage_probabilities,
+        ),
         "champion_probabilities": champion_table,
         "stage_probabilities": stage_probabilities,
         "group_advancement_probabilities": group_probabilities,

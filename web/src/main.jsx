@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   Activity,
@@ -7,9 +7,9 @@ import {
   Brackets,
   CheckCircle2,
   Download,
+  FlaskConical,
   Info,
   LineChart,
-  PanelRightOpen,
   RefreshCcw,
   Search,
   ShieldCheck,
@@ -136,6 +136,43 @@ function scorerText(match) {
   return (match.scorers ?? []).map((scorer) => `${scorer.minute}' ${scorer.player}`).join(", ");
 }
 
+function scorerChipText(scorer) {
+  const lastName = scorer.player.split(" ").at(-1) ?? scorer.player;
+  return `${lastName} ${scorer.minute}'`;
+}
+
+function stageDateRange(stage, matches = []) {
+  if (stage === "round_of_32") return "Jun 28 - Jul 3";
+  if (stage === "round_of_16") return "Jul 4 - Jul 7";
+  if (stage === "quarterfinal") return "Jul 9 - Jul 11";
+  if (stage === "semifinal") return "Jul 14 - Jul 15";
+  if (stage === "final") return "Jul 19";
+  if (stage === "third_place") return "Jul 18";
+  const dates = Array.from(new Set(matches.map((match) => match.date))).filter(Boolean);
+  return dates.length ? dates.join(" / ") : "";
+}
+
+function useRevealMotion() {
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll(".motion-reveal"));
+    if (!nodes.length) return undefined;
+    if (!("IntersectionObserver" in window)) {
+      nodes.forEach((node) => node.classList.add("is-visible"));
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("is-visible");
+        });
+      },
+      { threshold: 0.16 },
+    );
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+}
+
 function TeamName({ team, rank }) {
   return (
     <span className="team-name">
@@ -156,31 +193,51 @@ function Bar({ value, max = 1, tone = "green" }) {
 }
 
 function TopCommand({ openDrawer }) {
+  const dataLabel = `v${report.bracketChallenge?.asOfDate ?? "current"}`;
+  const navItems = [
+    { id: "overview", label: "Overview", icon: BarChart3 },
+    { id: "compare", label: "Compare", icon: ArrowDownUp },
+    { id: "bracket", label: "Bracket", icon: Brackets },
+    { id: "quality", label: "Backtest", icon: LineChart },
+    { id: "teams", label: "Teams", icon: UsersRound },
+  ];
   return (
     <header className="command">
       <button className="brand-button" type="button" onClick={() => scrollToId("overview")} aria-label="Scroll to overview">
         <span className="brand-glyph">
-          <Trophy size={18} />
+          <FlaskConical size={22} />
         </span>
-        <span>
+        <span className="brand-copy">
           <strong>WCP Forecast Lab</strong>
-          <small>2026 analyst workspace</small>
         </span>
       </button>
       <nav aria-label="Workspace navigation">
-        <button type="button" onClick={() => scrollToId("compare")}>Compare</button>
-        <button type="button" onClick={() => scrollToId("bracket")}>Bracket</button>
-        <button type="button" onClick={() => scrollToId("quality")}>Backtest</button>
-        <button type="button" onClick={() => scrollToId("teams")}>Teams</button>
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              className={item.id === "bracket" ? "active" : ""}
+              type="button"
+              key={item.id}
+              onClick={() => scrollToId(item.id)}
+            >
+              <Icon size={18} />
+              {item.label}
+            </button>
+          );
+        })}
       </nav>
       <div className="command-actions">
-        <button type="button" className="ghost-button" onClick={() => openDrawer("sources")}>
-          <Info size={16} />
-          Sources
+        <button type="button" className="data-button" onClick={() => openDrawer("bracket")}>
+          <DatabaseIcon />
+          Data: {dataLabel}
+          <span aria-hidden="true">⌄</span>
         </button>
-        <button type="button" className="primary-button" onClick={() => openDrawer("simulation")}>
-          <PanelRightOpen size={16} />
-          Simulation
+        <button type="button" className="command-icon" onClick={() => openDrawer("sources")} aria-label="Open sources">
+          <Info size={20} />
+        </button>
+        <button type="button" className="command-icon" onClick={() => openDrawer("simulation")} aria-label="Open simulation settings">
+          <SlidersHorizontal size={20} />
         </button>
       </div>
     </header>
@@ -356,11 +413,19 @@ function QualityPanel({ openDrawer }) {
   );
 }
 
-function SmallMatchCard({ match }) {
+function SmallMatchCard({ match, connector = false, compact = false }) {
   const homeWon = match.winner === match.home;
   const awayWon = match.winner === match.away;
+  const scorers = match.scorers ?? [];
   return (
-    <article className={`bracket-match ${match.stage === "final" ? "final-card" : ""}`}>
+    <article
+      className={[
+        "bracket-match",
+        match.stage === "final" ? "final-card" : "",
+        connector ? "with-connector" : "",
+        compact ? "compact" : "",
+      ].filter(Boolean).join(" ")}
+    >
       <div className="match-meta">
         <span>M{match.matchNumber}</span>
         <span>{match.date}</span>
@@ -368,12 +433,20 @@ function SmallMatchCard({ match }) {
       <div className={`score-team ${homeWon ? "winner" : ""}`}>
         <TeamName team={match.home} />
         <strong>{match.homeGoals}</strong>
+        {homeWon ? <CheckCircle2 size={14} /> : null}
       </div>
       <div className={`score-team ${awayWon ? "winner" : ""}`}>
         <TeamName team={match.away} />
         <strong>{match.awayGoals}</strong>
+        {awayWon ? <CheckCircle2 size={14} /> : null}
       </div>
-      <p>{scorerText(match) || "No scorers"}</p>
+      {scorers.length ? (
+        <div className="scorer-chips">
+          {scorers.slice(0, 3).map((scorer, index) => (
+            <span key={`${match.matchNumber}-${scorer.player}-${index}`}>{scorerChipText(scorer)}</span>
+          ))}
+        </div>
+      ) : null}
       {match.decidedBy !== "regulation" ? <small>{match.decidedBy.replaceAll("_", " ")}</small> : null}
     </article>
   );
@@ -381,118 +454,161 @@ function SmallMatchCard({ match }) {
 
 function GroupPicks({ groups }) {
   return (
-    <aside className="bracket-rail">
-      <div className="rail-heading">
-        <strong>Group Picks</strong>
-        <span>{groups.length} groups</span>
+    <aside className="challenge-card group-rail motion-reveal">
+      <div className="challenge-card-head">
+        <h2>Group Picks</h2>
+        <Info size={16} />
+      </div>
+      <div className="group-table-head">
+        <span>Group</span>
+        <span>Top 2</span>
+        <span>3rd Place</span>
       </div>
       <div className="group-pick-list">
         {groups.map((group) => (
           <article key={group.group} className="group-pick">
-            <div>
-              <strong>Group {group.group}</strong>
-              <span>{group.winner} / {group.runnerUp}</span>
-            </div>
-            <ol>
-              {group.standings.map((row) => (
-                <li key={row.team} className={row.qualified ? "qualified" : ""}>
+            <strong className="group-letter">{group.group}</strong>
+            <div className="top-two-box">
+              {group.standings.slice(0, 2).map((row) => (
+                <div key={row.team}>
                   <span>{row.position}</span>
                   <TeamName team={row.team} />
-                  <strong>{row.points} pts</strong>
-                </li>
+                </div>
               ))}
-            </ol>
+            </div>
+            <div className={`third-place-pick ${group.standings[2]?.qualified ? "qualified" : ""}`}>
+              <span>3</span>
+              <TeamName team={group.standings[2]?.team} />
+            </div>
           </article>
         ))}
       </div>
+      <div className="group-legend">
+        <span><i className="dot qualified" />Qualified (Top 2)</span>
+        <span><i className="dot third" />Third Place</span>
+      </div>
+      <button className="edit-picks" type="button">
+        <SlidersHorizontal size={15} />
+        Edit Group Picks
+      </button>
     </aside>
   );
 }
 
 function BestThirds({ bracket }) {
   return (
-    <aside className="bracket-rail right">
-      <div className="rail-heading">
-        <strong>Best Thirds</strong>
-        <span>Top 8 advance</span>
-      </div>
-      <div className="third-list">
-        {(bracket.bestThirds ?? []).map((row) => (
-          <article key={row.team}>
-            <span>{row.thirdRank}</span>
-            <TeamName team={row.team} />
-            <strong>{row.points} pts</strong>
-          </article>
-        ))}
-      </div>
-      <div className="played-box">
-        <div className="rail-heading compact">
-          <strong>Played Results</strong>
-          <span>{bracket.asOfDate}</span>
+    <aside className="right-rail">
+      <section className="challenge-card motion-reveal">
+        <div className="challenge-card-head">
+          <h2>Best Thirds</h2>
+          <Info size={16} />
         </div>
-        {(bracket.playedResults ?? []).map((match) => (
-          <SmallMatchCard key={match.matchNumber} match={match} />
-        ))}
-      </div>
-      <div className="champion-box">
-        <span>Predicted Champion</span>
+        <div className="third-table">
+          <div className="third-table-head">
+            <span>Rank</span>
+            <span>Team</span>
+            <span>Score</span>
+          </div>
+          {(bracket.bestThirds ?? []).map((row) => (
+            <article key={row.team}>
+              <span>{row.thirdRank}</span>
+              <TeamName team={row.team} />
+              <strong>{Number(row.score ?? 0).toFixed(1)}</strong>
+            </article>
+          ))}
+        </div>
+        <button className="rail-link" type="button">
+          View full table
+          <span aria-hidden="true">›</span>
+        </button>
+      </section>
+      <section className="challenge-card motion-reveal">
+        <div className="challenge-card-head">
+          <h2>Played Results</h2>
+          <Info size={16} />
+        </div>
+        <div className="played-box">
+          {(bracket.playedResults ?? []).map((match) => (
+            <article className="played-result" key={match.matchNumber}>
+              <div className="played-teams">
+                <div>
+                  <TeamName team={match.home} />
+                  <strong>{match.homeGoals}</strong>
+                </div>
+                <div>
+                  <TeamName team={match.away} />
+                  <strong>{match.awayGoals}</strong>
+                </div>
+              </div>
+              <div className="played-foot">
+                <span>{match.date} · Group {match.group}</span>
+                <strong>FT</strong>
+              </div>
+            </article>
+          ))}
+        </div>
+        <button className="rail-link" type="button">
+          View all results
+          <span aria-hidden="true">›</span>
+        </button>
+      </section>
+      <section className="champion-callout motion-reveal">
+        <Trophy size={24} />
+        <span>Champion</span>
         <TeamName team={bracket.champion} />
         <strong>{bracket.champion}</strong>
-        <small>Final: {bracket.champion} over {bracket.runnerUp}; third place {bracket.thirdPlace}</small>
-      </div>
+        <small>Final over {bracket.runnerUp}; third place {bracket.thirdPlace}</small>
+      </section>
     </aside>
   );
 }
 
-function KnockoutBracket({ bracket }) {
-  const stageOrder = ["round_of_32", "round_of_16", "quarterfinal", "semifinal", "third_place", "final"];
-  return (
-    <section className="knockout-board">
-      {stageOrder.map((stage) => {
-        const matches = bracket.knockoutBracket?.[stage] ?? [];
-        if (!matches.length) return null;
-        return (
-          <div className="knockout-column" key={stage}>
-            <div className="stage-heading">
-              <strong>{stageLabel(stage)}</strong>
-              <span>{matches.length}</span>
-            </div>
-            {matches.map((match) => <SmallMatchCard key={match.matchNumber} match={match} />)}
-          </div>
-        );
-      })}
-    </section>
-  );
-}
+function BracketColumn({ stage, matches, isLast }) {
+  const displayMatches = stage === "final"
+    ? [...(matches.final ?? []), ...(matches.third_place ?? [])]
+    : matches[stage] ?? [];
+  const heading = stage === "final" ? "Final" : stageLabel(stage);
+  const dates = stage === "final"
+    ? stageDateRange("final", displayMatches)
+    : stageDateRange(stage, displayMatches);
 
-function AllMatchScores({ matches }) {
   return (
-    <div className="all-match-scores">
-      <div className="rail-heading">
-        <strong>All Match Scores</strong>
-        <span>{matches.length} matches</span>
+    <div className={`knockout-column stage-${stage}`}>
+      <div className="stage-heading">
+        <strong>{heading}</strong>
+        <span>{dates}</span>
       </div>
-      <div className="score-grid">
-        {matches.map((match) => (
-          <article key={match.matchNumber} className={match.status === "played" ? "played" : ""}>
-            <div className="match-meta">
-              <span>M{match.matchNumber}</span>
-              <span>{match.group ? `Group ${match.group}` : stageLabel(match.stage)}</span>
-            </div>
-            <strong>{match.home} {scoreText(match)} {match.away}</strong>
-            <p>{scorerText(match) || "No scorers"}</p>
-          </article>
+      <div className="stage-stack">
+        {displayMatches.map((match) => (
+          <SmallMatchCard key={match.matchNumber} match={match} connector={!isLast && stage !== "final"} />
         ))}
       </div>
     </div>
   );
 }
 
+function KnockoutBracket({ bracket }) {
+  const stageOrder = ["round_of_32", "round_of_16", "quarterfinal", "semifinal", "final"];
+  return (
+    <section className="knockout-board">
+      {stageOrder.map((stage, index) => (
+        <BracketColumn
+          key={stage}
+          stage={stage}
+          matches={bracket.knockoutBracket ?? {}}
+          isLast={index === stageOrder.length - 1}
+        />
+      ))}
+    </section>
+  );
+}
+
 function BracketChallenge({ openDrawer }) {
   const bracket = report.bracketChallenge ?? {};
   const matches = bracket.matches ?? [];
+  useRevealMotion();
   const downloadCsv = () => {
-    const header = ["Match", "Stage", "Date", "Venue", "Home", "Away", "Score", "Winner", "Scorers", "Status"];
+    const header = ["Match", "Stage", "Date", "Venue", "Home", "Away", "Score", "Winner", "Scorers", "Status", "Source Status"];
     const body = matches.map((match) => [
       match.matchNumber,
       stageLabel(match.stage),
@@ -504,6 +620,7 @@ function BracketChallenge({ openDrawer }) {
       match.winner ?? "",
       scorerText(match),
       match.status,
+      match.status === "played" ? "verified result" : "model prediction",
     ]);
     const csv = [header, ...body].map((line) => line.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(",")).join("\n");
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
@@ -517,48 +634,47 @@ function BracketChallenge({ openDrawer }) {
   if (!matches.length) return null;
 
   return (
-    <section className="panel bracket-panel" id="bracket">
-      <div className="panel-heading bracket-title">
-        <div>
-          <h2>Bracket Challenge</h2>
-          <p>Most-likely model path as of {bracket.asOfDate}, with played results locked and future scorers assigned from the scorer pool.</p>
-        </div>
-        <div className="bracket-actions">
-          <button className="ghost-button" type="button" onClick={() => openDrawer("bracket")}>
-            <Info size={15} />
-            Sources
-          </button>
-          <button className="primary-button" type="button" onClick={downloadCsv}>
-            <Download size={15} />
-            CSV
-          </button>
-        </div>
-      </div>
+    <section className="bracket-workspace" id="bracket">
       <div className="bracket-layout">
         <GroupPicks groups={bracket.groupPicks ?? []} />
-        <div className="bracket-center">
-          <div className="bracket-summary">
-            <div>
-              <Brackets size={18} />
+        <section className="challenge-card bracket-center motion-reveal">
+          <div className="bracket-toolbar">
+            <label>
               <span>Mode</span>
-              <strong>{bracket.mode?.replaceAll("_", " ")}</strong>
-            </div>
-            <div>
-              <Trophy size={18} />
-              <span>Champion</span>
-              <strong>{bracket.champion}</strong>
-            </div>
-            <div>
-              <Activity size={18} />
-              <span>Matches</span>
-              <strong>{matches.length}</strong>
+              <select value="most_likely_path" aria-label="Bracket mode" readOnly>
+                <option value="most_likely_path">Most likely path</option>
+              </select>
+            </label>
+            <div className="bracket-actions">
+              <button className="ghost-button" type="button" onClick={downloadCsv}>
+                <Download size={15} />
+                Download CSV
+              </button>
+              <button className="ghost-button" type="button" onClick={() => openDrawer("bracket")}>
+                <Info size={15} />
+                Sources
+              </button>
             </div>
           </div>
-          <KnockoutBracket bracket={bracket} />
-        </div>
+          <div className="bracket-canvas">
+            <KnockoutBracket bracket={bracket} />
+            <div className="canvas-champion">
+              <Trophy size={25} />
+              <span>Champion</span>
+            </div>
+          </div>
+          <footer className="bracket-footnote">
+            <span><Info size={15} /> Bracket reflects the most likely path from the current model forecast.</span>
+            <span>All times in local time</span>
+          </footer>
+        </section>
         <BestThirds bracket={bracket} />
       </div>
-      <AllMatchScores matches={matches} />
+      <div className="bracket-data-note">
+        <span>{bracket.dataVersion}</span>
+        <span>Snapshot {bracket.snapshotTimestampUtc}</span>
+        <span>{bracket.squadSource?.teamCount ?? 0} official squads</span>
+      </div>
     </section>
   );
 }
@@ -746,7 +862,9 @@ function Drawer({ drawer, close }) {
       title: "Bracket Challenge",
       icon: Brackets,
       body: [
-        `As-of date: ${report.bracketChallenge?.asOfDate ?? "not listed"}. Mode: ${report.bracketChallenge?.mode?.replaceAll("_", " ") ?? "not listed"}.`,
+        `As-of date: ${report.bracketChallenge?.asOfDate ?? "not listed"}. Snapshot: ${report.bracketChallenge?.snapshotTimestampUtc ?? "not listed"}.`,
+        `Squads: ${report.bracketChallenge?.squadSource?.teamCount ?? "n/a"} teams from ${report.bracketChallenge?.squadSource?.version ?? "unknown version"} published ${report.bracketChallenge?.squadSource?.publishedAtUtc ?? "unknown time"}.`,
+        ...(report.bracketChallenge?.resultSources ?? []).map((source) => `M${source.matchNumber}: ${source.source} (${source.url})`),
         ...(report.bracketChallenge?.sourceNotes ?? []),
         ...(report.bracketChallenge?.scorerModelNotes ?? []),
       ],
@@ -779,6 +897,7 @@ function App() {
     <main>
       <TopCommand openDrawer={setDrawer} />
       <div className="workspace">
+        <BracketChallenge openDrawer={setDrawer} />
         <SourceStrip openDrawer={setDrawer} />
         <div className="workspace-grid">
           <Leaders rows={rows} selectTeam={setTeamA} />
@@ -794,7 +913,6 @@ function App() {
           />
           <QualityPanel openDrawer={setDrawer} />
         </div>
-        <BracketChallenge openDrawer={setDrawer} />
         <TeamTable
           rows={rows}
           mode={mode}
